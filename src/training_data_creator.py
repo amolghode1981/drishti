@@ -3,7 +3,7 @@ import os
 import pandas
 from src.cma_connector import CMAConnector
 from src.met_connector import MetConnector
-from src.utils import get_instrument_labels, get_directory_name_for_instrument, get_last_url_component
+from src.utils import export_to_csv, get_instrument_labels, get_directory_name_for_instrument, get_last_url_component
 from sklearn.model_selection import train_test_split
 '''
 there are some errors in the data partitioning. Code does not consider additional instruments.
@@ -13,6 +13,10 @@ set of images for non_instruments
 # idea is that we want to use 20% of the images for validation.
 training_images = []
 validation_images = []
+
+trainingdata = pandas.DataFrame()
+validationdata = pandas.DataFrame()
+
 def stratified_split(df, label, val_ratio=0.2):
     # Filter images that contain this label
     label_df = df[df["instruments"].apply(lambda x: label in x)]
@@ -58,42 +62,48 @@ def create_directory_structure(csvHeaders):
     get_instrument_labels(csvHeaders)
 
 def download_training_data(instrument, dataset):
+    global trainingdata
     instrument_directory = f"data/train/{get_directory_name_for_instrument(instrument)}"
     i = 0
-    for index, training_object in dataset.iterrows():
+    for _, training_object in dataset.iterrows():
         file_name = get_last_url_component(training_object["image_url"])
+        local_path = f"{instrument_directory}/{file_name}"
+        download_data_shorthand(training_object, local_path)
         if training_images.count(file_name) == 0:
             training_images.append(file_name)
-
-        download_data_shorthand(training_object, instrument_directory)
-        # #Pseudo test limit for testing
-        # #Pseudo test limit for testing
-        # if i > 3:
-        #     print("breaking")
-        #     break
-        # i = i + 1
+        row = {
+            "id": training_object["id"],
+            "instrument": instrument,
+            "museum_index": training_object["museum_index"],
+            "local_path": local_path
+        }
+        trainingdata = pandas.concat([trainingdata, pandas.DataFrame([row])], ignore_index=True)
 
 def download_validation_data(instrument, dataset):
+    global validationdata
     instrument_directory = f"data/val/{get_directory_name_for_instrument(instrument)}"
     i = 0
-    for index, training_object in dataset.iterrows():
+    for _, training_object in dataset.iterrows():
         file_name = get_last_url_component(training_object["image_url"])
+        local_path = f"{instrument_directory}/{file_name}"
+        download_data_shorthand(training_object, local_path)
         if validation_images.count(file_name) == 0:
             validation_images.append(file_name)
-        download_data_shorthand(training_object, instrument_directory)
-        # #Pseudo test limit for testing
-        # if i > 3:
-        #     print("breaking")
-        #     break
-        # i = i + 1
-def download_data_shorthand(row, local_parent_dir):
+        row = {
+            "id": training_object["id"],
+            "instrument": instrument,
+            "museum_index": training_object["museum_index"],
+            "local_path": local_path
+        }
+        validationdata = pandas.concat([validationdata, pandas.DataFrame([row])], ignore_index=True)
+
+def download_data_shorthand(row, local_file):
         metConnector = MetConnector("met")
         cmaConnector = CMAConnector("cma")
-        file_name = get_last_url_component(row["image_url"])
         if row["museum_index"] == "met":
-            metConnector.download_image(row["image_url"], f"{local_parent_dir}/{file_name}")
+            metConnector.download_image(row["image_url"], local_file)
         if row["museum_index"] == "cma":
-            cmaConnector.download_image(row["image_url"], f"{local_parent_dir}/{file_name}")
+            cmaConnector.download_image(row["image_url"], local_file)
 
 
 
@@ -110,15 +120,6 @@ def download_non_instrument_data(dataset):
         elif current_parent == no_instrument_validation_directory:
             current_parent = no_instrument_training_directory
 
-def verify_exclusive(lt, lv, instrument):
-    # print(lt)
-    # print(lv)
-    intersection = set(lt["id"]) & set(lv["id"])
-    print(f"Instrument {instrument} Common rows: {len(intersection)}")
-    # intersection = list(set(lt) & set(lv))
-    # if len(intersection) != 0:
-    #     print(f"Instrument = {instrument} intersection = {intersection} \n")
-
 
 def prepare_trainingset(instruments, training_dataframe):
     for instrument in instruments:
@@ -128,7 +129,5 @@ def prepare_trainingset(instruments, training_dataframe):
         if not val.empty:
             download_validation_data(instrument, val)
 
-    intersection = list(set(training_images) & set(validation_images))
-    print(intersection)
-    # empty_df = training_dataframe[training_dataframe["instruments"].apply(lambda x: len(x) == 0)]
-    # download_non_instrument_data(empty_df)
+    export_to_csv(trainingdata, "datasets/training_data_records.csv")
+    export_to_csv(validationdata, "datasets/validation_data_records.csv")
