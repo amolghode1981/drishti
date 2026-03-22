@@ -1,0 +1,11 @@
+Notes on training CLIP.
+1. Initialize a virtual environment as usual.
+2. Install pytorch `pip install torch torchvision`. pytorch is a python ML framework that
+3. torchvision is the vision libray. This is used for cropping resizing images before they are sent to the model. Also loads prebuilt datasets.
+4. MPS: Metal performance shaders: Probably apple silicon communication protocol to run matrix calculations on the GPU.
+5. Then you need to download the CLIP github code. This code is the transformer architecture. You could alternatively use the same transformers from hugging face. The same code is used for training and inference.
+6. While training there are 2 extra steps : backpropagation and weight adjustment. For inference there is only finding out based on already existing weights.
+7. pip install git+https://github.com/openai/CLIP.git and test python3 -c "import clip; print('CLIP installed OK')"
+8. pip install pillow numpy matplotlib
+
+https://art.thewalters.org/object/W.882/?download=ARG_W.882_Fnt_UK.jpg
