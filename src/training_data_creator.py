@@ -68,9 +68,28 @@ def download_training_data(instrument, train):
         #     break
         # i = i + 1
 
+def download_validation_data(instrument, train):
+    instrument_directory = f"data/val/{get_directory_name_for_instrument(instrument)}"
+    metConnector = MetConnector("met")
+    cmaConnector = CMAConnector("cma")
+    i = 0
+    for index, training_object in train.iterrows():
+        file_name = get_last_url_component(training_object["image_url"])
+        if training_object["museum_index"] == "met":
+            metConnector.download_image(training_object["image_url"], f"{instrument_directory}/{file_name}")
+        if training_object["museum_index"] == "cma":
+            cmaConnector.download_image(training_object["image_url"], f"{instrument_directory}/{file_name}")
+        # #Pseudo test limit for testing
+        # if i > 3:
+        #     print("breaking")
+        #     break
+        # i = i + 1
+
 def prepare_trainingset(instruments, training_dataframe):
     #print(training_dataframe)
     for instrument in instruments:
         train, val = stratified_split(training_dataframe, instrument)
         if not train.empty and not val.empty:
             download_training_data(instrument, train)
+            download_validation_data(instrument, val)
+

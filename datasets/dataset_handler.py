@@ -1,6 +1,6 @@
 import csv
 from io import StringIO
-import src.utils
+from src.utils import get_last_url_component
 
 import pandas
 csv_df = None
@@ -35,8 +35,7 @@ def fillup_empty_gender():
 def normalize_object_id():
     for index, row in csv_df.iterrows():
         if pandas.isna(row["Museum Object Id"]):
-            museum_object_id = src.utils.get_last_url_component(row["Source Url"])
-            #row["Museum Object Id"] = museum_object_id
+            museum_object_id = get_last_url_component(row["Source Url"])
             csv_df.at[index, "Museum Object Id"] = museum_object_id
 
 def normalize():

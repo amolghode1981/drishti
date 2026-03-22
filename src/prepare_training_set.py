@@ -53,11 +53,6 @@ def prepare_training_objects(file_path):
     with_instruments = pandas.DataFrame(training_objects)
     utils.export_to_csv(with_instruments, "datasets/training.csv")
 
-    # training_creator.create_directory_structure(headers)
-    # with_instruments = pandas.DataFrame(training_objects)
-    # training_creator.prepare_trainingset(available_instruments, with_instruments)
-
-
 
 def prepare_and_start_training():
     global csv_df
@@ -70,7 +65,7 @@ def prepare_and_start_training():
     available_instruments = utils.get_instrument_labels(headers)
 
     training_data_creator.create_directory_structure(headers)
-    #training_data_creator.prepare_trainingset(available_instruments, with_instruments)
+    training_data_creator.prepare_trainingset(available_instruments, with_instruments)
 
 
 

@@ -8,4 +8,24 @@ Notes on training CLIP.
 7. pip install git+https://github.com/openai/CLIP.git and test python3 -c "import clip; print('CLIP installed OK')"
 8. pip install pillow numpy matplotlib
 
-https://art.thewalters.org/object/W.882/?download=ARG_W.882_Fnt_UK.jpg
+
+About preparing the training sets:
+1. datasets directory contains musium specific csv files. This is a folder with csv normalization routines. It may further need customization.
+2. The output of executing `python -m datasets.normalize_data` rightnow is to combine cleveland.csv and met.csv to build a normalized_output.csv
+3. normalized_output.csv contains object-id that can be used with museum specific apis for querying the object info. It also contains museum index signifying the museum. Note that there API call has to be made to fetch the actual image url.
+4. It also sets 3 for all the gender values when they are not found. So far this is all it does.
+5. Once generated, it is not required to run this multiple times unless a new museum gets added.
+
+Then runs prepare_training_set.py
+1. prepare_training_set.py further marshalls the data from normalized_output in to training.csv that contains image_url,title,museum_index,instruments, museum index. This is done by querying the museum specifc connector.
+2. Output of this is training.csv that is used for downloading the training data.
+3. It contains image url, title, museum index and list of instruments.
+
+When python src/prepare_training_set.py is called it
+1. Prepares training.csv from normalized_output if not already done.
+2. It also creates the training data structure. Take a look at create_directory_structure
+3. partitions the input data based on the instrument. Because we have less data and we want to automate as much as possible, this code first partitions all the images for an instrument in two 2 sets. training set contains 80% of the images and validation set contains 20% of the images.
+4. They are downloaded.
+5. Run this as `python src/prepare_training_set.py`
+We will optimize this as we move ahead. The first goal is to get basic training working.
+Then we can add more museums, more data.
