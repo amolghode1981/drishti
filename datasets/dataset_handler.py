@@ -52,5 +52,7 @@ def import_datasets():
     # Dataframes mangle the column names if there are duplicates. We do not want that.
     with open("datasets/cleveland.csv") as f:
         headers = next(csv.reader(f))
+    #Drop any column headers.
+    headers = [col for col in headers if col != '']
     adjust_column_names(headers)
     normalize()

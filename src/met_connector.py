@@ -1,4 +1,4 @@
-from connector import Connector
+from src.connector import Connector
 
 class MetConnector(Connector):
     def __init__(self, museum):
@@ -13,6 +13,7 @@ class MetConnector(Connector):
         return dict
 
     def fetchObject(self, objectId):
+        print(f"MetConnector fetching {objectId}");
         objectUrl = f"{self.apiBaseUrl}/objects/{objectId}"
         result = super().fetchObject(objectUrl)
         return self.__getObjectAttributes(result)

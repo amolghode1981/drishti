@@ -1,11 +1,12 @@
+import ast
 import csv
 import os
 
 import pandas
-from met_connector import MetConnector
-from cma_connector import CMAConnector
-import training_data_creator
-import utils
+from src.met_connector import MetConnector
+from src.cma_connector import CMAConnector
+import src.training_data_creator
+import src.utils as utils
 normalized_dataframe = None
 def get_headers(file_path):
     with open(file_path) as f:
@@ -19,6 +20,8 @@ def get_depicted_instruments(headers, row):
         # Either the instrument definitely exist or there is something similar with some uncertainty.
         # ignore the rest.
         if row[instrument] == 1 or row[instrument] == 3:
+            depicted_instruments.append(instrument)
+        elif instrument == "Additional instruments" and pandas.notna(row["Additional instruments"]):
             depicted_instruments.append(instrument)
     return depicted_instruments
 
@@ -45,29 +48,36 @@ def prepare_training_objects(file_path):
             "image_url": result["image_url"],
             "title": result["title"],
             "museum_index": row["museum_index"],
+            "id": row["Museum Object Id"]
         }
         depicted_intruments = get_depicted_instruments(headers, row)
         dict["instruments"] = depicted_intruments
         training_objects.append(dict)
 
+    print(training_objects)
     with_instruments = pandas.DataFrame(training_objects)
     utils.export_to_csv(with_instruments, "datasets/training.csv")
 
+'''
 
+'''
 def prepare_and_start_training():
     global csv_df
     if not os.path.exists("datasets/training.csv"):
         print("File not found")
         prepare_training_objects("datasets/normalized_output.csv")
     with_instruments =  pandas.read_csv("datasets/training.csv")
+    # instruments becomes a string array and has its issues while finding a instrument in this list
+    # e.g Tabla is found in Tablak if it is string. So to avoid that convert it to python arrays.
+    with_instruments["instruments"] = with_instruments["instruments"].apply(ast.literal_eval)
     #print(with_instruments)
     headers = get_headers("datasets/normalized_output.csv")
     available_instruments = utils.get_instrument_labels(headers)
 
-    training_data_creator.create_directory_structure(headers)
-    training_data_creator.prepare_trainingset(available_instruments, with_instruments)
+    src.training_data_creator.create_directory_structure(headers)
+    src.training_data_creator.prepare_trainingset(available_instruments, with_instruments)
 
 
 
 
-prepare_and_start_training()
+#prepare_and_start_training()
