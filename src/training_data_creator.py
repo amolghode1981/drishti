@@ -4,7 +4,7 @@ import pandas
 from src.utils import export_to_csv, get_instrument_labels, get_directory_name_for_instrument, get_last_url_component, getConnectorForMuseumId
 from sklearn.model_selection import train_test_split
 
-from src.training import run_training_loop, init
+from src.training import run_training_loop, init, save_model
 '''
 there are some errors in the data partitioning. Code does not consider additional instruments.
 it only partitions on known instruments. This might bite us back later. Lets add completely different
@@ -136,6 +136,7 @@ def prepare_trainingset(instruments, training_dataframe):
     export_to_csv(validationdata, "datasets/csvs/training/validation_objects.csv")
     init()
     run_training_loop()
+    save_model()
 
 def prepare_inferenceset(instruments, inference_dataframe):
     for instrument in instruments:

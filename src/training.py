@@ -4,7 +4,7 @@ import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image
 import os
-
+import  src.model_utils
 
 # ── 1. Dataset Class ──────────────────────────────────────────
 class InstrumentDataset(Dataset):
@@ -25,11 +25,11 @@ class InstrumentDataset(Dataset):
         # Build text prompt
         instrument = row["instrument"]
         text = f"{instrument}"
-        print(f"image path = {row["local_path"]} instrumet = {text}")
+        #print(f"image path = {row["local_path"]} instrumet = {text}")
         return image, text
 
-device = None
 model = None
+device = None
 preprocess = None
 train_loader = None
 val_loader = None
@@ -38,10 +38,10 @@ loss_fn = None
 
 def load_model():
     global model, device, preprocess, optimizer, loss_fn
-# ──  Load Model ─────────────────────────────────────────────
     device = "mps" if torch.backends.mps.is_available() else "cpu"
+# ──  Load Model ─────────────────────────────────────────────
     print(f"Using device: {device}")
-    model, preprocess = clip.load("ViT-B/32", device=device)
+    model, preprocess = src.model_utils.load_model("ViT-B/32")
     model = model.float()
 # ── Optimizer and loss function ──────────────────────────────────────────────
     optimizer = torch.optim.AdamW(
@@ -195,7 +195,8 @@ def run_training_loop():
 
 
 
-# ── 6. Save Model ─────────────────────────────────────────────
-# os.makedirs("output", exist_ok=True)
-# torch.save(model.state_dict(), "output/clip_finetuned.pt")
-# print("Model saved to output/clip_finetuned.pt")
+def save_model():
+    # ── 6. Save Model ─────────────────────────────────────────────
+    os.makedirs("output", exist_ok=True)
+    torch.save(model.state_dict(), "output/clip_finetuned.pt")
+    print("Model saved to output/clip_finetuned.pt")
