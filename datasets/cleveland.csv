@@ -1,85 +1,135 @@
-Collection,Museum Object Id,Source Url,Approx Date,Dynesty,Pakhawaj,Gender,Manjira,Gender,Been,Gender,Rabab,Gender,Tambur/Tambora,Gender,Singer,Gender,Sitar,Gender,Sarangi,Gender,Dholak,Gender,Tabla,Gender,Additional instruments,Taal indicating person,Gender,Gender of the performers,Type of painting,Name of the artist if available,Comments,,
-The cleveland museum of art,2013.291,https://www.clevelandart.org/art/2013.291,1730,Dakkhani,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,,0,0,0,6,Unknown,1. Dholak is rendered.,,
-The cleveland museum of art,1955.296,https://www.clevelandart.org/art/1955.296,1710,Rajput,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,0,0,0,5,Unknown,1. Shiv dancing,,
-The cleveland museum of art,1984.65,https://www.clevelandart.org/art/1984.65,1710,Rajput,0,,0,,0,,0,,0,,0,,0,,0,,0,,0,,"Karna, 2 Naquaras and one single Naquara, Shahnai",0,,1,5,Unknown,1. Illustrated Surdas.,,
-The cleveland museum of art,,https://www.clevelandart.org/art/1920.1966,1620,Mughal,0,,0,,0,,0,,0,,0,,0,,0,,0,,0,,Khamancheh ,0,,1,7,Muhammad Ali,,,
-The cleveland museum of art,,https://www.clevelandart.org/art/1954.261,1750,Rajput,0,,0,,0,,0,,1,,1,,0,,0,,0,,0,,,0,,0,1,,Raagmala of Gunkali. A beautiful painting.,,
+Collection,Museum Object Id,Source Url,Approx Date,Dynesty,Pakhawaj,Gender,Manjira,Gender,Been,Gender,Rabab,Gender,Tambur/Tambora,Gender,Singer,Gender,Sitar,Gender,Sarangi,Gender,Dholak,Gender,Tabla,Gender,Additional instruments,Taal indicating person,Gender,Gender of the performers,Type of painting,Name of the artist if available,Comments
+The cleveland museum of art,,https://www.clevelandart.org/art/1962.279.105.a,1560,Mughal,0,,0,,1,,0,,0,,3,,0,,0,,0,,0,,"Naquara, Chang, Senj, Duff Dayreh or Khanjiri and Nei (Fluite)",0,,1,2,Unknown,"1. Tutinama from Akbar's reign, inspired from Śukasaptati.
+2. For the first time, we see instruments from persian as well as India. Though there is only 1 indian Instrument i.e. Been.
+3. Some clarification Senj = Zanj = 2 big cymbals, Chang : Harp/SwarMandal. Duff Dayreh : Khanjira.
+4. The page also mentions description ""Infant responds to music , which indicates that it would make a great nobility and a great king"""
+The cleveland museum of art,,https://www.clevelandart.org/art/1962.279.108.b,1560,Mughal,0,,0,,1,,1,,0,,0,,0,,0,,0,,0,,,0,,1,7,Unknown,"1. The description goes as music instruments made from the intestine of a dead monkey.
+2. 2 Categories : Rababa and Been
+3. Original description ""A monkey has been disemboweled while jumping from tree to tree. Once the intestine dried, a wise man attached it to a stick and a gourd, creating the first instrument. Instruments developed from this, called the rebab and the vina, are held by the musicians who sit beneath the trees.""
+And this is beautiful. A simple construct of string under tension producing music later gets refined. With been, meend is Lateral. Ghaseet is longitudenal. With Rabab, meend and ghaseet both are longirudenal. And hence less textural possibility (Last statement is my interpretation)
+4. To observe ""The rebab-player sits on the left, while the vina-player is on the right."""
+The cleveland museum of art,,https://www.clevelandart.org/art/1962.279.219.b,1560,Mughal,0,,0,,0,,0,,0,,0,,0,,0,,1,,0,,"Naquara, Karna (Trumpet), Senj ",1,,2,7,Unknown,"1. Marriage scene.
+2. Trumpet, a new addition.
+3. Dholak with a taal indicating person is curious.
+4. Dholak and taal giving person are women, others are men.
+5. Women are shown darker, probably indicating their indian-ness?
+6. Amol : In earlieir paintings, artists were probably still persian, learnt from Persia, were unaware of Indian music system? So we see that their depiction of Taal Vadya is dholak? Or Dholak was equally important taal keeping instrument?"
+The cleveland museum of art,,https://www.clevelandart.org/art/1962.279.110.b,1560,Mughal,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,1,6,Unknown,"1. Musician sitting alone doing music.
+2. Kaknus (Quqnus) bird with 7 holes on the beak."
+The cleveland museum of art,,https://www.clevelandart.org/art/1962.279.339.a,1560,Mughal,0,,0,,0,,0,,0,,0,,0,,0,,0,,0,,"Chang, Duff Dayreh or Khanjiri ",0,,0,2,Unknown,"1. No Indian instrument.
+2. Harp and Khanjira/Duff"
+The cleveland museum of art,,https://www.clevelandart.org/art/1971.79,1630,Mughal,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,1,7,Govardhan,"1. Prince with an ascetic.
+2. Been is visible.
+3. Description claims it to be sufi. I am not sure the presense of Conch shell would be there in Sufi.
+4. Other types of Hindu ascetics shown on the border along with a noble man."
+The cleveland museum of art,,https://www.clevelandart.org/art/1931.451,1695,Rajput,1,,1,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,2,1,Unknown,"1. Raagmala of Shree.
+2. Been is performed separately from Pakhawaj.
+3. Pakhawaj is played with Dance in the lower section.
+4. Pakhawaj construction seems curious. Both heads are independently tied and not with a single strap.
+5. In shri raag, beenkar is usually male. Here it is female."
+The cleveland museum of art,,https://www.clevelandart.org/art/1975.9,1800,Pahadi,1,,1,,0,,0,,1,,1,,0,,1,,0,,1,,"Duff, Bansuri, clapper, senj Big hand cymbals",0,,2,1,Unknown,"1. Raagmala of Hindol.
+2. Tabla is present, first time clappers in both hands.
+3. So far an observation : Pakhawaj players are women, Tabla players are men.
+4. Pakhawaj is not shown strapped. Probably a cover or something. Well ornamented.
+5. Explicit depiction of Gajra : Braided leather straps"
+The cleveland museum of art,,https://www.clevelandart.org/art/1971.88,1600,Mughal,1,,1,,0,,1,,0,,3,,0,,0,,0,,0,,Some flute kind of instrument,3,,2,2,Unknown,"1. ""Grotesque Dancers Performing"" is the description.
+2. Mridang player is a man.
+3. Wood blocks are towards the treble drum.
+4. There is a female dancer.
+5. All dancers wearing ghungru.
+6. Explicit depiction of Shyai"
+The cleveland museum of art,,https://www.clevelandart.org/art/2011.141,1736,Rajput,1,,1,,1,,0,,0,,1,,0,,0,,1,,0,,Naquara,0,,2,2,Jairam or Jiva,"1. Pakhawaj players are of both genders.
+2. Dholak is present, distinctly drawn, different from Pakhawaj.
+3. Dancers are female. Singer is male.
+4.  Pakhawaj has shyai and Atta visible."
+The cleveland museum of art,,https://www.clevelandart.org/art/1924.972,1800,Uncertain,1,,0,,1,,0,,1,,0,,0,,0,,0,,0,,,0,,0,1,Unknown,1. Raagmala Bhairav.
+The cleveland museum of art,,https://www.clevelandart.org/art/1955.296,1710,Rajput,1,,0,,0,,0,,0,,0,,0,,0,,0,,0,,,0,,1,5,Unknown,"1. Shiv dancing
+2. Only Pakhawaj player.
+3. Horse faced Gandharva."
+The cleveland museum of art,,https://www.clevelandart.org/art/2013.322,1617,Mughal,1,,0,,0,,0,,0,,0,,0,,0,,0,,0,,"Naquara, Karna, And a single Nagara looking instrument, played with hands, shankh",0,,1,3,Yusuf khan,"1. Razm nama - Mahabarats persian translation.
+2. Strange combination of instruments, Pakhawaj, shankh, naraga, Karney, Dagga looking single instrument played with hands. Not sure if the presense of Tuning spot (Shyaee)"
+The cleveland museum of art,,https://www.clevelandart.org/art/1989.343,1760,Rajput,1,,1,,1,,1,,1,,3,,0,,0,,0,,0,,Krishna playing flute,0,,0,1,Unknown,"1. Raagmala of Mallar.
+2. Again Rabab, been pakhawaj and Tanpura combination. Probably, there must be a singer otherwise tanpura is not needed.
+3. Shyai is depicted"
+The cleveland museum of art,,https://www.clevelandart.org/art/1984.65,1710,Rajput,0,,0,,0,,0,,0,,0,,0,,0,,0,,0,,"Karna, 2 Naquaras and one single Naquara, Shahnai",0,,1,5,Unknown,1. Illustrated Surdas.
+The cleveland museum of art,,https://www.clevelandart.org/art/1920.1966,1620,Mughal,0,,0,,0,,0,,0,,0,,0,,0,,0,,0,,Khamancheh ,0,,1,7,Muhammad Ali,
+The cleveland museum of art,,https://www.clevelandart.org/art/1954.261,1750,Rajput,0,,0,,0,,0,,1,,1,,0,,0,,0,,0,,,0,,0,1,,Raagmala of Gunkali. A beautiful painting.
 The cleveland museum of art,,https://www.clevelandart.org/art/2013.342,1760,Mughal,0,,0,,0,,0,,1,,1,,0,,0,,1,,0,,,0,,0,6,,"1. Dholak with singer using tanpura.
-2. Tanpura has distinct 4 Pegs.",,
+2. Tanpura has distinct 4 Pegs."
 The cleveland museum of art,,https://www.clevelandart.org/art/1973.237,1735,Mughal,1,,1,,0,,0,,1,,1,,0,,0,,0,,0,,Daff,0,,0,6,Chitaraman 2,"1. Multiple Tanpuras no been.
 2. Multiple Pakhawaj
 3. Duff
-4. Tiered",,
-The cleveland museum of art,,https://www.clevelandart.org/art/2013.345,1735,Mughal,0,,0,,0,,0,,1,,1,,0,,0,,0,,0,,,0,,0,7,Chitaraman 2,"Tiered, no pakhawaj",,
-The cleveland museum of art,,https://www.clevelandart.org/art/2013.341,1760,Mughal,0,,0,,0,,0,,1,,1,,0,,0,,1,,0,,,0,,0,6,Unknown,1. First time horizontal tanpura.,,
-The cleveland museum of art,,https://www.clevelandart.org/art/1996.296,1720,Uncertain,0,,0,,0,,1,,0,,1,,0,,0,,0,,0,,,0,,1,2,Unknown,"Description says ""Mughal India - Deccan"". It could either be mughal or deccan. Not sure hence the dynesty is uncertain",,
-The cleveland museum of art,,https://www.clevelandart.org/art/2013.338,1740,Mughal,0,,0,,0,,0,,1,,1,,0,,0,,0,,0,,,1,,0,6,Unknown,"A detail : When someone is singing, even in the smallest painting, their lips are shown open.",,
+4. Tiered"
+The cleveland museum of art,,https://www.clevelandart.org/art/2013.345,1735,Mughal,0,,0,,0,,0,,1,,1,,0,,0,,0,,0,,,0,,0,7,Chitaraman 2,"Tiered, no pakhawaj"
+The cleveland museum of art,,https://www.clevelandart.org/art/2013.341,1760,Mughal,0,,0,,0,,0,,1,,1,,0,,0,,1,,0,,,0,,0,6,Unknown,1. First time horizontal tanpura.
+The cleveland museum of art,,https://www.clevelandart.org/art/1996.296,1720,Uncertain,0,,0,,0,,1,,0,,1,,0,,0,,0,,0,,,0,,1,2,Unknown,"Description says ""Mughal India - Deccan"". It could either be mughal or deccan. Not sure hence the dynesty is uncertain"
+The cleveland museum of art,,https://www.clevelandart.org/art/2013.338,1740,Mughal,0,,0,,0,,0,,1,,1,,0,,0,,0,,0,,,1,,0,6,Unknown,"A detail : When someone is singing, even in the smallest painting, their lips are shown open."
 The cleveland museum of art,,https://www.clevelandart.org/art/2012.300,1650,Uncertain,0,,0,,0,,0,,1,,1,,0,,0,,0,,0,,Duff and Dimdi/South Indian Khanjira kind of instrument,0,,1,6,Unknown,"1. Shows Dimdi, a south Indian Khanjira along with the Duff. 3 Performers. 2 are singing. No tambora
 2. Again dynesty is uncertain as mentioned in the description as Mughal Deccan.
-3. THough the painting seems from Malva-Deccan",,
-The cleveland museum of art,,https://www.clevelandart.org/art/1971.95,1760,Uncertain,0,,0,,0,,0,,1,,3,,0,,0,,0,,0,,,0,,0,7,Unknown,Yogini?,,
-The cleveland museum of art,,https://www.clevelandart.org/art/2018.132,1650,Mathura,1,,1,,0,,0,,1,,0,,0,,0,,0,,0,,,0,,0,5,Unknown,From Rasikpriya,,
+3. THough the painting seems from Malva-Deccan"
+The cleveland museum of art,,https://www.clevelandart.org/art/1971.95,1760,Uncertain,0,,0,,0,,0,,1,,3,,0,,0,,0,,0,,,0,,0,7,Unknown,Yogini?
+The cleveland museum of art,,https://www.clevelandart.org/art/2018.132,1650,Mathura,1,,1,,0,,0,,1,,0,,0,,0,,0,,0,,,0,,0,5,Unknown,From Rasikpriya
 The cleveland museum of art,,https://www.clevelandart.org/art/2018.139,1695,Rajput,1,,1,,0,,0,,0,,0,,0,,0,,0,,0,,,0,,0,1,Unknown,"1. Raagmala of Malawi
-2. Explicit depiction of Shyai",,
-The cleveland museum of art,,https://www.clevelandart.org/art/2018.93,1700,Pahadi,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,1,3,Unknown,Madhavanala Kamakandala,,
-The cleveland museum of art,,https://www.clevelandart.org/art/2018.131,1650,Malwa,1,,1,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,1,1,Unknown,Raagmala of Shree,,
+2. Explicit depiction of Shyai"
+The cleveland museum of art,,https://www.clevelandart.org/art/2018.93,1700,Pahadi,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,1,3,Unknown,Madhavanala Kamakandala
+The cleveland museum of art,,https://www.clevelandart.org/art/2018.131,1650,Malwa,1,,1,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,1,1,Unknown,Raagmala of Shree
 The cleveland museum of art,,https://www.clevelandart.org/art/2018.138,1695,Rajput,3,,1,,1,,0,,0,,0,,0,,0,,1,,0,,,0,,0,1,Unknown,"1. Raagmala of DeshVarari, Ragini of Deepak.
 2. Musicians are with unusual headgear.
-3. A beautiful use of Dalimbi (Pomgranate) color for the attire",,
+3. A beautiful use of Dalimbi (Pomgranate) color for the attire"
 The cleveland museum of art,,https://www.clevelandart.org/art/2018.91,1700,Pahadi,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,1,3,Unknown,"From Madhavanala Kamakandala
-Madahva",,
+Madahva"
 The cleveland museum of art,,https://www.clevelandart.org/art/2018.167,1610,Rajput,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,0,1,Unknown,"1. Raagmala of Todi
 2. The myth that deers are attracted to music is probably depicted.
-3. A beautiful depiction",,
+3. A beautiful depiction"
 The cleveland museum of art,,https://www.clevelandart.org/art/2018.159,1680,Rajput,0,,0,,1,,0,,0,,3,,0,,0,,0,,0,,,0,,0,1,Unknown,"1.Raagmala of Gurjari
-2. It is not that women are always wearing transperant Muslin. Here, it is non transperant cloth",,
+2. It is not that women are always wearing transperant Muslin. Here, it is non transperant cloth"
 The cleveland museum of art,,https://www.clevelandart.org/art/1960.116,1670,Malwa,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,1,1,Unknown,"1. Raagmala of Kedar.
 2. Paintings from malwa region, less particular on the draftsmanship.
-3. The lower patti is similar to Kalamkari motifs.",,
+3. The lower patti is similar to Kalamkari motifs."
 The cleveland museum of art,,https://www.clevelandart.org/art/2013.339,1740,Mughal,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,1,,1,1,Unknown,"1. Raagmala of Shri.
 2. Read the description on the site for more reference.
 3. Been is particularly having more frets
-4. beenkar is male.",,
+4. beenkar is male."
 The cleveland museum of art,,https://www.clevelandart.org/art/2012.297,1775,Rajput,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,0,1,Unknown,"1. Raagmala of Todi, ragini of Hindol.
-2. Deer music myth?",,
+2. Deer music myth?"
 The cleveland museum of art,,https://www.clevelandart.org/art/2008.297,1820,Rajput,1,,0,,0,,0,,1,,3,,0,,1,,0,,0,,Clappers / Chiplya,0,,0,2,Unknown,"1. Tambora plucking with index finger.
 2. Presense of dancer.
 3. Not sure if the 5 th person in the musicians group is playing some instrument or singing.
-4. Explicit depiction of Shyai",,
+4. Explicit depiction of Shyai"
 The cleveland museum of art,,https://www.clevelandart.org/art/1971.90,1750,Mughal,0,,0,,0,,0,,1,,3,,0,,0,,0,,0,,,3,,1,7,Unknown,"1. A beutiful painting of gathering at the Afu/Ganja adda. Not important for musical purpose though.
 2. Perspective through the terrace window is beautiful.
 3. Tambora/Sehtar person, it is not sure whether singing and the other person is indicating taal. A very minor musical scene here
 4. Discription on the web says, blue is important colour for sufism interspersed with men wearing blues. Not sure if it should be read like that.
-5. Female ascetics, particularly Hindu are seen. They have their Bindi",,
+5. Female ascetics, particularly Hindu are seen. They have their Bindi"
 The cleveland museum of art,,https://www.clevelandart.org/art/2013.289.a,1660,Dakkhani,0,,0,,0,,0,,0,,0,,0,,0,,0,,0,,African lyre,0,,1,3,Unknown,"1. Deccani painting, African Lyre or middle eastern frame lyre. The LP that I have of Sumerian music from clay tablets.
 2. African features of the man are visible in hair
-3. Playing it with plectrum",,
+3. Playing it with plectrum"
 The cleveland museum of art,,https://www.clevelandart.org/art/1964.452,1650,Malwa,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,2,1,Unknown,"1. Raagmala of Kedar.
 2. Interestingly as per the description, the player is female who looks like a man due to separation from beloved.
 3. Upon looking closely, face has feminine softness.
-4. The sitting mrugajin or whatever it is, is depicted interestlngly.",,
+4. The sitting mrugajin or whatever it is, is depicted interestlngly."
 The cleveland museum of art,,https://www.clevelandart.org/art/1971.87,1680,Central india : Does not convey anything,0,,0,,1,,0,,0,,0,,0,,0,,0,,0,,,0,,0,7,Unknown,"1. Casual gathering but not with other humans but animal kingdom.
 2. Red faced and black faced Langur.
 3. Chitah/Leopards, most probably Cheetahs.
 4. Shown as male-female?
-5. Many fretted Been",,
+5. Many fretted Been"
 The cleveland museum of art,,https://www.clevelandart.org/art/1924.972,1800,Uncertain,1,,0,,1,,0,,1,,0,,0,,0,,0,,0,,,0,,0,1,Unknown,"1. Raagmala of Bhairav
-2. Chandan sahan making Paste",,
+2. Chandan sahan making Paste"
 The cleveland museum of art,,https://www.clevelandart.org/art/1946.359,1840,Rajput,0,,0,,0,,0,,1,,1,,0,,0,,0,,0,,Flute,0,,2,5,Unknown,"1. Krishna with gopis, playing flute, other musician with Tambora singing : female
-2. Tambora has 4 Khunti, left handed singer",,
+2. Tambora has 4 Khunti, left handed singer"
 The cleveland museum of art,,https://www.clevelandart.org/art/1973.104,1790,Pahadi,0,,0,,0,,0,,1,,3,,0,,0,,0,,1,,,0,,0,6,Unknown,"1. Tambora has 4 strings.
 2. Tabla, but Dayan is played like bayan. No Shayi on Bayan.
-3. Supposed to be Barmasa painting.",,
+3. Supposed to be Barmasa painting."
 The cleveland museum of art,,https://www.clevelandart.org/art/1986.61,1760,Pahadi,0,,0,,0,,0,,1,,0,,0,,0,,1,,0,,"Flute, Duff",0,,0,5,Unknown,"1. Guler school, by Nainsukh family?
 2. Tambora with 4 strings.
 3. Krishan with flute but not playing it.
-4. Dholak without any Shayi.",,
+4. Dholak without any Shayi."
 The cleveland museum of art,,https://www.clevelandart.org/art/1971.92,1750,Rajput,0,,0,,0,,1,,0,,0,,0,,0,,0,,0,,,1,,0,1,Unknown,"1. Raagmala of Kakub (Bilawal).
 2. Inscription : The Lady, lovelorn, comes to the forest where Bandar is doing noises. This is a curious description.
-3. Playing with Plectrum",,
+3. Playing with Plectrum"
 The cleveland museum of art,,https://www.clevelandart.org/art/2003.133,1890,Kalighat,0,,0,,0,,0,,3,,0,,3,,0,,0,,1,,,0,,0,6,Unknown,"1. Kalighat painting.
-2. Dagga with Shayi",,
+2. Dagga with Shayi"
 The cleveland museum of art,,https://www.clevelandart.org/art/2013.291,1730,Dakkhani,0,,0,,0,,0,,1,,0,,0,,0,,1,,0,,,0,,0,6,Unknown,"1. Dholak is rendered.
-2. Tambora seems to be Sehtar? Women is using both the hands, unlike Tanpura.",,
+2. Tambora seems to be Sehtar? Women is using both the hands, unlike Tanpura."
 The cleveland museum of art,,https://www.clevelandart.org/art/2001.122,1760,Rajput,0,,0,,1,,0,,1,,1,,0,,0,,0,,1,,,0,,0,6,Unknown,"1. Dagga has no shayi
-2. Been is depicted with Tabla.",,
+2. Been is depicted with Tabla."

@@ -29,3 +29,6 @@ When python src/prepare_training_set.py is called it
 5. Run this as `python src/prepare_training_set.py`
 We will optimize this as we move ahead. The first goal is to get basic training working.
 Then we can add more museums, more data.
+
+Normalizing inference data
+python -m datasets.normalize_inference_data should generate normalized_inference.csv

@@ -1,4 +1,4 @@
-from src.connector import Connector
+from src.connectors.connector import Connector
 
 class MetConnector(Connector):
     def __init__(self, museum):
