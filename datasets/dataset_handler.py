@@ -12,7 +12,6 @@ def read_csv(file_path):
         csv_df = df
     else:
         csv_df = pandas.concat([csv_df, df], ignore_index=True)
-    print(csv_df)
 
 # Overwrite DF column mangling for same name columns
 def adjust_column_names(expected_columns):

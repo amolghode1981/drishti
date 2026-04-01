@@ -4,7 +4,7 @@ import os
 import sys
 from datasets import dataset_handler
 import datasets.normalize_inference_data as normalize_inference_data
-from src.prepare_training_set import prepare_and_start_inference, prepare_and_start_training
+from src.prepare_training_set import prepare_and_start_inference, prepare_and_start_training, quick_inference, quick_train
 from src.utils import export_to_csv
 
 
@@ -14,7 +14,6 @@ def normalize_data():
 
 def normalize_inference():
     normalize_inference_data.import_inference_dataset()
-    print(normalize_inference_data.csv_df)
     export_to_csv(normalize_inference_data.csv_df, "datasets/csvs/inference/normalized_output.csv")
 
 
@@ -35,6 +34,21 @@ def __run_training__():
     prepare_and_start_training()
 
 
+def __run_quick_inference__():
+    quick_inference()
+
+
+def __run_quick_training__():
+    quick_train()
+
+
+def print_help():
+    print("Usage:")
+    print("  python -m src.run inference")
+    print("  python -m src.run training")
+    print("  python -m src.run quick-inference")
+    print("  python -m src.run quick-training")
+
 
 # if __name__ == "__main__":
 #     __init__()
@@ -48,4 +62,10 @@ if __name__ == "__main__":
         __run_training__()
     if sys.argv[1] == 'inference':
         __run_inference__()
+    if sys.argv[1] == 'quick-training':
+        __run_quick_training__()
+    if sys.argv[1] == 'quick-inference':
+        __run_quick_inference__()
+    else:
+        print_help()
 

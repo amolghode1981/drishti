@@ -1,6 +1,7 @@
 import os
 
 import pandas
+from src.inference import run_inference_loop
 from src.utils import export_to_csv, get_instrument_labels, get_directory_name_for_instrument, get_last_url_component, getConnectorForMuseumId
 from sklearn.model_selection import train_test_split
 
@@ -134,17 +135,24 @@ def prepare_trainingset(instruments, training_dataframe):
 
     export_to_csv(trainingdata, "datasets/csvs/training/training_objects.csv")
     export_to_csv(validationdata, "datasets/csvs/training/validation_objects.csv")
+    quick_run_training()
+
+def quick_run_training():
+    print("Running quick training")
     init()
     run_training_loop()
     save_model()
 
+
 def prepare_inferenceset(instruments, inference_dataframe):
     for instrument in instruments:
         inference, _= stratified_split(inference_dataframe, instrument, -1)
-        print(inference)
         download_inference_data(instrument, inference)
     export_to_csv(trainingdata, "datasets/csvs/inference/inference_objects.csv")
+    quick_run_inference()
 
+def quick_run_inference():
+    run_inference_loop()
 # def download_non_instrument_data(dataset):
 #     no_instrument_training_directory = f"data/train/non_instrument"
 #     no_instrument_validation_directory = f"data/val/non_instrument"

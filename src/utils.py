@@ -1,3 +1,4 @@
+import csv
 from io import StringIO
 from urllib.parse import parse_qs, urlparse
 
@@ -75,3 +76,8 @@ def getConnectorForMuseumId(id):
             return MLAConnector("mla")
         case default:
             return None
+
+def get_headers(file_path):
+    with open(file_path) as f:
+        headers = next(csv.reader(f))
+    return headers

@@ -75,7 +75,7 @@ def init():
 
 def run_training_loop():
 # ── 5. Training Loop ──────────────────────────────────────────
-    NUM_EPOCHS = 5
+    NUM_EPOCHS = 3
     for epoch in range(NUM_EPOCHS):
         # ── Training ──
         model.train()
@@ -84,7 +84,6 @@ def run_training_loop():
         for images, texts in train_loader:
             # Move images to the device
             images = images.to(device)
-            print(train_loader)
             text_tokens = clip.tokenize(texts).to(device)
 
             # Forward pass

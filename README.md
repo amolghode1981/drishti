@@ -6,7 +6,7 @@
 2.There might be errors, some uninitialized fields necessary for the bookkeeping for the training. So these datafiles are first normalized and merged into a single file. The command for this is `python -m datasets.normalize_data`. This generates `datasets/csvs/training/normalized_output.csv`
 3. Once the data is normalized the process is not repeated unless there is a new museum for which the model needs a training.
 
-## Preparing the training data.
+## Preparing the training data. (Probably Dated. Look at the latest description below)
 1. To prepare the training data from normalized data, code first finds out the image url by calling the museum's objet endpoint. ObjectId from the normalized data is used for fetching the collection-object information. This results into a training file `datasets/csvs/training/intermediate/training_source.csv`. It has following columns
 `image_url,title,museum_index,id,instruments`.
 2. Here `instruments` is a list of the instruments present in the current paintings. Usually single painting contains multiple instrument and this is crucial to keep in mind.
@@ -18,7 +18,48 @@
 6. Another important aspect is how the data is divided between training and validation. It is important to note that an image in context of a instrument can not be present in both training and validation set. i.e
 image['i1']['objectid1'] can not exist simultaniously in the training and validation set for instrument i1. But it could exist for the instrument i2.
 
-# Running the pipeline
+
+
+## Setup
 ```bash
-python -m src.run
+python3 -m venv training
+source training/bin/activate
+pip install -r requirements.txt
 ```
+
+## Running
+Run either of the 4 commands:
+```bash
+python -m src.run training
+python -m src.run inference
+python -m src.run quick-training
+python -m src.run quick-inference
+```
+
+## Training Pipeline
+
+Running `python -m src.run training` prepares everything from scratch:
+1. From `datasets/csvs/training/knowledge_base` creates a normalized dataset.
+2. From `datasets/csvs/training/normalized_output.csv` prepares `datasets/csvs/training/intermediate/training_source.csv` with the following columns: `image_url`, `title`, `museum_index`, `id`, `instruments`. Whenever the museum exposes APIs, these APIs are used for getting image_url and other information.
+3. Using `datasets/csvs/training/intermediate/training_source.csv`, prepares necessary directory structure and downloads files if required.
+4. Makes the final objects file (datasets/csvs/training/training_objects.csv and datasets/csvs/training/validation_objects.csv) used in training. This contains `(id, instrument, museum_index, local_path)`.
+5. Runs the training loop
+6. Stores the adjusted matrix in output as clip_finetuned.pt
+
+Running `python -m src.run quick-training` assumes that files are available.
+1. Does not download anything except running training loop on the final object files.
+2. Assumes that datasets/csvs/training/training_objects.csv and datasets/csvs/training/validation_objects.csv are available.
+3. Stores the adjusted matrix in output as clip_finetuned.pt
+
+Running `python -m src.run inference` prepares everything from scratch:
+1. From `datasets/csvs/inference/knowledge_base` creates a normalized dataset.
+2. From `datasets/csvs/inference/normalized_output.csv` prepares `datasets/csvs/inference/intermediate/inference_sources.csv` with the following columns: `image_url`, `title`, `museum_index`, `id`, `instruments`. Whenever the museum exposes APIs, these APIs are used for getting image_url and other information.
+3. Using `datasets/csvs/inference/intermediate/inference_sources.csv`, prepares necessary directory structure and downloads files if required.
+4. Makes the final objects file (datasets/csvs/inference/inference_objects.csv) used in training. This contains `(id, instrument, museum_index, local_path)`.
+5. Runs the inference loop
+6. Prepares output/probabilities.csv
+
+Running `python -m src.run quick-inference` assumes that files are available.
+1. Does not download anything except running inference loop on the final object files.
+2. Assumes that datasets/csvs/inference/inference_objects.csv is available.
+3. Prepares output/probabilities.csv

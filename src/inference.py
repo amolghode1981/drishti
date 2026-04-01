@@ -1,3 +1,4 @@
+import gc
 import sys
 
 import clip
@@ -7,7 +8,7 @@ from transformers import CLIPProcessor, CLIPModel
 import src.model_utils
 from PIL import Image
 
-from src.prepare_training_set import get_headers
+from src.utils import get_headers
 import src.utils
 model = None
 device = None
@@ -55,7 +56,7 @@ def get_probabilities(row):
     # #print(f"Probability of {label} is {similarity[0][idx]}")
     # #print(similarity[0][idx].item())
     #print(f"---------------RETURNING {similarity[0][idx].item()}")
-    get_highest_score(row["local_path"], available_instruments, similarity)
+    #get_highest_score(row["local_path"], available_instruments, similarity)
     return similarity[0][idx].item()
 
 def check_base_model():
@@ -64,10 +65,10 @@ def check_base_model():
 def check_finetuned_model():
     load_finetuned_model()
 
-def get_highest_score(local_file, available_instruments, similarity):
-    scores = {text: prob.item() for text, prob in zip(available_instruments, similarity[0])}
-    best = max(scores, key=scores.get)
-    print(f"local_file = {local_file} Best match: {best} → {scores[best]:.4f}")
+# def get_highest_score(local_file, available_instruments, similarity):
+#     scores = {text: prob.item() for text, prob in zip(available_instruments, similarity[0])}
+#     best = max(scores, key=scores.get)
+#     print(f"local_file = {local_file} Best match: {best} → {scores[best]:.4f}")
 
 def run_untrained_inference_loop():
     inference_df = pd.read_csv("datasets/csvs/inference/inference_objects.csv")
@@ -75,18 +76,36 @@ def run_untrained_inference_loop():
     for index, row in inference_df.iterrows():
         probability = get_probabilities(row)
         inference_df.at[index, "untrained_guess"] = probability
-    src.utils.export_to_csv(inference_df, "datasets/csvs/inference/probabilities.csv")
+    src.utils.export_to_csv(inference_df, "output/probabilities.csv")
 
 def run_trained_inference_loop():
-    inference_df = pd.read_csv("datasets/csvs/inference/probabilities.csv")
+    inference_df = pd.read_csv("output/probabilities.csv")
     inference_df["trained_guess"] = None
     for index, row in inference_df.iterrows():
         probability = get_probabilities(row)
         inference_df.at[index, "trained_guess"] = probability
 
-    src.utils.export_to_csv(inference_df, "datasets/csvs/inference/probabilities.csv")
+    src.utils.export_to_csv(inference_df, "output/probabilities.csv")
 
+def cleanup():
+    global model, preprocess
+    del model
+    del preprocess
+    gc.collect()  # force Python garbage collection
 
+    if torch.backends.mps.is_available():
+        torch.mps.empty_cache()
+    elif torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+def run_inference_loop():
+    init()
+    load_base_model()
+    run_untrained_inference_loop()
+    cleanup()
+    load_finetuned_model()
+    run_trained_inference_loop()
+    cleanup()
 
 if __name__ == "__main__":
     init()

@@ -58,7 +58,6 @@ def import_inference_dataset():
     adjust_column_names(headers)
     # trim leading and traling spaces
     csv_df["Museum Object Id"] = csv_df["Museum Object Id"].str.strip()
-    print(csv_df["Museum Object Id"])
     normalize()
 
 def __init__():

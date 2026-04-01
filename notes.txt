@@ -30,7 +30,22 @@ When python src/prepare_training_set.py is called it
 We will optimize this as we move ahead. The first goal is to get basic training working.
 Then we can add more museums, more data.
 
-Normalizing inference data
-python -m datasets.normalize_inference_data should generate inference/normalized_output.csv
-python -m src.run inference
+Final consolidated run:
+python3 -m venv  training
+source training/bin/activate
+pip install -r requirements.txt
+Then run either of the 4
+    python -m src.run training
+Prepares the everything from scratch:
+1. from datasets/csvs/training/knowledge_base creates a normalized dataset.
+2. From datasets/csvs/training/normalized_output.csv prepares datasets/csvs/training/intermediate/training_source.csv
+with following columns: image_url, title, museum_index, id, instruments. Whenever the museum exposes APIs, these APIs are
+used for getting image_url and other information.
+3. Using datasets/csvs/training/intermediate/training_source.csv, prepares necessary directory structure, downloads (if required) files.
+4. Makes the final objects file that is used in training. This contains (id,instrument,museum_index,local_path).
 
+    python -m src.run inference
+
+local path and instruent is used as file and label.
+  python -m src.run quick-inference
+  python -m src.run quick-training
