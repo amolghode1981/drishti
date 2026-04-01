@@ -1,0 +1,135 @@
+id,instrument,museum_index,local_path
+1931.451,Pakhawaj,cma,data/train/pakhawaj/1931.451_web.jpg
+1924.972,Pakhawaj,cma,data/train/pakhawaj/1924.972_web.jpg
+38007,Pakhawaj,met,data/train/pakhawaj/DP-25124-001.jpg
+2018.138,Pakhawaj,cma,data/train/pakhawaj/2018.138_web.jpg
+74883,Pakhawaj,met,data/train/pakhawaj/DP156423.jpg
+64533,Pakhawaj,met,data/train/pakhawaj/DP156162.jpg
+2011.141,Pakhawaj,cma,data/train/pakhawaj/2011.141_web.jpg
+2013.322,Pakhawaj,cma,data/train/pakhawaj/2013.322_web.jpg
+73259,Pakhawaj,met,data/train/pakhawaj/DP-42642-001.jpg
+37882,Pakhawaj,met,data/train/pakhawaj/DP152279.jpg
+2008.297,Pakhawaj,cma,data/train/pakhawaj/2008.297_web.jpg
+1973.237,Pakhawaj,cma,data/train/pakhawaj/1973.237_web.jpg
+2018.131,Pakhawaj,cma,data/train/pakhawaj/2018.131_web.jpg
+1924.972,Pakhawaj,cma,data/train/pakhawaj/1924.972_web.jpg
+58449,Pakhawaj,met,data/train/pakhawaj/DP153225.jpg
+1975.9,Pakhawaj,cma,data/train/pakhawaj/1975.9_web.jpg
+1955.296,Pakhawaj,cma,data/train/pakhawaj/1955.296_web.jpg
+2018.139,Pakhawaj,cma,data/train/pakhawaj/2018.139_web.jpg
+58449,Pakhawaj,met,data/train/pakhawaj/DP153225.jpg
+2018.131,Manjira,cma,data/train/manjira/2018.131_web.jpg
+1975.9,Manjira,cma,data/train/manjira/1975.9_web.jpg
+1989.343,Manjira,cma,data/train/manjira/1989.343_web.jpg
+58449,Manjira,met,data/train/manjira/DP153225.jpg
+37882,Manjira,met,data/train/manjira/DP152279.jpg
+2018.138,Manjira,cma,data/train/manjira/2018.138_web.jpg
+1931.451,Manjira,cma,data/train/manjira/1931.451_web.jpg
+2011.141,Manjira,cma,data/train/manjira/2011.141_web.jpg
+2018.132,Manjira,cma,data/train/manjira/2018.132_web.jpg
+58449,Manjira,met,data/train/manjira/DP153225.jpg
+1971.88,Manjira,cma,data/train/manjira/1971.88_web.jpg
+2011.141,Been,cma,data/train/been/2011.141_web.jpg
+2018.131,Been,cma,data/train/been/2018.131_web.jpg
+64533,Been,met,data/train/been/DP156162.jpg
+1971.87,Been,cma,data/train/been/1971.87_web.jpg
+1962.279.108.b,Been,cma,data/train/been/1962.279.108.b_web.jpg
+37871,Been,met,data/train/been/DP156126.jpg
+2018.93,Been,cma,data/train/been/2018.93_web.jpg
+2018.91,Been,cma,data/train/been/2018.91_web.jpg
+825603,Been,met,data/train/been/DP-28152-001.jpg
+1962.279.105.a,Been,cma,data/train/been/1962.279.105.a_web.jpg
+2012.297,Been,cma,data/train/been/2012.297_web.jpg
+2018.159,Been,cma,data/train/been/2018.159_web.jpg
+1964.452,Been,cma,data/train/been/1964.452_web.jpg
+1960.116,Been,cma,data/train/been/1960.116_web.jpg
+2001.122,Been,cma,data/train/been/2001.122_web.jpg
+1971.79,Been,cma,data/train/been/1971.79_web.jpg
+1924.972,Been,cma,data/train/been/1924.972_web.jpg
+2018.138,Been,cma,data/train/been/2018.138_web.jpg
+2013.339,Been,cma,data/train/been/2013.339_web.jpg
+1962.279.110.b,Been,cma,data/train/been/1962.279.110.b_web.jpg
+1996.296,Rabab,cma,data/train/rabab/1996.296_web.jpg
+1962.279.108.b,Rabab,cma,data/train/rabab/1962.279.108.b_web.jpg
+1989.343,Rabab,cma,data/train/rabab/1989.343_web.jpg
+1971.88,Rabab,cma,data/train/rabab/1971.88_web.jpg
+1971.92,Rabab,cma,data/train/rabab/1971.92_web.jpg
+1971.95,Tambur/Tambora,cma,data/train/tambur_or_tambora/1971.95_web.jpg
+2018.132,Tambur/Tambora,cma,data/train/tambur_or_tambora/2018.132_web.jpg
+2013.345,Tambur/Tambora,cma,data/train/tambur_or_tambora/2013.345_web.jpg
+2003.133,Tambur/Tambora,cma,data/train/tambur_or_tambora/2003.133_web.jpg
+73259,Tambur/Tambora,met,data/train/tambur_or_tambora/DP-42642-001.jpg
+38056,Tambur/Tambora,met,data/train/tambur_or_tambora/DP153173.jpg
+38038,Tambur/Tambora,met,data/train/tambur_or_tambora/DT243.jpg
+37875,Tambur/Tambora,met,data/train/tambur_or_tambora/DP156130.jpg
+2012.300,Tambur/Tambora,cma,data/train/tambur_or_tambora/2012.300_web.jpg
+1973.104,Tambur/Tambora,cma,data/train/tambur_or_tambora/1973.104_web.jpg
+825603,Tambur/Tambora,met,data/train/tambur_or_tambora/DP-28152-001.jpg
+2013.291,Tambur/Tambora,cma,data/train/tambur_or_tambora/2013.291_web.jpg
+1986.61,Tambur/Tambora,cma,data/train/tambur_or_tambora/1986.61_web.jpg
+2008.297,Tambur/Tambora,cma,data/train/tambur_or_tambora/2008.297_web.jpg
+2001.122,Tambur/Tambora,cma,data/train/tambur_or_tambora/2001.122_web.jpg
+1924.972,Tambur/Tambora,cma,data/train/tambur_or_tambora/1924.972_web.jpg
+1924.972,Tambur/Tambora,cma,data/train/tambur_or_tambora/1924.972_web.jpg
+2013.342,Tambur/Tambora,cma,data/train/tambur_or_tambora/2013.342_web.jpg
+2013.338,Tambur/Tambora,cma,data/train/tambur_or_tambora/2013.338_web.jpg
+1971.90,Tambur/Tambora,cma,data/train/tambur_or_tambora/1971.90_web.jpg
+1975.9,Tambur/Tambora,cma,data/train/tambur_or_tambora/1975.9_web.jpg
+2013.341,Singer,cma,data/train/singer/2013.341_web.jpg
+2018.159,Singer,cma,data/train/singer/2018.159_web.jpg
+2011.141,Singer,cma,data/train/singer/2011.141_web.jpg
+1954.261,Singer,cma,data/train/singer/1954.261_web.jpg
+1973.237,Singer,cma,data/train/singer/1973.237_web.jpg
+38007,Singer,met,data/train/singer/DP-25124-001.jpg
+37875,Singer,met,data/train/singer/DP156130.jpg
+58449,Singer,met,data/train/singer/DP153225.jpg
+64533,Singer,met,data/train/singer/DP156162.jpg
+2013.345,Singer,cma,data/train/singer/2013.345_web.jpg
+2008.297,Singer,cma,data/train/singer/2008.297_web.jpg
+73259,Singer,met,data/train/singer/DP-42642-001.jpg
+1973.104,Singer,cma,data/train/singer/1973.104_web.jpg
+1971.90,Singer,cma,data/train/singer/1971.90_web.jpg
+1996.296,Singer,cma,data/train/singer/1996.296_web.jpg
+2001.122,Singer,cma,data/train/singer/2001.122_web.jpg
+2012.300,Singer,cma,data/train/singer/2012.300_web.jpg
+38056,Singer,met,data/train/singer/DP153173.jpg
+1971.88,Singer,cma,data/train/singer/1971.88_web.jpg
+2013.342,Singer,cma,data/train/singer/2013.342_web.jpg
+2013.338,Singer,cma,data/train/singer/2013.338_web.jpg
+58449,Singer,met,data/train/singer/DP153225.jpg
+2003.133,Sitar,cma,data/train/sitar/2003.133_web.jpg
+61429,Sitar,met,data/train/sitar/DT4984.jpg
+54184,Sitar,met,data/train/sitar/DP156134.jpg
+1975.9,Sarangi,cma,data/train/sarangi/1975.9_web.jpg
+2008.297,Sarangi,cma,data/train/sarangi/2008.297_web.jpg
+1986.61,Dholak,cma,data/train/dholak/1986.61_web.jpg
+2013.342,Dholak,cma,data/train/dholak/2013.342_web.jpg
+2018.138,Dholak,cma,data/train/dholak/2018.138_web.jpg
+2013.341,Dholak,cma,data/train/dholak/2013.341_web.jpg
+2013.291,Dholak,cma,data/train/dholak/2013.291_web.jpg
+2001.122,Tabla,cma,data/train/tabla/2001.122_web.jpg
+1975.9,Tabla,cma,data/train/tabla/1975.9_web.jpg
+2003.133,Tabla,cma,data/train/tabla/2003.133_web.jpg
+1973.104,Tabla,cma,data/train/tabla/1973.104_web.jpg
+1962.279.219.b,Additional instruments,cma,data/train/additional_instruments/1962.279.219.b_web.jpg
+2012.300,Additional instruments,cma,data/train/additional_instruments/2012.300_web.jpg
+1946.359,Additional instruments,cma,data/train/additional_instruments/1946.359_web.jpg
+2013.289.a,Additional instruments,cma,data/train/additional_instruments/2013.289.a_web.jpg
+1920.1966,Additional instruments,cma,data/train/additional_instruments/1920.1966_web.jpg
+1962.279.105.a,Additional instruments,cma,data/train/additional_instruments/1962.279.105.a_web.jpg
+1989.343,Additional instruments,cma,data/train/additional_instruments/1989.343_web.jpg
+1986.61,Additional instruments,cma,data/train/additional_instruments/1986.61_web.jpg
+1962.279.339.a,Additional instruments,cma,data/train/additional_instruments/1962.279.339.a_web.jpg
+1973.237,Additional instruments,cma,data/train/additional_instruments/1973.237_web.jpg
+2011.141,Additional instruments,cma,data/train/additional_instruments/2011.141_web.jpg
+1984.65,Additional instruments,cma,data/train/additional_instruments/1984.65_web.jpg
+2008.297,Additional instruments,cma,data/train/additional_instruments/2008.297_web.jpg
+1971.88,Additional instruments,cma,data/train/additional_instruments/1971.88_web.jpg
+1971.88,Taal indicating person,cma,data/train/taal_indicating_person/1971.88_web.jpg
+50939,Taal indicating person,met,data/train/taal_indicating_person/DP153182.jpg
+2013.339,Taal indicating person,cma,data/train/taal_indicating_person/2013.339_web.jpg
+64533,Taal indicating person,met,data/train/taal_indicating_person/DP156162.jpg
+1971.92,Taal indicating person,cma,data/train/taal_indicating_person/1971.92_web.jpg
+1962.279.219.b,Taal indicating person,cma,data/train/taal_indicating_person/1962.279.219.b_web.jpg
+37871,Taal indicating person,met,data/train/taal_indicating_person/DP156126.jpg
+2013.338,Taal indicating person,cma,data/train/taal_indicating_person/2013.338_web.jpg

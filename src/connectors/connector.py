@@ -23,7 +23,7 @@ class Connector:
 
     def download_image(self, image_url, local_path):
         if os.path.exists(local_path):
-            print(f"Skipping download {image_url}. local file {local_path} exists")
+            #print(f"Skipping download {image_url}. local file {local_path} exists")
             return;
         try:
             response = requests.get(image_url)

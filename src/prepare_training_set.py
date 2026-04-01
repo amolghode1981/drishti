@@ -52,7 +52,7 @@ def prepare_training_objects(file_path):
 
     print(training_objects)
     with_instruments = pandas.DataFrame(training_objects)
-    utils.export_to_csv(with_instruments, "datasets/training.csv")
+    utils.export_to_csv(with_instruments, "datasets/csvs/training/intermediate/training_source.csv")
 
 def prepare_inference_objects(file_path):
     csv_df = pandas.read_csv(file_path, dtype={"Museum Object Id": str})
@@ -86,22 +86,22 @@ def prepare_inference_objects(file_path):
 
     print(training_objects)
     with_instruments = pandas.DataFrame(training_objects)
-    utils.export_to_csv(with_instruments, "datasets/inference_objects.csv")
+    utils.export_to_csv(with_instruments, "datasets/csvs/inference/intermediate/inference_sources.csv")
 
 '''
 
 '''
 def prepare_and_start_training():
     global csv_df
-    if not os.path.exists("datasets/training.csv"):
+    if not os.path.exists("datasets/csvs/training/intermediate/training_source.csv"):
         print("File not found")
-        prepare_training_objects("datasets/normalized_output.csv")
-    with_instruments =  pandas.read_csv("datasets/training.csv")
+        prepare_training_objects("datasets/csvs/training/normalized_output.csv")
+    with_instruments =  pandas.read_csv("datasets/csvs/training/intermediate/training_source.csv")
     # instruments becomes a string array and has its issues while finding a instrument in this list
     # e.g Tabla is found in Tablak if it is string. So to avoid that convert it to python arrays.
     with_instruments["instruments"] = with_instruments["instruments"].apply(ast.literal_eval)
     #print(with_instruments)
-    headers = get_headers("datasets/normalized_output.csv")
+    headers = get_headers("datasets/csvs/training/normalized_output.csv")
     available_instruments = utils.get_instrument_labels(headers)
 
     src.training_data_creator.create_directory_structure(headers)
@@ -109,17 +109,15 @@ def prepare_and_start_training():
 
 def prepare_and_start_inference():
     global csv_df
-    if not os.path.exists("datasets/inference_objects.csv"):
+    if not os.path.exists("datasets/csvs/inference/intermediate/inference_sources.csv"):
         print("File not found")
-        prepare_inference_objects("datasets/normalized_inference_output.csv")
-    with_instruments =  pandas.read_csv("datasets/inference_objects.csv")
+        prepare_inference_objects("datasets/csvs/inference/normalized_output.csv")
+    with_instruments =  pandas.read_csv("datasets/csvs/inference/intermediate/inference_sources.csv")
     # instruments becomes a string array and has its issues while finding a instrument in this list
     # e.g Tabla is found in Tablak if it is string. So to avoid that convert it to python arrays.
     with_instruments["instruments"] = with_instruments["instruments"].apply(ast.literal_eval)
-    #print(with_instruments)
-    headers = get_headers("datasets/normalized_output.csv")
+    headers = get_headers("datasets/csvs/training/normalized_output.csv")
     available_instruments = utils.get_instrument_labels(headers)
-
     src.training_data_creator.create_directory_structure(headers, "inference")
     src.training_data_creator.prepare_inferenceset(available_instruments, with_instruments)
 

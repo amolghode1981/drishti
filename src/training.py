@@ -55,8 +55,8 @@ def load_model():
 def load_data():
     global train_loader, val_loader
     # ──  Load Data ──────────────────────────────────────────────
-    train_df = pd.read_csv("datasets/training_data_records.csv")
-    val_df   = pd.read_csv("datasets/validation_data_records.csv")
+    train_df = pd.read_csv("datasets/csvs/training/training_objects.csv")
+    val_df   = pd.read_csv("datasets/csvs/training/validation_objects.csv")
 
     # Adjust column names to match your CSV
     train_df.columns = ["id", "instrument", "museum_index", "local_path"]
@@ -84,7 +84,7 @@ def run_training_loop():
         for images, texts in train_loader:
             # Move images to the device
             images = images.to(device)
-
+            print(train_loader)
             text_tokens = clip.tokenize(texts).to(device)
 
             # Forward pass

@@ -10,16 +10,16 @@ from src.utils import export_to_csv
 
 def normalize_data():
     dataset_handler.import_datasets()
-    export_to_csv(dataset_handler.csv_df, "datasets/normalized_output.csv")
+    export_to_csv(dataset_handler.csv_df, "datasets/csvs/training/normalized_output.csv")
 
 def normalize_inference():
     normalize_inference_data.import_inference_dataset()
     print(normalize_inference_data.csv_df)
-    export_to_csv(normalize_inference_data.csv_df, "datasets/normalized_inference_output.csv")
+    export_to_csv(normalize_inference_data.csv_df, "datasets/csvs/inference/normalized_output.csv")
 
 
 def __run_inference__():
-    if not os.path.exists("datasets/normalized_inference_output.csv"):
+    if not os.path.exists("datasets/csvs/inference/normalized_output.csv"):
         print("Normalized data not found. Normalizing")
         normalize_inference()
     #Once it is normalized, prepare the the training data and start the training
@@ -28,7 +28,7 @@ def __run_inference__():
 
 def __run_training__():
     # Normalize the data if it is not already normalized.
-    if not os.path.exists("datasets/normalized_output.csv"):
+    if not os.path.exists("datasets/csvs/training/normalized_output.csv"):
         print("Normalized data not found. Normalizing")
         normalize_data()
     #Once it is normalized, prepare the the training data and start the training

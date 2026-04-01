@@ -41,11 +41,11 @@ def normalize():
         csv_df[col] = csv_df[col].fillna(0).astype(int)
 
 def import_datasets():
-    read_csv("datasets/met.csv")
-    read_csv("datasets/cleveland.csv")
+    read_csv("datasets/csvs/training/knowledge_base/met.csv")
+    read_csv("datasets/csvs/training/knowledge_base/cleveland.csv")
     # Both csvs must have same columns. This assumes so.
     # Dataframes mangle the column names if there are duplicates. We do not want that.
-    with open("datasets/cleveland.csv") as f:
+    with open("datasets/csvs/training/knowledge_base/cleveland.csv") as f:
         headers = next(csv.reader(f))
     #Drop any column headers.
     headers = [col for col in headers if col != '']

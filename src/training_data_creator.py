@@ -20,6 +20,8 @@ validationdata = pandas.DataFrame()
 def stratified_split(df, label, val_ratio=0.2):
     # Filter images that contain this label
     label_df = df[df["instruments"].apply(lambda x: label in x)]
+    if (val_ratio == -1):
+        return label_df, None
     if label_df.empty:
         print(f"No data for instrument {label}")
         return pandas.DataFrame(), pandas.DataFrame()
@@ -130,15 +132,17 @@ def prepare_trainingset(instruments, training_dataframe):
         if not val.empty:
             download_validation_data(instrument, val)
 
-    export_to_csv(trainingdata, "datasets/training_data_records.csv")
-    export_to_csv(validationdata, "datasets/validation_data_records.csv")
-    #init()
-    #run_training_loop()
+    export_to_csv(trainingdata, "datasets/csvs/training/training_objects.csv")
+    export_to_csv(validationdata, "datasets/csvs/training/validation_objects.csv")
+    init()
+    run_training_loop()
 
 def prepare_inferenceset(instruments, inference_dataframe):
     for instrument in instruments:
-        download_inference_data(instrument, inference_dataframe)
-    export_to_csv(trainingdata, "datasets/inference_data_records.csv")
+        inference, _= stratified_split(inference_dataframe, instrument, -1)
+        print(inference)
+        download_inference_data(instrument, inference)
+    export_to_csv(trainingdata, "datasets/csvs/inference/inference_objects.csv")
 
 # def download_non_instrument_data(dataset):
 #     no_instrument_training_directory = f"data/train/non_instrument"

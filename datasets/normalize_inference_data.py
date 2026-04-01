@@ -48,10 +48,10 @@ def normalize():
         csv_df[col] = csv_df[col].fillna(0).astype(int)
 
 def import_inference_dataset():
-    read_csv("datasets/inference.csv")
+    read_csv("datasets/csvs/inference/knowledge_base/inference.csv")
     # Both csvs must have same columns. This assumes so.
     # Dataframes mangle the column names if there are duplicates. We do not want that.
-    with open("datasets/inference.csv") as f:
+    with open("datasets/csvs/inference/knowledge_base/inference.csv") as f:
         headers = next(csv.reader(f))
     #Drop any column headers.
     headers = [col for col in headers if col != '']
@@ -63,7 +63,7 @@ def import_inference_dataset():
 
 def __init__():
     import_inference_dataset()
-    export_to_csv(csv_df, "datasets/normalized_inference_output.csv")
+    export_to_csv(csv_df, "datasets/csvs/inference/normalized_output.csv")
 
 if __name__ == "__main__":
     __init__()

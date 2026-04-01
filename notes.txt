@@ -31,4 +31,6 @@ We will optimize this as we move ahead. The first goal is to get basic training 
 Then we can add more museums, more data.
 
 Normalizing inference data
-python -m datasets.normalize_inference_data should generate normalized_inference.csv
+python -m datasets.normalize_inference_data should generate inference/normalized_output.csv
+python -m src.run inference
+

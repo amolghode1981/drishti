@@ -1,0 +1,40 @@
+id,instrument,museum_index,local_path
+825603,Pakhawaj,met,data/val/pakhawaj/DP-28152-001.jpg
+1989.343,Pakhawaj,cma,data/val/pakhawaj/1989.343_web.jpg
+50939,Pakhawaj,met,data/val/pakhawaj/DP153182.jpg
+2018.132,Pakhawaj,cma,data/val/pakhawaj/2018.132_web.jpg
+1971.88,Pakhawaj,cma,data/val/pakhawaj/1971.88_web.jpg
+1973.237,Manjira,cma,data/val/manjira/1973.237_web.jpg
+2018.139,Manjira,cma,data/val/manjira/2018.139_web.jpg
+50939,Manjira,met,data/val/manjira/DP153182.jpg
+1931.451,Been,cma,data/val/been/1931.451_web.jpg
+2018.167,Been,cma,data/val/been/2018.167_web.jpg
+50939,Been,met,data/val/been/DP153182.jpg
+1924.972,Been,cma,data/val/been/1924.972_web.jpg
+1989.343,Been,cma,data/val/been/1989.343_web.jpg
+38007,Rabab,met,data/val/rabab/DP-25124-001.jpg
+825603,Rabab,met,data/val/rabab/DP-28152-001.jpg
+1989.343,Tambur/Tambora,cma,data/val/tambur_or_tambora/1989.343_web.jpg
+2013.341,Tambur/Tambora,cma,data/val/tambur_or_tambora/2013.341_web.jpg
+1954.261,Tambur/Tambora,cma,data/val/tambur_or_tambora/1954.261_web.jpg
+1946.359,Tambur/Tambora,cma,data/val/tambur_or_tambora/1946.359_web.jpg
+38007,Tambur/Tambora,met,data/val/tambur_or_tambora/DP-25124-001.jpg
+1973.237,Tambur/Tambora,cma,data/val/tambur_or_tambora/1973.237_web.jpg
+1975.9,Singer,cma,data/val/singer/1975.9_web.jpg
+1946.359,Singer,cma,data/val/singer/1946.359_web.jpg
+1962.279.105.a,Singer,cma,data/val/singer/1962.279.105.a_web.jpg
+1971.95,Singer,cma,data/val/singer/1971.95_web.jpg
+50939,Singer,met,data/val/singer/DP153182.jpg
+1989.343,Singer,cma,data/val/singer/1989.343_web.jpg
+64533,Sitar,met,data/val/sitar/DP156162.jpg
+61429,Sarangi,met,data/val/sarangi/DT4984.jpg
+1962.279.219.b,Dholak,cma,data/val/dholak/1962.279.219.b_web.jpg
+2011.141,Dholak,cma,data/val/dholak/2011.141_web.jpg
+61429,Tabla,met,data/val/tabla/DT4984.jpg
+38007,Tabla,met,data/val/tabla/DP-25124-001.jpg
+58449,Additional instruments,met,data/val/additional_instruments/DP153225.jpg
+38056,Additional instruments,met,data/val/additional_instruments/DP153173.jpg
+2013.322,Additional instruments,cma,data/val/additional_instruments/2013.322_web.jpg
+1975.9,Additional instruments,cma,data/val/additional_instruments/1975.9_web.jpg
+1971.90,Taal indicating person,cma,data/val/taal_indicating_person/1971.90_web.jpg
+38007,Taal indicating person,met,data/val/taal_indicating_person/DP-25124-001.jpg
