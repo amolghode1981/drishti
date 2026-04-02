@@ -1,11 +1,11 @@
 import os
 
 import pandas
-from src.inference import run_inference_loop
+from src.inference import run_binary_inference_loop, run_inference_loop
 from src.utils import export_to_csv, get_instrument_labels, get_directory_name_for_instrument, get_last_url_component, getConnectorForMuseumId
 from sklearn.model_selection import train_test_split
 
-from src.training import run_training_loop, init, save_model
+from src.training import check_if_frozen, run_training_loop, init, save_model
 '''
 there are some errors in the data partitioning. Code does not consider additional instruments.
 it only partitions on known instruments. This might bite us back later. Lets add completely different
@@ -143,6 +143,10 @@ def quick_run_training():
     run_training_loop()
     save_model()
 
+def run_sanity_check():
+    init()
+    check_if_frozen()
+
 
 def prepare_inferenceset(instruments, inference_dataframe):
     for instrument in instruments:
@@ -153,6 +157,10 @@ def prepare_inferenceset(instruments, inference_dataframe):
 
 def quick_run_inference():
     run_inference_loop()
+
+def quick_run_binary_inference():
+    run_binary_inference_loop()
+
 # def download_non_instrument_data(dataset):
 #     no_instrument_training_directory = f"data/train/non_instrument"
 #     no_instrument_validation_directory = f"data/val/non_instrument"

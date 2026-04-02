@@ -4,7 +4,7 @@ import os
 import sys
 from datasets import dataset_handler
 import datasets.normalize_inference_data as normalize_inference_data
-from src.prepare_training_set import prepare_and_start_inference, prepare_and_start_training, quick_inference, quick_train
+from src.prepare_training_set import binary_quick_inference, prepare_and_start_inference, prepare_and_start_training, quick_inference, quick_train, sanity_check
 from src.utils import export_to_csv
 
 
@@ -41,6 +41,11 @@ def __run_quick_inference__():
 def __run_quick_training__():
     quick_train()
 
+def __run_sanity__():
+    sanity_check()
+
+def __run_quick_binary_inference__():
+    binary_quick_inference()
 
 def print_help():
     print("Usage:")
@@ -48,6 +53,8 @@ def print_help():
     print("  python -m src.run training")
     print("  python -m src.run quick-inference")
     print("  python -m src.run quick-training")
+    print("  python -m src.run sanity")
+    print("  python -m src.run binary-quick-inference")
 
 
 # if __name__ == "__main__":
@@ -60,12 +67,16 @@ if __name__ == "__main__":
     input_model = None
     if sys.argv[1] == 'training':
         __run_training__()
-    if sys.argv[1] == 'inference':
+    elif sys.argv[1] == 'inference':
         __run_inference__()
-    if sys.argv[1] == 'quick-training':
+    elif sys.argv[1] == 'quick-training':
         __run_quick_training__()
-    if sys.argv[1] == 'quick-inference':
+    elif sys.argv[1] == 'quick-inference':
         __run_quick_inference__()
+    elif sys.argv[1] == 'binary-quick-inference':
+        __run_quick_binary_inference__()
+    elif sys.argv[1] == 'sanity':
+        __run_sanity__()
     else:
         print_help()
 

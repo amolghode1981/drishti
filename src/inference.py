@@ -59,6 +59,32 @@ def get_probabilities(row):
     #get_highest_score(row["local_path"], available_instruments, similarity)
     return similarity[0][idx].item()
 
+
+def get_binary_probabilities(row):
+    image = preprocess(Image.open(row["local_path"])).unsqueeze(0).to(device)
+
+    headers = get_headers("datasets/csvs/training/normalized_output.csv")
+    available_instruments = src.utils.get_instrument_labels(headers)
+    label = row["instrument"]
+    #texts = clip.tokenize(available_instruments).to(device)
+    texts = clip.tokenize([
+            "a painting of musicians playing instruments",
+            "a painting with no music or instruments"
+    ]).to(device)
+    idx = available_instruments.index(label)
+    #print(f"current instrument = {label} index = {idx} available = {available_instruments}")
+    with torch.no_grad():
+        image_features = model.encode_image(image)
+        text_features = model.encode_text(texts)
+        # Normalize
+        image_features /= image_features.norm(dim=-1, keepdim=True)
+        text_features /= text_features.norm(dim=-1, keepdim=True)
+        # Similarity
+        similarity = (image_features @ text_features.T).softmax(dim=-1)
+    print(f"Has music:    {similarity[0][0].item():.4f}")
+    print(f"No music:     {similarity[0][1].item():.4f}")
+
+
 def check_base_model():
     load_base_model()
 
@@ -78,13 +104,22 @@ def run_untrained_inference_loop():
         inference_df.at[index, "untrained_guess"] = probability
     src.utils.export_to_csv(inference_df, "output/probabilities.csv")
 
+def run_binary_untrained_inference_loop():
+    inference_df = pd.read_csv("datasets/csvs/inference/inference_objects.csv")
+    inference_df["untrained_guess"] = None
+    for index, row in inference_df.iterrows():
+        get_binary_probabilities(row)
+        #inference_df.at[index, "untrained_guess"] = probability
+    src.utils.export_to_csv(inference_df, "output/probabilities.csv")
+
+
+
 def run_trained_inference_loop():
     inference_df = pd.read_csv("output/probabilities.csv")
     inference_df["trained_guess"] = None
     for index, row in inference_df.iterrows():
         probability = get_probabilities(row)
         inference_df.at[index, "trained_guess"] = probability
-
     src.utils.export_to_csv(inference_df, "output/probabilities.csv")
 
 def cleanup():
@@ -106,6 +141,11 @@ def run_inference_loop():
     load_finetuned_model()
     run_trained_inference_loop()
     cleanup()
+
+def run_binary_inference_loop():
+    init()
+    load_base_model()
+    run_binary_untrained_inference_loop()
 
 if __name__ == "__main__":
     init()

@@ -5,7 +5,10 @@ from torch.utils.data import Dataset, DataLoader
 from PIL import Image
 import os
 import  src.model_utils
-
+learning_rate = 1e-4
+batch_size = 16
+training_epoch = 50
+scheduler = None
 # ── 1. Dataset Class ──────────────────────────────────────────
 class InstrumentDataset(Dataset):
     def __init__(self, dataframe, preprocess):
@@ -35,9 +38,10 @@ train_loader = None
 val_loader = None
 optimzer = None
 loss_fn = None
+scheduler = None
 
 def load_model():
-    global model, device, preprocess, optimizer, loss_fn
+    global model, device, preprocess, optimizer, loss_fn, scheduler
     device = "mps" if torch.backends.mps.is_available() else "cpu"
 # ──  Load Model ─────────────────────────────────────────────
     print(f"Using device: {device}")
@@ -46,8 +50,12 @@ def load_model():
 # ── Optimizer and loss function ──────────────────────────────────────────────
     optimizer = torch.optim.AdamW(
         model.parameters(),
-        lr=1e-6,
-        weight_decay=0.01
+        lr=learning_rate,
+        weight_decay=0.1
+    )
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        optimizer,
+        T_max= training_epoch
     )
     loss_fn = torch.nn.CrossEntropyLoss()
 
@@ -64,9 +72,10 @@ def load_data():
 
     train_dataset = InstrumentDataset(train_df, preprocess)
     val_dataset   = InstrumentDataset(val_df, preprocess)
-
-    train_loader  = DataLoader(train_dataset, batch_size=16, shuffle=True)
-    val_loader    = DataLoader(val_dataset, batch_size=16, shuffle=False)
+    print (batch_size)
+    print(learning_rate)
+    train_loader  = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    val_loader    = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
 
 def init():
@@ -75,7 +84,7 @@ def init():
 
 def run_training_loop():
 # ── 5. Training Loop ──────────────────────────────────────────
-    NUM_EPOCHS = 3
+    NUM_EPOCHS = training_epoch
     for epoch in range(NUM_EPOCHS):
         # ── Training ──
         model.train()
@@ -189,6 +198,8 @@ def run_training_loop():
                 val_loss += loss.item()
 
         avg_val_loss = val_loss / len(val_loader)
+        # ── Scheduler step ──
+        scheduler.step()
 
         print(f"Epoch {epoch+1}/{NUM_EPOCHS} | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
 
@@ -199,3 +210,13 @@ def save_model():
     os.makedirs("output", exist_ok=True)
     torch.save(model.state_dict(), "output/clip_finetuned.pt")
     print("Model saved to output/clip_finetuned.pt")
+
+
+def check_if_frozen():
+    '''
+    Finds out how many parameters that can be changed in training (requires_grad is true) are available for
+    training.
+    '''
+    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    total = sum(p.numel() for p in model.parameters())
+    print(f"Trainable params: {trainable:,} / {total:,}")

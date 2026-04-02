@@ -139,5 +139,8 @@ def quick_inference():
     # available_instruments = utils.get_instrument_labels(headers)
     # src.training_data_creator.prepare_inferenceset(available_instruments, with_instruments)
 
-
+def sanity_check():
+     src.training_data_creator.run_sanity_check()
+def binary_quick_inference():
+    src.training_data_creator.quick_run_binary_inference()
 #prepare_and_start_training()
