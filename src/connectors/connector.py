@@ -1,29 +1,32 @@
 import os
 
 import requests
+
+import src.retryable_request
 class Connector:
     def __init__(self, museum):
         self.museum = museum
-
     def listObjects(self):
         pass
 
-    def fetchObject(self, objectUrl):
-        try:
-            response = requests.get(objectUrl)
-            response.raise_for_status()  # raises error for 4xx/5xx status codes
-            return response.json()
-        except requests.exceptions.HTTPError as e:
-            print(f"HTTP error: {e}")
-        except requests.exceptions.ConnectionError:
-            print("Connection error")
-        except requests.exceptions.JSONDecodeError:
-            print("Response is not valid JSON")
-        return None
+    def fetchObject(self, objectUrl, max_retries=5, delay = 1):
+        response = src.retryable_request.retryable_request(objectUrl, max_retries=max_retries, delay=delay)
+        return response.json()
+        # try:
+        #     response = requests.get(objectUrl)
+        #     response.raise_for_status()  # raises error for 4xx/5xx status codes
+        #     return response.json()
+        # except requests.exceptions.HTTPError as e:
+        #     print(f"HTTP error: {e}")
+        # except requests.exceptions.ConnectionError:
+        #     print("Connection error")
+        # except requests.exceptions.JSONDecodeError:
+        #     print("Response is not valid JSON")
+        # return None
 
     def download_image(self, image_url, local_path):
         if os.path.exists(local_path):
-            #print(f"Skipping download {image_url}. local file {local_path} exists")
+            print(f"Skipping download {image_url}. local file {local_path} exists")
             return;
         try:
             response = requests.get(image_url)
