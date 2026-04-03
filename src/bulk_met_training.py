@@ -103,8 +103,8 @@ def prepareData():
 
     print(df_train.shape[0])
     print(df_val.shape[0])
-    train_dataset = LabelDataset(df_train, preprocess, 10)
-    val_dataset   = LabelDataset(df_val, preprocess, 10)
+    train_dataset = LabelDataset(df_train, preprocess)
+    val_dataset   = LabelDataset(df_val, preprocess)
 
     train_loader  = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader    = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
