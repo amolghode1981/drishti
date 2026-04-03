@@ -1,4 +1,5 @@
 import csv
+import os
 import clip
 import pandas
 from sklearn.model_selection import train_test_split
@@ -7,9 +8,10 @@ import torch
 import  src.model_utils
 from PIL import Image
 met_labels = None
-learning_rate = 1e-4
-batch_size = 8
-training_epoch = 5
+learning_rate = 1e-5
+batch_size = 16
+training_epoch = 35
+weight_decay = 0.05
 scheduler = None
 model = None
 device = None
@@ -60,7 +62,7 @@ def init():
     optimizer = torch.optim.AdamW(
         model.parameters(),
         lr=learning_rate,
-        weight_decay=0.1
+        weight_decay=weight_decay
     )
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         optimizer,
@@ -229,9 +231,15 @@ def run_training_loop():
 
         print(f"Epoch {epoch+1}/{NUM_EPOCHS} | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
 
+def save_model():
+    # ── 6. Save Model ─────────────────────────────────────────────
+    os.makedirs("output", exist_ok=True)
+    torch.save(model.state_dict(), "output/clip_finetuned.pt")
+    print("Model saved to output/clip_finetuned.pt")
 
 
 if __name__ == "__main__":
     init()
     prepareData()
     run_training_loop()
+    save_model()
