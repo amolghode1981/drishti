@@ -1,0 +1,60 @@
+labels = [
+        "a person playing a musical instrument",
+        "a musician playing an instrument",
+        "a person holding a violin instrument",
+        "a person playing barrel drum",
+        "a portrait of a person",
+        "a person standing without objects",
+        "a traditional painting of people",
+        "a drawing of a person without instruments"]
+
+[
+    #     "a person playing a musical instrument",
+    #     "a musician playing an instrument",
+    #     "a person holding a violin instrument",
+    #     "a person playing barrel drum",
+    #     "a portrait of a person",
+    #     "a person standing without objects",
+    #     "a traditional painting of people",
+    #     "a drawing of a person without instruments"
+    # ]
+
+    [
+        "A woman with Indian Lute, Veena",
+        "Women with musical instrument",
+        "Woman with a barrel drum",
+        "a lake",
+        "a bird",
+        "bearded man"]
+
+
+
+[
+        "a human playing musical instrument",
+        "a person playing a barrel drum",
+        "a person playing a gourd instrument",
+        "an empty room with no people",
+        "an aerial view of a landscape",
+        "a close up of food on a plate",
+        "inanimate objects with no people present"]
+
+
+[
+    "A woman with Indian Lute, Veena",
+    "Women with musical instrument",
+    "musical instruments hold by humans while doing music",
+    "Woman with a barrel drum",
+    "a lake with human beings",
+    "a lake with animals",
+    "a forest with many green trees",
+    "Musical gathering in a courtyard", "a bird", "bearded man"]
+
+[
+    "musical instruments held in hand while doing music",
+    "A person holding a weapon in hand while sitting on a horse",
+    "A person holding a weapon in hand while fighting with another person",
+    "Woman with a barrel drum",
+    "a lake with human beings",
+    "a lake with animals",
+    "a forest with many green trees",
+    "Musical gathering in a courtyard", "a bird", "bearded man"]
