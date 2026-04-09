@@ -144,8 +144,8 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     init()
-    server = http.server.HTTPServer(("", PORT), UploadHandler)
-    print(f"Server running at http://localhost:{PORT}")
+    server = http.server.HTTPServer(("0.0.0.0", PORT), UploadHandler)
+    print(f"Server running at http://0.0.0.0:{PORT}")
     print(f"CLIP inference: {'enabled' if MODEL_LOADED else 'disabled (save-only mode)'}")
     try:
         server.serve_forever()

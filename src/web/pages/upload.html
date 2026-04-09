@@ -659,7 +659,7 @@
     formData.append('labels',    JSON.stringify(labels));
 
     try {
-      const res  = await fetch('http://localhost:8000/upload', { method: 'POST', body: formData });
+      const res = await fetch(`http://${window.location.hostname}:8000/upload`, { method: 'POST', body: formData });
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.error || 'Upload failed');
