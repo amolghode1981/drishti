@@ -16,16 +16,6 @@ from src.clip_inference import run_query, init
 
 PORT = 8000
 
-# ── Import your existing inference logic ──────────────────────────────────────
-# Adjust this import to match your actual module/function names
-try:
-    from clip_inference import load_model, create_output, labels
-    MODEL_LOADED = True
-except ImportError:
-    MODEL_LOADED = False
-    print("Warning: clip_inference module not found. Running in save-only mode.")
-
-
 class UploadHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/" or self.path == "/index.html":
@@ -146,7 +136,6 @@ if __name__ == "__main__":
     init()
     server = http.server.HTTPServer(("0.0.0.0", PORT), UploadHandler)
     print(f"Server running at http://0.0.0.0:{PORT}")
-    print(f"CLIP inference: {'enabled' if MODEL_LOADED else 'disabled (save-only mode)'}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
