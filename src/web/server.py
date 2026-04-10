@@ -133,10 +133,19 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         print(f"[{self.address_string()}] {fmt % args}")
 
+import socketserver
+
+class FastHTTPServer(http.server.HTTPServer):
+    allow_reuse_address = True
+
+    def server_bind(self):
+        socketserver.TCPServer.server_bind(self)
+        self.server_name = self.server_address[0]  # use IP directly, skip socket.getfqdn()
+        self.server_port = self.server_address[1]
 
 if __name__ == "__main__":
     init()
-    server = http.server.HTTPServer(("0.0.0.0", PORT), UploadHandler)
+    server = FastHTTPServer(("0.0.0.0", PORT), UploadHandler)
     print(f"Server running at http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
