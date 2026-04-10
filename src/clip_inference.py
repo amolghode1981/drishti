@@ -31,6 +31,7 @@ def load_model(modelname, modeltype, weightpath):
     if modeltype == "tuned":
         if weightpath =="":
             raise Exception("Please provide the tuned weights")
+        print(f"Loading checkpoint file {weightpath}")
         checkpoint = torch.load(weightpath, map_location=device)
         model.load_state_dict(checkpoint)
     model.eval()
