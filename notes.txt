@@ -72,3 +72,8 @@ weight_decay = 0.05
 Epoch 1/35 | Train Loss: 2.8701 | Val Loss: 2.6094
 
 python -m src.bulk_met_inference
+
+Funny problem: Everyone was able to access the locally hosted server http://192.168.1.208:8000/ except chrome.
+At some point of time I had disabled "Access to devices on the local network".
+I had to turn that on again. Handy command tccutil reset LocalNetwork com.google.Chrome
+Just setting it from system preference would not help

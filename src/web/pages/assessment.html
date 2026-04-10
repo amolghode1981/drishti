@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drishti — Assess</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e0f;
+    --surface: #18181a;
+    --surface2: #222224;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.18);
+    --text: #f0ede8;
+    --muted: #888782;
+    --accent: #5DCAA5;
+    --accent-dim: rgba(93,202,165,0.12);
+    --accent-border: rgba(93,202,165,0.35);
+    --danger: #E24B4A;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .wordmark span { color: var(--accent); }
+  .wordmark a { color: var(--muted); text-decoration: none; }
+  .wordmark a:hover { color: var(--accent); }
+
+  .layout { max-width: 860px; margin: 0 auto; }
+
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .mono-input {
+    flex: 1;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .mono-input:focus { border-color: var(--accent-border); }
+
+  .btn {
+    background: var(--accent);
+    color: #04342C;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .stat-mean {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .stat-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .stat-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .stat-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* Narrative */
+  .narrative {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+    font-family: var(--sans);
+    font-weight: 300;
+  }
+
+  .narrative-placeholder {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border: 1.5px solid var(--muted);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 0.5px solid var(--accent-border);
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  .nav-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .nav-link:hover { color: var(--accent); }
+
+  .empty {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  #content { display: none; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <div class="wordmark">
+    <a href="/">drishti</a> / <a href="/view">view</a> / <span>assess</span>
+  </div>
+
+  <div class="search-row">
+    <input class="mono-input" type="text" id="checksumInput" placeholder="SHA-256 checksum…">
+    <button class="btn" id="runBtn" onclick="runAssessment()">assess</button>
+  </div>
+
+  <div id="content">
+    <!-- Stats -->
+    <div class="card">
+      <div class="card-title">statistical summary</div>
+      <div class="stats-grid" id="stats-grid"></div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;" id="pills-row"></div>
+    </div>
+
+    <!-- Narrative -->
+    <div class="card">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+        <div class="card-title" style="margin-bottom:0;">narrative assessment</div>
+        <button class="btn" id="regenBtn" onclick="generateNarrative()" style="padding:6px 14px; font-size:12px;">regenerate</button>
+      </div>
+      <div id="narrative-out" class="narrative-placeholder">
+        <span class="spinner"></span>generating…
+      </div>
+    </div>
+
+    <a class="nav-link" id="back-link" href="#">← back to image</a>
+  </div>
+
+  <div id="error-out"></div>
+</div>
+
+<script>
+  const HOST = window.location.origin;
+  let currentStats = null;
+  let currentDoc = null;
+
+  async function runAssessment() {
+    const checksum = document.getElementById('checksumInput').value.trim();
+    if (!checksum) return;
+
+    const btn = document.getElementById('runBtn');
+    btn.disabled = true;
+    btn.textContent = '…';
+
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('error-out').innerHTML = '';
+
+    try {
+      const res = await fetch(`${HOST}/api/image/${checksum}`);
+      if (!res.ok) throw new Error('image not found');
+      const doc = await res.json();
+      currentDoc = doc;
+
+      document.getElementById('back-link').href = `/view?checksum=${checksum}`;
+
+      const stats = computeStats(doc.readings || []);
+      currentStats = stats;
+      renderStats(doc, stats);
+
+      document.getElementById('content').style.display = 'block';
+      await generateNarrative();
+
+    } catch(e) {
+      document.getElementById('error-out').innerHTML =
+        `<div class="empty">error: ${e.message}</div>`;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'assess';
+    }
+  }
+
+  function computeStats(readings) {
+    const scoreMap = {};
+    for (const r of readings) {
+      for (const m of (r.matches || [])) {
+        const s = parseFloat(m.score);
+        if (!scoreMap[m.label]) scoreMap[m.label] = [];
+        scoreMap[m.label].push(s);
+      }
+    }
+
+    const stats = {};
+    for (const [label, vals] of Object.entries(scoreMap)) {
+      const n    = vals.length;
+      const mean = vals.reduce((a,b)=>a+b,0) / n;
+      const variance = vals.reduce((a,b)=>a+(b-mean)**2,0) / n;
+      const std  = Math.sqrt(variance);
+      stats[label] = {
+        mean, std, n,
+        min: Math.min(...vals),
+        max: Math.max(...vals),
+      };
+    }
+    return stats;
+  }
+
+  function renderStats(doc, stats) {
+    const sorted = Object.entries(stats).sort((a,b) => b[1].mean - a[1].mean);
+    const maxMean = sorted[0]?.[1].mean || 1;
+
+    document.getElementById('stats-grid').innerHTML = sorted.map(([label, s]) => `
+      <div class="stat-card">
+        <div class="stat-label" title="${label}">${label}</div>
+        <div class="stat-mean">${s.mean.toFixed(3)}</div>
+        <div class="stat-sub">σ ${s.std.toFixed(3)} · n=${s.n}</div>
+        <div class="stat-bar"><div class="stat-bar-fill" style="width:${(s.mean/maxMean*100).toFixed(1)}%"></div></div>
+      </div>
+    `).join('');
+
+    document.getElementById('pills-row').innerHTML = `
+      <span class="pill">${doc.filename}</span>
+      <span class="pill">${(doc.readings||[]).length} readings</span>
+      <span class="pill">${sorted.length} labels</span>
+    `;
+  }
+
+  async function generateNarrative() {
+    if (!currentStats) return;
+    const out = document.getElementById('narrative-out');
+    const regen = document.getElementById('regenBtn');
+    out.innerHTML = '<span class="spinner"></span><span style="color:var(--muted);font-family:var(--mono);font-size:13px;">generating narrative…</span>';
+    regen.disabled = true;
+
+    const statsText = Object.entries(currentStats)
+      .sort((a,b) => b[1].mean - a[1].mean)
+      .map(([label, s]) =>
+        `${label}: mean=${s.mean.toFixed(4)}, std=${s.std.toFixed(4)}, n=${s.n}, range=[${s.min.toFixed(3)}, ${s.max.toFixed(3)}]`
+      ).join('\n');
+
+    const filename = currentDoc?.filename || 'unknown';
+    const nReadings = (currentDoc?.readings || []).length;
+
+    const prompt = `You are an art critic and perceptual data analyst. You have conducted ${nReadings} CLIP inference reading${nReadings !== 1 ? 's' : ''} on a painting titled "${filename}", using a set of descriptive labels. The statistical results across all readings are:
+
+${statsText}
+
+Write a subjective, narrative critical assessment of this painting based entirely on these statistical patterns. Your assessment should:
+
+- Identify which perceptual or emotional qualities dominate (high mean scores)
+- Discuss which qualities show high variability across readings (high standard deviation) — interpreting this as inherent ambiguity, painterly complexity, or viewer-dependent qualities
+- Note the overall gestalt of the work — what kind of painting does this appear to be?
+- Highlight any interesting tensions or contradictions between labels
+- Where n is low (1-2 readings), note that the assessment is preliminary
+
+Write in the voice of a thoughtful art critic. 3-4 paragraphs. No bullet points. Ground every interpretive claim directly in the statistical patterns you observe.`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const data = await response.json();
+      const text = data.content?.map(c => c.text || '').join('') || 'No response generated.';
+      out.className = 'narrative';
+      out.textContent = text;
+    } catch(e) {
+      out.className = 'narrative-placeholder';
+      out.textContent = `Error: ${e.message}`;
+    } finally {
+      regen.disabled = false;
+    }
+  }
+
+  // Auto-load from URL params
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('checksum')) {
+    document.getElementById('checksumInput').value = params.get('checksum');
+    runAssessment();
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drishti — View Image</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e0f;
+    --surface: #18181a;
+    --surface2: #222224;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.18);
+    --text: #f0ede8;
+    --muted: #888782;
+    --accent: #5DCAA5;
+    --accent-dim: rgba(93,202,165,0.12);
+    --accent-border: rgba(93,202,165,0.35);
+    --danger: #E24B4A;
+    --danger-dim: rgba(226,75,74,0.12);
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .wordmark span { color: var(--accent); }
+  .wordmark a { color: var(--muted); text-decoration: none; }
+  .wordmark a:hover { color: var(--accent); }
+
+  .layout {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .mono-input {
+    flex: 1;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .mono-input:focus { border-color: var(--accent-border); }
+
+  .btn {
+    background: var(--accent);
+    color: #04342C;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 0.5px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); }
+
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-item {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .meta-value.small {
+    font-size: 13px;
+    font-family: var(--mono);
+    word-break: break-all;
+    color: var(--accent);
+  }
+
+  /* Bar chart */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+  }
+
+  .bar-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--accent);
+    transition: width 0.5s ease;
+  }
+
+  .bar-score {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    min-width: 48px;
+    text-align: right;
+  }
+
+  /* Readings list */
+  .reading-card {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .reading-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .reading-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 0.5px solid var(--accent-border);
+  }
+
+  .pill.muted {
+    background: var(--surface);
+    color: var(--muted);
+    border-color: var(--border);
+  }
+
+  .ts {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* Images list */
+  .images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .image-thumb {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .image-thumb:hover { border-color: var(--accent-border); }
+
+  .image-thumb .name {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .image-thumb .count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .image-thumb .hash {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    opacity: 0.6;
+  }
+
+  .empty {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+    text-align: center;
+    padding: 3rem;
+  }
+
+  .nav-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 1rem;
+  }
+  .nav-link:hover { opacity: 0.7; }
+
+  .spinner {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border: 1.5px solid var(--muted);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #detail { display: none; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <div class="wordmark">
+    <a href="/">drishti</a> / <span>view image</span>
+  </div>
+
+  <div class="search-row">
+    <input class="mono-input" type="text" id="checksumInput" placeholder="SHA-256 checksum or leave blank to browse all images…">
+    <button class="btn" onclick="loadByChecksum()">load</button>
+    <button class="btn btn-ghost" onclick="showAll()">browse</button>
+  </div>
+
+  <!-- All images list -->
+  <div id="all-images">
+    <div class="card">
+      <div class="card-title">all images</div>
+      <div id="images-list"><div class="empty"><span class="spinner"></span>loading…</div></div>
+    </div>
+  </div>
+
+  <!-- Detail view -->
+  <div id="detail">
+    <div class="card">
+      <div class="card-title">image info</div>
+      <div class="meta-grid" id="meta-grid"></div>
+      <div class="card-title" style="margin-top:1rem;">average scores across all readings</div>
+      <div id="avg-bars"></div>
+      <a class="nav-link" id="assess-link" href="#">→ narrative assessment</a>
+    </div>
+
+    <div class="card">
+      <div class="card-title">all readings</div>
+      <div id="readings-list"></div>
+    </div>
+
+    <button class="btn btn-ghost" style="margin-top:0.5rem;" onclick="backToAll()">← back to all images</button>
+  </div>
+</div>
+
+<script>
+  const HOST = window.location.origin;
+  let currentChecksum = null;
+
+  async function showAll() {
+    document.getElementById('detail').style.display = 'none';
+    document.getElementById('all-images').style.display = 'block';
+    const el = document.getElementById('images-list');
+    el.innerHTML = '<div class="empty"><span class="spinner"></span>loading…</div>';
+    try {
+      const res = await fetch(`${HOST}/api/images`);
+      const data = await res.json();
+      if (!data.images || !data.images.length) {
+        el.innerHTML = '<div class="empty">no images stored yet — run some inference first.</div>';
+        return;
+      }
+      el.innerHTML = `<div class="images-grid">
+        ${data.images.map(img => `
+          <div class="image-thumb" onclick="loadImage('${img._id}')">
+            <div class="name">${img.filename}</div>
+            <div class="count">${(img.readings||[]).length} reading${(img.readings||[]).length !== 1 ? 's' : ''}</div>
+            <div class="hash">${img._id.slice(0,16)}…</div>
+          </div>
+        `).join('')}
+      </div>`;
+    } catch(e) {
+      el.innerHTML = `<div class="empty">error: ${e.message}</div>`;
+    }
+  }
+
+  async function loadByChecksum() {
+    const checksum = document.getElementById('checksumInput').value.trim();
+    if (!checksum) { showAll(); return; }
+    loadImage(checksum);
+  }
+
+  async function loadImage(checksum) {
+    currentChecksum = checksum;
+    document.getElementById('all-images').style.display = 'none';
+    const detail = document.getElementById('detail');
+    detail.style.display = 'block';
+    document.getElementById('meta-grid').innerHTML = '<div class="empty"><span class="spinner"></span>loading…</div>';
+    document.getElementById('avg-bars').innerHTML = '';
+    document.getElementById('readings-list').innerHTML = '';
+
+    try {
+      const res = await fetch(`${HOST}/api/image/${checksum}`);
+      if (!res.ok) throw new Error('image not found');
+      const doc = await res.json();
+      renderDetail(doc);
+    } catch(e) {
+      document.getElementById('meta-grid').innerHTML = `<div class="empty">error: ${e.message}</div>`;
+    }
+  }
+
+  function renderDetail(doc) {
+    const readings = doc.readings || [];
+
+    // Meta
+    document.getElementById('meta-grid').innerHTML = `
+      <div class="meta-item"><div class="meta-label">filename</div><div class="meta-value" style="font-size:15px;">${doc.filename}</div></div>
+      <div class="meta-item"><div class="meta-label">readings</div><div class="meta-value">${readings.length}</div></div>
+      <div class="meta-item"><div class="meta-label">first seen</div><div class="meta-value" style="font-size:13px;">${new Date(doc.first_seen).toLocaleDateString()}</div></div>
+      <div class="meta-item"><div class="meta-label">checksum</div><div class="meta-value small">${doc._id}</div></div>
+    `;
+
+    // Assess link
+    document.getElementById('assess-link').href = `/assess?checksum=${doc._id}`;
+
+    // Average scores across all readings
+    const scoreMap = {};
+    const countMap = {};
+    for (const r of readings) {
+      for (const m of (r.matches || [])) {
+        const score = parseFloat(m.score);
+        if (!scoreMap[m.label]) { scoreMap[m.label] = 0; countMap[m.label] = 0; }
+        scoreMap[m.label] += score;
+        countMap[m.label]++;
+      }
+    }
+    const avgs = Object.entries(scoreMap)
+      .map(([label, sum]) => ({ label, avg: sum / countMap[label] }))
+      .sort((a, b) => b.avg - a.avg);
+
+    const maxAvg = avgs[0]?.avg || 1;
+    document.getElementById('avg-bars').innerHTML = avgs.map(({ label, avg }) => `
+      <div class="bar-row">
+        <span class="bar-label">${label}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${(avg/maxAvg*100).toFixed(1)}%"></div></div>
+        <span class="bar-score">${avg.toFixed(3)}</span>
+      </div>
+    `).join('');
+
+    // Individual readings
+    const rl = document.getElementById('readings-list');
+    if (!readings.length) { rl.innerHTML = '<div class="empty">no readings yet.</div>'; return; }
+
+    rl.innerHTML = readings.slice().reverse().map((r, i) => {
+      const sorted = [...(r.matches || [])].sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+      const maxScore = parseFloat(sorted[0]?.score || 1);
+      return `
+        <div class="reading-card">
+          <div class="reading-header">
+            <div class="reading-meta">
+              <span class="pill">${r.model}</span>
+              <span class="pill ${r.flavor === 'tuned' ? '' : 'muted'}">${r.flavor}</span>
+            </div>
+            <span class="ts">${new Date(r.ts).toLocaleString()}</span>
+          </div>
+          ${sorted.map(m => `
+            <div class="bar-row">
+              <span class="bar-label">${m.label}</span>
+              <div class="bar-track"><div class="bar-fill" style="width:${(parseFloat(m.score)/maxScore*100).toFixed(1)}%"></div></div>
+              <span class="bar-score">${parseFloat(m.score).toFixed(3)}</span>
+            </div>
+          `).join('')}
+          ${r.notes ? `<div style="margin-top:10px;font-size:12px;font-family:var(--mono);color:var(--muted);">${r.notes}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function backToAll() {
+    document.getElementById('detail').style.display = 'none';
+    document.getElementById('all-images').style.display = 'block';
+  }
+
+  // Check if checksum is in URL params
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('checksum')) {
+    document.getElementById('checksumInput').value = params.get('checksum');
+    loadImage(params.get('checksum'));
+  } else {
+    showAll();
+  }
+</script>
+</body>
+</html>

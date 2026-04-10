@@ -58,3 +58,70 @@ labels = [
     "a lake with animals",
     "a forest with many green trees",
     "Musical gathering in a courtyard", "a bird", "bearded man"]
+
+[
+    "A woman or a man with Indian Lute, Veena",
+    "A woman or a man with musical instrument",
+    "musical instruments hold by humans while doing music",
+    "A woman or a man with a barrel drum",
+    "a lake with human beings",
+    "a lake with animals",
+    "a forest with many green trees",
+    "A scene of war",
+    "A scene with people holding weapons",
+    "Musical gathering in a courtyard", "a bird", "bearded man"]
+
+[
+    "A woman or a man with Indian Lute, Veena",
+    "A person holding plough",
+    "A woman or a man with musical instrument",
+    "musical instruments hold by humans while doing music",
+    "A woman or a man with a barrel drum",
+    "a lake with human beings",
+    "a lake with animals",
+    "a forest with many green trees",
+    "A scene of war",
+    "A scene with people holding weapons",
+    "Musical gathering in a courtyard", "a bird", "bearded man"]
+
+[
+    "A woman or a man with Indian Lute, Veena",
+    "A person holding plow or agricultural implement",
+    "A woman or a man with musical instrument",
+    "musical instruments hold by humans while doing music",
+    "A woman or a man with a barrel drum",
+    "a lake with human beings",
+    "a lake with animals",
+    "a forest with many green trees",
+    "A scene of war",
+    "A scene with people holding weapons",
+    "Musical gathering in a courtyard", "a bird", "bearded man"]
+
+These labels are fairly working.
+[
+    "A blue skinned figure carrying a plow over the shoulder",
+    "A person carrying a curved agricultural tool or plow on their back",
+    "Figures in a scene with farming tools",
+    "Hindu deities in traditional Indian miniature painting",
+    "Krishna and Balarama in a Rajput or Pahari painting",
+    "A religious offering scene with Indian deities",
+    "A devotee offering a bowl or vessel to a deity",
+    "Figures in traditional Indian royal or divine attire",
+    "A person playing an Indian stringed instrument like Veena or Sitar",
+    "A musical gathering or concert in a courtyard",
+    "A person playing a barrel drum or tabla",
+    "A lake or river with human beings nearby",
+    "A lake or river with animals nearby",
+    "A forest with many green trees and no people",
+    "A scene of battle or war with soldiers",
+    "People holding swords spears or weapons in a confrontation",
+    "A bird perched or flying",
+    "Animals in a natural setting without people",
+    "A bearded man in traditional attire",
+    "A woman in traditional Indian clothing",
+    "A group of people in a royal court setting"
+]
+drishti-admin/testpassword123
+python -m pip install "pymongo[srv]
+mongodb+srv://drishti-admin:testpassword123@cluster0.0p2owuz.mongodb.net/?appName=Cluster0
+mongodb+srv://drishti-admin:****@cluster0.0p2owuz.mongodb.net/?appName=Cluster0

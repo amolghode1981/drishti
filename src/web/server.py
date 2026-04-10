@@ -12,24 +12,70 @@ import shutil
 from pathlib import Path
 from urllib.parse import parse_qs
 
-from src.clip_inference import run_query, init
+from src.clip_inference import run_query, init as clip_init
+from src.web.db import db_connection_check, sha256_of_file, upsert_reading, get_image, list_images
 
 PORT = 8000
 
+def write_to_persistent_storage(filename, model, flavor,query_path, response, labels):
+    try:
+        checksum = sha256_of_file(query_path)
+        upsert_reading(
+            checksum = checksum,
+            filename = filename,
+            model    = model,
+            flavor   = flavor,
+            labels   = labels,
+            matches  = response.get("matches", []),
+        )
+        print(f"Saved reading to MongoDB: {checksum[:12]}...")
+        return checksum
+    except Exception as e:
+        print(f"MongoDB write failed: {e}")
+        return "Error: MongoWrite failed"
+
 class UploadHandler(http.server.BaseHTTPRequestHandler):
+    def _serve_page(self, relative_path: str):
+        html_path = Path(__file__).parent / relative_path
+        if not html_path.exists():
+            self._json(404, {"error": f"{relative_path} not found"})
+            return
+        with open(html_path, "rb") as f:
+            body = f.read()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Access-Control-Allow-Private-Network", "true")
+        self.end_headers()
+        self.wfile.write(body)
+
     def do_GET(self):
         if self.path == "/" or self.path == "/index.html":
-            # Serve the HTML file from the same directory as server.py
-            #html_path = Path(__file__).parent / "upload.html"
-            html_path = Path(__file__).parent / "pages/upload.html"
-            with open(html_path, "rb") as f:
-                body = f.read()
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html")
-            self.send_header("Content-Length", str(len(body)))
-            self.send_header("Access-Control-Allow-Private-Network", "true")
-            self.end_headers()
-            self.wfile.write(body)
+            self._serve_page("pages/upload.html")
+
+        elif self.path == "/view" or self.path == "/view.html":
+            self._serve_page("pages/view_records.html")
+
+        elif self.path == "/assess" or self.path == "/assess.html":
+            self._serve_page("pages/assessment.html")
+        # ── API: single image by checksum ─────────────────────────────────────
+        elif self.path.startswith("/api/image/"):
+            checksum = self.path.split("/api/image/")[-1].strip("/")
+            doc = get_image(checksum)
+            if doc is None:
+                self._json(404, {"error": "image not found"})
+            else:
+                doc["_id"] = str(doc["_id"])
+                self._json(200, doc)
+        # ── API: list all images ──────────────────────────────────────────────
+        elif self.path == "/api/images":
+            docs = list_images()
+            for d in docs:
+                d["_id"] = str(d["_id"])
+            self._json(200, {"images": docs})
+        # ── API: health check ─────────────────────────────────────────────────
+        elif self.path == "/api/ping":
+            self._json(200, {"ok": db_connection_check()})
         else:
             self._json(404, {"error": "not found"})
 
@@ -111,6 +157,8 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
         print(f"output = {output}")
         if output is not None:
             result = output
+        checksum = write_to_persistent_storage(filename, model, flavor, query_path, result, labels)
+        result["checksum"] = checksum
         self._json(200, result)
 
     # ── Helpers ───────────────────────────────────────────────────────────────
@@ -133,6 +181,11 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         print(f"[{self.address_string()}] {fmt % args}")
 
+def init():
+    clip_init()
+    connected = db_connection_check()
+    print(f"MongoDB: {'connected' if connected else 'FAILED — check MONGO_URI in src/db.py'}")
+
 import socketserver
 
 class FastHTTPServer(http.server.HTTPServer):
@@ -145,6 +198,7 @@ class FastHTTPServer(http.server.HTTPServer):
 
 if __name__ == "__main__":
     init()
+
     server = FastHTTPServer(("0.0.0.0", PORT), UploadHandler)
     print(f"Server running at http://0.0.0.0:{PORT}")
     try:
