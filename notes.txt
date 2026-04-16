@@ -77,3 +77,6 @@ Funny problem: Everyone was able to access the locally hosted server http://192.
 At some point of time I had disabled "Access to devices on the local network".
 I had to turn that on again. Handy command tccutil reset LocalNetwork com.google.Chrome
 Just setting it from system preference would not help
+
+Webserver version.
+python -m src.web.server

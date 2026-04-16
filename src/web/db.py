@@ -111,3 +111,9 @@ def db_connection_check() -> bool:
         return True
     except ConnectionFailure:
         return False
+
+def db_connection_close():
+    global _client
+    if _client is not None:
+        _client.close()
+        _client = None

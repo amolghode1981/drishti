@@ -4,11 +4,11 @@ import sys
 import clip
 import pandas as pd
 import torch
-from transformers import CLIPProcessor, CLIPModel
 import src.model_utils
 from PIL import Image
 from pathlib import Path
 import argparse
+import src.web.labels
 
 model = None
 device = None
@@ -51,6 +51,7 @@ def create_output(filename, similarity, labels):
     dataframe = pd.DataFrame(rows)
     dataframe["filename"] = filename
     dataframe = dataframe.sort_values(by="score", ascending=False).reset_index(drop=True)
+    dataframe["similarity"] = dataframe["score"].apply(lambda x: round(float(x), 2))
     dataframe["score"] = dataframe["score"].apply(lambda x: f"{x:.2f}%")
     #print(f"{filename}:\n{dataframe.to_string(index=False)}")
     import json
@@ -60,10 +61,6 @@ def create_output(filename, similarity, labels):
     }
     print(result)
     return result
-
-    # print(f"{filename} :  {rows}")
-    # import json
-    # return json.dumps(rows, indent=2)
 
 def get_embeddings(image_path, labels):
     image = preprocess(Image.open(image_path)).unsqueeze(0).to(device)
@@ -83,7 +80,8 @@ def get_embeddings(image_path, labels):
         and ampify the difference.
         '''
         logits = image_features @ text_features.T
-        # Softmax different from normalization.
+        # Softmax different from normalization. converts the probabilities
+        # to sum to 1. It is a way to convert the scores into probabilities. The higher the score, the higher the probability.
         '''
         softmax(z_i) = e^z_i / sum(e^z_j)  for j = 1 to n
         '''
@@ -209,6 +207,8 @@ if __name__ == "__main__":
 
 def run_query(model, flavor, weightpath, labels, query_path):
     print(f" model = {model} tuned/base = {flavor} labels = {labels} query = {query_path}")
+    label_handler = src.web.labels.LabelHandler(labels)
+    queriable_labels = label_handler.getQueriableLabels()
     load_model(model, flavor, weightpath)
-    output = execute_query(query_path, labels)
+    output = execute_query(query_path, queriable_labels)
     return output
