@@ -27,11 +27,27 @@ class LabelHandler:
             label = Label(label["label"], LabelType(label["category"]))
             self.labels.append(label)
 
+    def addLabel(self, label: dict):
+        label = Label(label["label"], LabelType(label["category"]))
+        self.labels.append(label)
+        self.raw_labels.append(label)
+    def addLabels(self, labels: list[dict]):
+        for label in labels:
+            label = Label(label["label"], LabelType(label["category"]))
+            self.labels.append(label)
+            self.raw_labels.append(label)
+
     def getQueriableLabels(self):
         labels = []
         for label in self.labels:
             labels.append(label.name)
         return labels
+
+    def hasLabel(self, label_name):
+        for label in self.labels:
+            if label.name == label_name:
+                return True
+        return False
 
     def getMusicalLabels(self):
         return [label for label in self.labels if label.type == LabelType.MUSICAL]
@@ -58,5 +74,5 @@ class LabelHandler:
 
         dataframe = pandas.DataFrame(data)
         dataframe = dataframe.sort_values(by="score", ascending=False).reset_index(drop=True)
-        dataframe["score"] = dataframe["score"].apply(lambda x: round(float(x), 2))
+        dataframe["score"] = dataframe["score"].apply(lambda x: round(float(x), 4))
         return dataframe

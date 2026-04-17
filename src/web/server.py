@@ -12,8 +12,11 @@ import shutil
 from pathlib import Path
 from urllib.parse import parse_qs
 
+from sympy import im
+
 from src.clip_inference import run_query, init as clip_init
 from src.web.db import db_connection_check, sha256_of_file, upsert_reading, get_image, list_images
+from src.web import analysis
 
 PORT = 8000
 
@@ -62,6 +65,9 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
         elif self.path.startswith("/api/image/"):
             checksum = self.path.split("/api/image/")[-1].strip("/")
             doc = get_image(checksum)
+            image_analysis = analysis.Analysis(checksum)
+            image_analysis.analyzeImage()
+
             if doc is None:
                 self._json(404, {"error": "image not found"})
             else:

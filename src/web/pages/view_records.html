@@ -415,7 +415,7 @@
     const countMap = {};
     for (const r of readings) {
       for (const m of (r.matches || [])) {
-        const score = parseFloat(m.score);
+        const score = parseFloat(m.percentage);
         if (!scoreMap[m.label]) { scoreMap[m.label] = 0; countMap[m.label] = 0; }
         scoreMap[m.label] += score;
         countMap[m.label]++;
