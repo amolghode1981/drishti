@@ -6,751 +6,487 @@
 <title>Drishti — Image Upload</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0e0e0f;
-    --surface: #18181a;
-    --surface2: #222224;
-    --border: rgba(255,255,255,0.08);
-    --border-hover: rgba(255,255,255,0.18);
-    --text: #f0ede8;
-    --muted: #888782;
-    --accent: #5DCAA5;
-    --accent-dim: rgba(93,202,165,0.12);
-    --accent-border: rgba(93,202,165,0.35);
-    --danger: #E24B4A;
-    --danger-dim: rgba(226,75,74,0.12);
-    --mono: 'DM Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0e0e0f;--surface:#18181a;--surface2:#222224;
+    --border:rgba(255,255,255,0.08);--border-h:rgba(255,255,255,0.18);
+    --text:#f0ede8;--muted:#888782;
+    --accent:#5DCAA5;--accent-dim:rgba(93,202,165,0.12);--accent-b:rgba(93,202,165,0.35);
+    --danger:#E24B4A;--danger-dim:rgba(226,75,74,0.12);
+    --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
   }
+  html,body{height:100%;overflow:hidden}
+  .root{font-family:var(--sans);background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;padding:1.25rem;gap:10px;overflow:hidden}
 
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .wordmark{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+  .wordmark span{color:var(--accent)}
+  .back-btn{background:var(--surface2);border:0.5px solid var(--border-h);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:12px;padding:8px 18px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;display:none;letter-spacing:.04em}
+  .back-btn:hover{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-b)}
+  .back-btn.show{display:block}
 
-  .wordmark {
-    font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: 0.18em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 3rem;
-  }
+  /* SETUP VIEW */
+  .setup-view{display:flex;gap:10px;flex:1;min-height:0}
+  .setup-view.hide{display:none}
 
-  .wordmark span { color: var(--accent); }
+  .col-left{width:240px;flex-shrink:0;background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:1.1rem;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+  .col-title{font-size:13px;font-weight:400;color:var(--text)}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field-label{font-size:10px;font-family:var(--mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .dir-input{background:var(--surface2);border:0.5px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--mono);font-size:11px;padding:7px 10px;width:100%;outline:none;transition:border-color .15s}
+  .dir-input:focus{border-color:var(--accent-b)}
+  select.dir-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23888782' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;cursor:pointer}
+  .toggle-group{display:flex;background:var(--surface2);border:0.5px solid var(--border);border-radius:7px;overflow:hidden;height:32px}
+  .toggle-group input[type=radio]{display:none}
+  .toggle-group label{flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:var(--muted);cursor:pointer;transition:background .15s,color .15s;user-select:none}
+  .toggle-group input[type=radio]:checked+label{background:var(--accent-dim);color:var(--accent);border:0.5px solid var(--accent-b)}
+  .tuned-row{overflow:hidden;max-height:0;opacity:0;transition:max-height .25s ease,opacity .2s ease}
+  .tuned-row.visible{max-height:60px;opacity:1}
 
-  .card {
-    width: 100%;
-    max-width: 520px;
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-  }
+  .col-center{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
+  .drop-zone{border:1px dashed var(--border-h);border-radius:10px;padding:.6rem .9rem;cursor:pointer;transition:border-color .2s,background .2s;position:relative;background:var(--surface2);flex-shrink:0;display:inline-flex;align-items:center;gap:8px;align-self:flex-start}
+  .drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent-b);background:var(--accent-dim)}
+  .drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .drop-icon{width:24px;height:24px;border:0.5px solid var(--border-h);border-radius:5px;display:flex;align-items:center;justify-content:center;background:var(--surface);flex-shrink:0}
+  .drop-icon svg{color:var(--accent)}
+  .drop-label{font-size:12px;color:var(--text);white-space:nowrap}
+  .drop-hint{font-size:10px;color:var(--muted);font-family:var(--mono);white-space:nowrap}
+  .setup-image-area{flex:1;min-height:0;border-radius:12px;overflow:hidden;border:0.5px solid var(--border);display:flex;flex-direction:column;background:var(--surface)}
+  .setup-viewport{flex:1;min-height:0;background:var(--surface2);display:flex;align-items:center;justify-content:center;cursor:zoom-in;position:relative;overflow:hidden}
+  .setup-viewport img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;pointer-events:none;display:none}
+  .empty-state{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:var(--muted);font-family:var(--mono);font-size:11px}
+  .setup-footer{padding:7px 12px;font-size:11px;font-family:var(--mono);color:var(--muted);background:var(--surface2);border-top:0.5px solid var(--border);display:none;align-items:center;justify-content:space-between;flex-shrink:0}
+  .setup-footer.show{display:flex}
+  .setup-footer span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;font-family:var(--mono);padding:0;transition:color .15s;flex-shrink:0;margin-left:8px}
+  .remove-btn:hover{color:var(--danger)}
 
-  h1 {
-    font-size: 20px;
-    font-weight: 400;
-    margin-bottom: 6px;
-  }
+  .col-right{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;min-height:0}
+  .drop-spacer{flex-shrink:0;visibility:hidden;display:inline-flex;align-items:center;gap:8px;padding:.6rem .9rem}
+  .labels-panel{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;overflow:hidden}
+  .labels-top{display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .add-label-btn{background:none;border:none;color:var(--accent);font-family:var(--mono);font-size:10px;cursor:pointer;padding:0;transition:opacity .15s;white-space:nowrap}
+  .add-label-btn:hover{opacity:.7}
+  .paste-row{display:flex;align-items:center;gap:6px;flex-shrink:0}
+  .paste-row input{flex:1;min-width:0;background:var(--surface2);border:0.5px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--mono);font-size:10px;padding:6px 9px;outline:none}
+  .paste-row input:focus{border-color:var(--accent-b)}
+  .labels-list{display:flex;flex-direction:column;gap:5px;flex:1;min-height:0;overflow-y:auto}
+  .label-item{display:flex;align-items:flex-start;gap:5px;flex-shrink:0}
+  .label-item input{flex:1;min-width:0;background:var(--surface2);border:0.5px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:10px;padding:6px 8px;outline:none;transition:border-color .15s;word-break:break-word;white-space:normal}
+  .label-item input:focus{border-color:var(--accent-b)}
+  .del-label-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;font-family:var(--mono);padding:0;line-height:1;transition:color .15s;flex-shrink:0;margin-top:5px}
+  .del-label-btn:hover{color:var(--danger)}
+  .cat-select{background:var(--surface2);border:0.5px solid var(--border);border-radius:6px;color:var(--muted);font-family:var(--mono);font-size:9px;padding:6px 18px 6px 6px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='7' height='4' viewBox='0 0 7 4' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L3.5 3L6 1' stroke='%23888782' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;flex-shrink:0;width:84px;transition:border-color .15s,color .15s}
+  .cat-select[data-cat="Musical"]{color:var(--accent);border-color:var(--accent-b);background-color:var(--accent-dim)}
+  .cat-select[data-cat="Non-Musical"]{color:#EF9F27;border-color:rgba(239,159,39,.35);background-color:rgba(239,159,39,.10)}
 
-  .subtitle {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 2rem;
-  }
+  /* RESULTS VIEW */
+  .results-view{display:none;gap:10px;flex:1;min-height:0}
+  .results-view.show{display:flex}
 
-  .drop-zone {
-    border: 1px dashed var(--border-hover);
-    border-radius: 12px;
-    padding: 3rem 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative;
-    background: var(--surface2);
-  }
+  .res-image-panel{flex:1;min-width:0;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:0.5px solid var(--border);background:var(--surface)}
+  .res-viewport{flex:1;min-height:0;background:var(--surface2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:zoom-in}
+  .res-viewport img{max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;user-select:none;pointer-events:none}
+  .zoom-hint{position:absolute;bottom:8px;right:10px;font-size:10px;font-family:var(--mono);color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:20px;border:0.5px solid var(--border);pointer-events:none;opacity:0;transition:opacity .4s}
+  .zoom-hint.show{opacity:1}
+  .zoom-reset{position:absolute;top:8px;right:8px;background:var(--surface);border:0.5px solid var(--border);color:var(--muted);font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;cursor:pointer;display:none;transition:color .15s}
+  .zoom-reset:hover{color:var(--accent)}
+  .res-img-footer{padding:7px 12px;font-size:11px;font-family:var(--mono);color:var(--muted);background:var(--surface2);border-top:0.5px solid var(--border);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-  .drop-zone:hover, .drop-zone.drag-over {
-    border-color: var(--accent-border);
-    background: var(--accent-dim);
-  }
+  .res-panel{flex:1;min-width:0;background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:1.1rem;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+  .res-saved{font-size:11px;font-family:var(--mono);color:var(--muted);flex-shrink:0}
+  .res-saved span{color:var(--accent)}
+  .res-table-wrap{flex:1;min-height:0;overflow-y:auto}
+  .res-table{width:100%;border-collapse:collapse;font-size:11px}
+  .res-table th{text-align:left;color:var(--muted);padding:4px 0;font-weight:400;border-bottom:0.5px solid var(--border);font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
+  .res-table td{padding:5px 0;border-bottom:0.5px solid var(--border);color:var(--text);vertical-align:middle;font-family:var(--mono);font-size:11px}
+  .res-table td:last-child{text-align:right;color:var(--accent)}
+  .score-cell{position:relative}
+  .score-bar{position:absolute;left:0;top:0;height:100%;background:var(--accent-dim);border-radius:3px;pointer-events:none}
+  .score-val{position:relative}
 
-  .drop-zone input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
-
-  .drop-icon {
-    width: 40px;
-    height: 40px;
-    margin: 0 auto 1rem;
-    border: 0.5px solid var(--border-hover);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--surface);
-  }
-
-  .drop-icon svg { color: var(--accent); }
-
-  .drop-label {
-    font-size: 14px;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-
-  .drop-hint {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: var(--mono);
-  }
-
-  .preview-area {
-    display: none;
-    margin-top: 1.5rem;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 0.5px solid var(--border);
-    position: relative;
-  }
-
-  .preview-area img {
-    width: 100%;
-    max-height: 240px;
-    object-fit: contain;
-    background: var(--surface2);  /* fills the letterbox areas */
-    display: block;
-  }
-
-  .preview-name {
-    padding: 10px 14px;
-    font-size: 12px;
-    font-family: var(--mono);
-    color: var(--muted);
-    background: var(--surface2);
-    border-top: 0.5px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .remove-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 13px;
-    font-family: var(--mono);
-    padding: 0;
-    transition: color 0.15s;
-  }
-  .remove-btn:hover { color: var(--danger); }
-
-  .dir-row {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .dir-label {
-    font-size: 12px;
-    font-family: var(--mono);
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .dir-input {
-    background: var(--surface2);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 13px;
-    padding: 10px 14px;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  .dir-input:focus { border-color: var(--accent-border); }
-
-  .row-2col {
-    margin-top: 1.5rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  select.dir-input {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23888782' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    cursor: pointer;
-  }
-
-  .toggle-group {
-    display: flex;
-    background: var(--surface2);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    height: 40px;
-  }
-
-  .toggle-group input[type="radio"] { display: none; }
-
-  .toggle-group label {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    user-select: none;
-  }
-
-  .toggle-group input[type="radio"]:checked + label {
-    background: var(--accent-dim);
-    color: var(--accent);
-    border: 0.5px solid var(--accent-border);
-  }
-
-  .tuned-weights-row {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition: max-height 0.25s ease, opacity 0.2s ease, margin-top 0.25s ease;
-    margin-top: 0;
-  }
-
-  .tuned-weights-row.visible {
-    max-height: 80px;
-    opacity: 1;
-    margin-top: 1.5rem;
-  }
-
-  .labels-area {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .labels-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .add-label-btn {
-    background: none;
-    border: none;
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 12px;
-    cursor: pointer;
-    padding: 0;
-    transition: opacity 0.15s;
-  }
-  .add-label-btn:hover { opacity: 0.7; }
-
-  .labels-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .label-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .label-item input {
-    flex: 1;
-    background: var(--surface2);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 12px;
-    padding: 8px 12px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  .label-item input:focus { border-color: var(--accent-border); }
-
-  .del-label-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 18px;
-    font-family: var(--mono);
-    padding: 0;
-    line-height: 1;
-    transition: color 0.15s;
-    flex-shrink: 0;
-  }
-  .del-label-btn:hover { color: var(--danger); }
-
-  .upload-btn {
-    margin-top: 1.5rem;
-    width: 100%;
-    background: var(--accent);
-    color: #04342C;
-    border: none;
-    border-radius: 8px;
-    padding: 12px;
-    font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-    font-weight: 500;
-  }
-
-  .upload-btn:hover { opacity: 0.88; }
-  .upload-btn:active { transform: scale(0.99); }
-  .upload-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  .status {
-    display: none;
-    margin-top: 1.5rem;
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    font-size: 13px;
-    font-family: var(--mono);
-  }
-
-  .status.loading {
-    display: block;
-    background: var(--surface2);
-    border: 0.5px solid var(--border);
-    color: var(--muted);
-  }
-
-  .status.success {
-    display: block;
-    background: var(--accent-dim);
-    border: 0.5px solid var(--accent-border);
-    color: var(--accent);
-  }
-
-  .status.error {
-    display: block;
-    background: var(--danger-dim);
-    border: 0.5px solid rgba(226,75,74,0.35);
-    color: var(--danger);
-  }
-
-  .results-table {
-    margin-top: 1rem;
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-  }
-
-  .results-table th {
-    text-align: left;
-    color: var(--muted);
-    padding: 4px 0;
-    font-weight: 400;
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  .results-table td {
-    padding: 6px 0;
-    border-bottom: 0.5px solid var(--border);
-    color: var(--text);
-    vertical-align: top;
-  }
-
-  .results-table td:last-child { color: var(--accent); text-align: right; }
-
-  .spinner {
-    display: inline-block;
-    width: 10px; height: 10px;
-    border: 1.5px solid var(--muted);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    margin-right: 8px;
-    vertical-align: middle;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .cat-select {
-    background: var(--surface2);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 11px;
-    padding: 8px 24px 8px 8px;
-    outline: none;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='8' height='5' viewBox='0 0 8 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L4 4L7 1' stroke='%23888782' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    transition: border-color 0.15s, color 0.15s;
-    flex-shrink: 0;
-    width: 120px;
-  }
-  .cat-select[data-cat="Musical"] {
-    color: var(--accent);
-    border-color: var(--accent-border);
-    background-color: var(--accent-dim);
-  }
-  .cat-select[data-cat="Non-Musical"] {
-    color: #EF9F27;
-    border-color: rgba(239,159,39,0.35);
-    background-color: rgba(239,159,39,0.10);
-  }
-  .cat-select[data-cat="Generic"] {
-    color: var(--muted);
-    border-color: var(--border);
-    background-color: var(--surface2);
-  }
-  .results-table .cat-pill {
-    font-size: 10px; padding: 2px 6px; border-radius: 20px;
-    font-family: var(--mono); display: inline-block; margin-left: 6px;
-  }
-  .cat-pill.Musical     { background: var(--accent-dim); color: var(--accent); }
-  .cat-pill.Non-Musical { background: rgba(239,159,39,0.10); color: #EF9F27; }
-  .cat-pill.Generic     { background: var(--surface2); color: var(--muted); }
+  /* BOTTOM */
+  .bottom-bar{display:flex;align-items:center;gap:10px;flex-shrink:0;height:38px}
+  .bottom-bar.setup{padding-left:250px}
+  .run-btn{background:var(--accent);color:#04342C;border:none;border-radius:7px;padding:0 24px;height:38px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;cursor:pointer;transition:opacity .15s,transform .1s;font-weight:500;flex-shrink:0}
+  .run-btn:hover{opacity:.88}
+  .run-btn:active{transform:scale(.99)}
+  .run-btn:disabled{opacity:.35;cursor:not-allowed}
+  .status-bar{flex:1;height:38px;display:none;align-items:center;padding:0 12px;background:var(--surface);border:0.5px solid var(--border);border-radius:8px;font-family:var(--mono);font-size:11px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .status-bar.show{display:flex}
+  .status-bar.loading{color:var(--muted)}
+  .status-bar.error{background:var(--danger-dim);border-color:rgba(226,75,74,.35);color:var(--danger)}
+  .spinner{display:inline-block;width:9px;height:9px;border:1.5px solid var(--muted);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-right:7px;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-
-<div class="wordmark">drishti / <span>clip inference</span></div>
-
-<div class="card">
-  <h1>Upload query image</h1>
-  <p class="subtitle">Image is saved to the target directory and run through CLIP inference.</p>
-
-  <div class="drop-zone" id="dropZone">
-    <input type="file" id="fileInput" accept="image/*">
-    <div class="drop-icon">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-        <polyline points="17 8 12 3 7 8"/>
-        <line x1="12" y1="3" x2="12" y2="15"/>
-      </svg>
-    </div>
-    <p class="drop-label">Drop image here or click to browse</p>
-    <p class="drop-hint">jpg · png · webp · gif</p>
+<div class="root">
+  <div class="topbar">
+    <div class="wordmark">drishti / <span>clip inference</span></div>
+    <button class="back-btn" id="backBtn">← new query</button>
   </div>
 
-  <div class="preview-area" id="previewArea">
-    <img id="previewImg" src="" alt="preview">
-    <div class="preview-name">
-      <span id="previewName"></span>
-      <button class="remove-btn" id="removeBtn">remove</button>
+  <!-- SETUP VIEW -->
+  <div class="setup-view" id="setupView">
+    <div class="col-left">
+      <span class="col-title">Configuration</span>
+      <div class="field">
+        <span class="field-label">Target directory</span>
+        <input class="dir-input" type="text" id="dirInput" value="data/inference/query_images">
+      </div>
+      <div class="field">
+        <span class="field-label">Model</span>
+        <select class="dir-input" id="modelSelect">
+          <option value="ViT-B/32">ViT-B/32</option>
+          <option value="ViT-B/16">ViT-B/16</option>
+          <option value="ViT-L/14">ViT-L/14</option>
+          <option value="RN50">RN50</option>
+          <option value="RN101">RN101</option>
+        </select>
+      </div>
+      <div class="field">
+        <span class="field-label">Weights</span>
+        <div class="toggle-group">
+          <input type="radio" name="tuned" id="base" value="base" checked>
+          <label for="base">base</label>
+          <input type="radio" name="tuned" id="tuned" value="tuned">
+          <label for="tuned">tuned</label>
+        </div>
+      </div>
+      <div class="tuned-row" id="tunedRow">
+        <div class="field">
+          <span class="field-label">Weights path</span>
+          <input class="dir-input" type="text" id="weightsInput" placeholder="checkpoints/clip_finetuned.pt">
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="dir-row">
-    <label class="dir-label" for="dirInput">target directory</label>
-    <input class="dir-input" type="text" id="dirInput" value="data/inference/query_images" placeholder="data/inference/query_images">
-  </div>
-
-  <div class="row-2col">
-    <div class="field">
-      <label class="dir-label" for="modelSelect">model</label>
-      <select class="dir-input" id="modelSelect">
-        <option value="ViT-B/32">ViT-B/32</option>
-        <option value="ViT-B/16">ViT-B/16</option>
-        <option value="ViT-L/14">ViT-L/14</option>
-        <option value="RN50">RN50</option>
-        <option value="RN101">RN101</option>
-      </select>
+    <div class="col-center">
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept="image/*">
+        <div class="drop-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <p class="drop-label">Drop image or click to browse</p>
+          <p class="drop-hint">jpg · png · webp · gif</p>
+        </div>
+      </div>
+      <div class="setup-image-area">
+        <div class="setup-viewport" id="setupViewport">
+          <div class="empty-state" id="emptyState">no image loaded</div>
+          <img id="setupImg" src="" alt="preview">
+        </div>
+        <div class="setup-footer" id="setupFooter">
+          <span id="setupFilename"></span>
+          <button class="remove-btn" id="removeBtn">remove</button>
+        </div>
+      </div>
     </div>
 
-    <div class="field">
-      <label class="dir-label">weights</label>
-      <div class="toggle-group">
-        <input type="radio" name="tuned" id="base" value="base" checked>
-        <label for="base">base</label>
-        <input type="radio" name="tuned" id="tuned" value="tuned">
-        <label for="tuned">tuned</label>
+    <div class="col-right">
+      <div class="drop-spacer" id="dropSpacer">
+        <div style="width:24px;height:24px"></div>
+        <div>
+          <p style="font-size:12px;white-space:nowrap;visibility:hidden">Drop image or click to browse</p>
+          <p style="font-size:10px;white-space:nowrap;visibility:hidden">jpg · png · webp · gif</p>
+        </div>
+      </div>
+      <div class="labels-panel">
+        <div class="labels-top">
+          <span class="col-title">Labels</span>
+          <div style="display:flex;gap:10px">
+            <button class="add-label-btn" id="pasteBtn">import</button>
+            <button class="add-label-btn" id="addLabelBtn">+ add</button>
+          </div>
+        </div>
+        <div class="paste-row">
+          <input type="text" id="pasteInput" placeholder='["label1","label2"]'>
+        </div>
+        <div class="labels-list" id="labelsList"></div>
       </div>
     </div>
   </div>
 
-  <div class="tuned-weights-row" id="tunedWeightsRow">
-    <label class="dir-label" for="weightsInput">tuned weights path</label>
-    <input class="dir-input" type="text" id="weightsInput" placeholder="checkpoints/clip_finetuned.pt">
+  <!-- RESULTS VIEW -->
+  <div class="results-view" id="resultsView">
+    <div class="res-image-panel">
+      <div class="res-viewport" id="resViewport">
+        <img id="resImg" src="" alt="result image">
+        <span class="zoom-hint" id="zoomHint">scroll to zoom</span>
+        <button class="zoom-reset" id="zoomReset">reset zoom</button>
+      </div>
+      <div class="res-img-footer" id="resImgFooter"></div>
+    </div>
+    <div class="res-panel">
+      <div class="res-saved" id="resSaved"></div>
+      <div class="res-table-wrap">
+        <table class="res-table">
+          <thead><tr><th>label</th><th>score</th></tr></thead>
+          <tbody id="resTbody"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
-  <div class="labels-area">
-    <div class="labels-header">
-      <span class="dir-label">labels</span>
-      <button class="add-label-btn" id="addLabelBtn">+ add</button>
-    </div>
-    <div class="label-item" id="pasteRow">
-      <input class="dir-input" type="text" id="pasteInput" placeholder='paste JSON array  ["label1", "label2"]' style="font-size:12px; padding: 8px 12px;">
-      <button class="add-label-btn" id="pasteBtn" style="white-space:nowrap; padding: 0 4px;">import</button>
-    </div>
-    <div class="labels-list" id="labelsList">
-      <!-- default labels -->
-    </div>
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar setup" id="bottomBar">
+    <button class="run-btn" id="uploadBtn" disabled>run inference</button>
+    <div class="status-bar" id="statusBar"></div>
   </div>
-
-  <button class="upload-btn" id="uploadBtn" disabled>run inference</button>
-
-  <div class="status" id="status"></div>
 </div>
 
 <script>
-  const dropZone    = document.getElementById('dropZone');
-  const fileInput   = document.getElementById('fileInput');
-  const previewArea = document.getElementById('previewArea');
-  const previewImg  = document.getElementById('previewImg');
-  const previewName = document.getElementById('previewName');
-  const removeBtn   = document.getElementById('removeBtn');
-  const uploadBtn   = document.getElementById('uploadBtn');
-  const dirInput    = document.getElementById('dirInput');
-  const modelSelect = document.getElementById('modelSelect');
-  const labelsList  = document.getElementById('labelsList');
-  const addLabelBtn = document.getElementById('addLabelBtn');
-  const status      = document.getElementById('status');
+const setupView=document.getElementById('setupView'),
+  resultsView=document.getElementById('resultsView'),
+  backBtn=document.getElementById('backBtn'),
+  bottomBar=document.getElementById('bottomBar'),
+  dropZone=document.getElementById('dropZone'),
+  fileInput=document.getElementById('fileInput'),
+  setupImg=document.getElementById('setupImg'),
+  emptyState=document.getElementById('emptyState'),
+  setupFooter=document.getElementById('setupFooter'),
+  setupFilename=document.getElementById('setupFilename'),
+  removeBtn=document.getElementById('removeBtn'),
+  uploadBtn=document.getElementById('uploadBtn'),
+  dirInput=document.getElementById('dirInput'),
+  modelSelect=document.getElementById('modelSelect'),
+  labelsList=document.getElementById('labelsList'),
+  statusBar=document.getElementById('statusBar'),
+  tunedRow=document.getElementById('tunedRow'),
+  weightsInput=document.getElementById('weightsInput'),
+  dropSpacer=document.getElementById('dropSpacer'),
+  resViewport=document.getElementById('resViewport'),
+  resImg=document.getElementById('resImg'),
+  resImgFooter=document.getElementById('resImgFooter'),
+  resSaved=document.getElementById('resSaved'),
+  resTbody=document.getElementById('resTbody'),
+  zoomHint=document.getElementById('zoomHint'),
+  zoomReset=document.getElementById('zoomReset');
 
-  const tunedWeightsRow = document.getElementById('tunedWeightsRow');
-  const weightsInput    = document.getElementById('weightsInput');
+function syncSpacer(){dropSpacer.style.height=dropZone.offsetHeight+'px'}
+new ResizeObserver(syncSpacer).observe(dropZone);syncSpacer();
 
-  document.querySelectorAll('input[name="tuned"]').forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (radio.value === 'tuned' && radio.checked) {
-        tunedWeightsRow.classList.add('visible');
-        weightsInput.focus();
-      } else {
-        tunedWeightsRow.classList.remove('visible');
-      }
-    });
+document.querySelectorAll('input[name="tuned"]').forEach(r=>{
+  r.addEventListener('change',()=>{
+    if(r.value==='tuned'&&r.checked){tunedRow.classList.add('visible');weightsInput.focus()}
+    else tunedRow.classList.remove('visible');
   });
+});
 
-  let selectedFile = null;
-  let uploadedFile = null;
+let selectedFile=null,uploadedFile=null;
+let hintTimer;
+function flashHint(){zoomHint.classList.add('show');clearTimeout(hintTimer);hintTimer=setTimeout(()=>zoomHint.classList.remove('show'),2200)}
 
-  fileInput.addEventListener('change', e => {
-    if (e.target.files[0]) setFile(e.target.files[0]);
-  });
+// ── zoom + pan (shared for both viewports) ──────────────────
+function makeZoomPan(viewport, getImg, onReset){
+  let zoom=1,ox=0,oy=0,dragging=false,dragStartX=0,dragStartY=0,dragOriginX=0,dragOriginY=0;
 
-  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-  dropZone.addEventListener('drop', e => {
+  function apply(){
+    getImg().style.transform=`translate(${ox}px,${oy}px) scale(${zoom})`;
+  }
+  function reset(){
+    zoom=1;ox=0;oy=0;apply();
+    viewport.style.cursor='zoom-in';
+    if(onReset)onReset();
+  }
+
+  viewport.addEventListener('wheel',e=>{
+    if(!getImg().src||getImg().style.display==='none')return;
     e.preventDefault();
-    dropZone.classList.remove('drag-over');
-    if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+    zoom=Math.min(5,Math.max(1,zoom+(e.deltaY<0?0.15:-0.15)));
+    apply();
+    viewport.style.cursor=zoom>1?'grab':'zoom-in';
+  },{passive:false});
+
+  viewport.addEventListener('mousedown',e=>{
+    if(zoom<=1||!getImg().src||getImg().style.display==='none')return;
+    dragging=true;
+    dragStartX=e.clientX;dragStartY=e.clientY;
+    dragOriginX=ox;dragOriginY=oy;
+    viewport.style.cursor='grabbing';
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    ox=dragOriginX+(e.clientX-dragStartX);
+    oy=dragOriginY+(e.clientY-dragStartY);
+    apply();
+  });
+  window.addEventListener('mouseup',()=>{
+    if(!dragging)return;
+    dragging=false;
+    viewport.style.cursor=zoom>1?'grab':'zoom-in';
   });
 
-  function setFile(file) {
-    selectedFile = file;
-    const reader = new FileReader();
-    reader.onload = e => {
-      previewImg.src = e.target.result;
-      previewArea.style.display = 'block';
-      previewName.textContent = file.name;
-      uploadBtn.disabled = false;
-    };
-    reader.readAsDataURL(file);
-    status.className = 'status';
+  return {reset, apply};
+}
+
+// setup viewport zoom/pan
+const setupZP=makeZoomPan(
+  document.getElementById('setupViewport'),
+  ()=>setupImg,
+  null
+);
+
+// results viewport zoom/pan
+const resZP=makeZoomPan(
+  resViewport,
+  ()=>resImg,
+  ()=>{ zoomReset.style.display='none'; }
+);
+
+function resetTransform(){
+  resZP.reset();
+  zoomReset.style.display='none';
+  resViewport.style.cursor='zoom-in';
+}
+
+// show/hide zoom-reset button based on res viewport wheel
+resViewport.addEventListener('wheel',()=>{
+  zoomReset.style.display=resImg.style.transform&&resImg.style.transform!=='translate(0px,0px) scale(1)'?'block':'none';
+},{passive:true});
+
+zoomReset.addEventListener('click',resetTransform);
+// ────────────────────────────────────────────────────────────
+
+backBtn.addEventListener('click',()=>{
+  resultsView.classList.remove('show');
+  setupView.classList.remove('hide');
+  backBtn.classList.remove('show');
+  bottomBar.classList.add('setup');
+  statusBar.className='status-bar';
+  resetTransform();
+});
+
+fileInput.addEventListener('change',e=>{if(e.target.files[0])setFile(e.target.files[0])});
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('drag-over')});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('drag-over');if(e.dataTransfer.files[0])setFile(e.dataTransfer.files[0])});
+
+function setFile(file){
+  selectedFile=file;
+  const r=new FileReader();
+  r.onload=e=>{
+    setupImg.src=e.target.result;
+    setupImg.style.display='block';
+    emptyState.style.display='none';
+    setupFooter.classList.add('show');
+    setupFilename.textContent=file.name;
+    uploadBtn.disabled=false;
+    setupZP.reset();
+  };
+  r.readAsDataURL(file);
+}
+
+removeBtn.addEventListener('click',()=>{
+  selectedFile=null;fileInput.value='';
+  setupImg.style.display='none';setupImg.src='';
+  emptyState.style.display='flex';
+  setupFooter.classList.remove('show');
+  uploadBtn.disabled=true;
+  setupZP.reset();
+});
+
+const CATEGORIES=["Musical","Non-Musical","Generic"];
+function makeCatSelect(def="Generic"){
+  const sel=document.createElement("select");sel.className="cat-select";
+  CATEGORIES.forEach(cat=>{const o=document.createElement("option");o.value=cat;o.textContent=cat;if(cat===def)o.selected=true;sel.appendChild(o)});
+  sel.dataset.cat=def;sel.addEventListener("change",()=>sel.dataset.cat=sel.value);
+  return sel;
+}
+function addLabel(value="",category="Generic"){
+  const item=document.createElement("div");item.className="label-item";
+  const input=document.createElement("input");input.type="text";input.placeholder="e.g. a photo of a veena player";input.value=value;
+  const catSel=makeCatSelect(category);
+  const delBtn=document.createElement("button");delBtn.className="del-label-btn";delBtn.title="remove";delBtn.textContent="×";
+  delBtn.addEventListener("click",()=>{if(labelsList.children.length>1)item.remove()});
+  item.appendChild(input);item.appendChild(catSel);item.appendChild(delBtn);
+  labelsList.appendChild(item);
+  if(!value)input.focus();
+}
+
+const pasteInput=document.getElementById('pasteInput'),pasteBtn=document.getElementById('pasteBtn');
+function importFromArray(raw){
+  try{
+    const arr=JSON.parse(raw.trim());if(!Array.isArray(arr))throw new Error();
+    arr.map(l=>String(l).trim()).filter(Boolean).forEach(l=>addLabel(l,"Generic"));
+    pasteInput.value='';pasteInput.style.borderColor='';
+  }catch{pasteInput.style.borderColor='var(--danger)';setTimeout(()=>pasteInput.style.borderColor='',1500)}
+}
+pasteBtn.addEventListener("click",()=>{if(pasteInput.value.trim())importFromArray(pasteInput.value)});
+pasteInput.addEventListener("keydown",e=>{if(e.key==="Enter"&&pasteInput.value.trim())importFromArray(pasteInput.value)});
+pasteInput.addEventListener("paste",e=>{const t=e.clipboardData.getData("text").trim();if(t.startsWith("["))importFromArray(t)});
+document.getElementById("addLabelBtn").addEventListener("click",()=>addLabel());
+
+addLabel("inanimate objects with no people present","Generic");
+addLabel("a person or people present","Generic");
+
+function getLabels(){
+  return Array.from(labelsList.querySelectorAll(".label-item")).map(item=>({
+    label:item.querySelector("input").value.trim(),
+    category:item.querySelector(".cat-select").value
+  })).filter(l=>l.label);
+}
+
+uploadBtn.addEventListener('click',async()=>{
+  if(!selectedFile)return;
+  const labels=getLabels();
+  if(!labels.length){
+    statusBar.className='status-bar error show';statusBar.textContent='add at least one label.';return;
   }
+  uploadBtn.disabled=true;
+  statusBar.className='status-bar loading show';
+  statusBar.innerHTML='<span class="spinner"></span>running inference...';
 
-  removeBtn.addEventListener('click', () => {
-    selectedFile = null;
-    fileInput.value = '';
-    previewArea.style.display = 'none';
-    previewImg.src = '';
-    uploadBtn.disabled = true;
-    status.className = 'status';
-  });
+  const tuned=document.querySelector('input[name="tuned"]:checked').value;
+  const formData=new FormData();
+  if(uploadedFile!==selectedFile){formData.append('image',selectedFile);uploadedFile=selectedFile}
+  else formData.append('server-image-name',selectedFile.name);
+  formData.append('directory',dirInput.value);
+  formData.append('model',modelSelect.value);
+  formData.append('tuned',tuned);
+  if(tuned==='tuned')formData.append('weights_path',weightsInput.value.trim());
+  formData.append('labels',JSON.stringify(labels));
 
-  const CATEGORIES = ["Musical", "Non-Musical", "Generic"];
+  try{
+    const res=await fetch(`http://${window.location.hostname}:8000/upload`,{method:'POST',body:formData});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error||'Upload failed');
 
-  function makeCatSelect(defaultCat = "Generic") {
-    const sel = document.createElement("select");
-    sel.className = "cat-select";
-    CATEGORIES.forEach(cat => {
-      const opt = document.createElement("option");
-      opt.value = cat;
-      opt.textContent = cat;
-      if (cat === defaultCat) opt.selected = true;
-      sel.appendChild(opt);
-    });
-    // Set initial color
-    sel.dataset.cat = defaultCat;
-    // Update color on change
-    sel.addEventListener("change", () => {
-      sel.dataset.cat = sel.value;
-    });
-    return sel;
-  }
+    resImg.src=setupImg.src;
+    resImgFooter.textContent=selectedFile.name;
+    resSaved.innerHTML=`saved → <span>${data.filename}</span>`;
+    resTbody.innerHTML='';
 
-  function addLabel(value = "", category = "Generic") {
-    const item = document.createElement("div");
-    item.className = "label-item";
-
-    const input = document.createElement("input");
-    input.type = "text";
-    input.placeholder = "e.g. a photo of a veena player";
-    input.value = value;
-
-    const catSel = makeCatSelect(category);
-
-    const delBtn = document.createElement("button");
-    delBtn.className = "del-label-btn";
-    delBtn.title = "remove";
-    delBtn.textContent = "×";
-    delBtn.addEventListener("click", () => {
-      if (labelsList.children.length > 1) item.remove();
-    });
-
-    item.appendChild(input);
-    item.appendChild(catSel);
-    item.appendChild(delBtn);
-    labelsList.appendChild(item);
-    input.focus();
-  }
-
-  const pasteInput = document.getElementById('pasteInput');
-  const pasteBtn   = document.getElementById('pasteBtn');
-
-  function importFromArray(raw) {
-    try {
-      const arr = JSON.parse(raw.trim());
-      if (!Array.isArray(arr)) throw new Error();
-      arr.map(l => String(l).trim()).filter(Boolean).forEach(l => addLabel(l, "Generic"));
-      pasteInput.value = "";
-      pasteInput.style.borderColor = "";
-    } catch {
-      pasteInput.style.borderColor = "var(--danger)";
-      setTimeout(() => pasteInput.style.borderColor = "", 1500);
+    if(data.matches&&data.matches.length){
+      const max=parseFloat(data.matches[0].percentage);
+      data.matches.forEach(m=>{
+        const pct=parseFloat(m.percentage);
+        const barW=max>0?Math.round(pct/max*100):0;
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${m.label}</td><td class="score-cell"><div class="score-bar" style="width:${barW}%"></div><span class="score-val">${m.percentage}</span></td>`;
+        resTbody.appendChild(tr);
+      });
     }
-  }
 
-  document.getElementById("pasteBtn").addEventListener("click", () => {
-    if (pasteInput.value.trim()) importFromArray(pasteInput.value);
-  });
+    setupView.classList.add('hide');
+    resultsView.classList.add('show');
+    backBtn.classList.add('show');
+    bottomBar.classList.remove('setup');
+    statusBar.className='status-bar';
+    resetTransform();
+    flashHint();
 
-  pasteInput.addEventListener("keydown", e => {
-    if (e.key === "Enter" && pasteInput.value.trim()) importFromArray(pasteInput.value);
-  });
-  pasteInput.addEventListener("paste", e => {
-    const text = e.clipboardData.getData("text").trim();
-    if (text.startsWith("[")) { e.preventDefault(); importFromArray(text); }
-  });
-
-
-  // Add two default labels
-  addLabel("inanimate objects with no people present", "Generic");
-  addLabel("a person or people present", "Generic");
-
-  labelsList.querySelectorAll('.del-label-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (labelsList.children.length > 1) btn.closest('.label-item').remove();
-    });
-  });
-
-  function getLabels() {
-    return Array.from(labelsList.querySelectorAll(".label-item")).map(item => ({
-      label:    item.querySelector("input").value.trim(),
-      category: item.querySelector(".cat-select").value,
-    })).filter(l => l.label);
-  }
-
-  document.getElementById("addLabelBtn").addEventListener("click", () => addLabel());
-
-  uploadBtn.addEventListener('click', async () => {
-    if (!selectedFile) return;
-    const labels = getLabels();
-    if (!labels.length) {
-      status.className = 'status error';
-      status.textContent = 'add at least one label before running inference.';
-      return;
-    }
-
-    uploadBtn.disabled = true;
-    status.className = 'status loading';
-    status.innerHTML = '<span class="spinner"></span>uploading and running inference...';
-
-    const tuned = document.querySelector('input[name="tuned"]:checked').value;
-
-    const formData = new FormData();
-    if (uploadedFile !== selectedFile) {
-        formData.append('image',     selectedFile);
-        uploadedFile = selectedFile;
-    } else {
-        formData.append('server-image-name', selectedFile.name);
-    }
-
-    formData.append('directory', dirInput.value);
-    formData.append('model',     modelSelect.value);
-    formData.append('tuned',     tuned);
-    if (tuned === 'tuned') formData.append('weights_path', weightsInput.value.trim());
-    formData.append('labels',    JSON.stringify(labels));
-
-    try {
-      const res = await fetch(`http://${window.location.hostname}:8000/upload`, { method: 'POST', body: formData });
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.error || 'Upload failed');
-
-      let html = `saved → <strong>${data.filename}</strong>`;
-
-      if (data.matches && data.matches.length) {
-        html += `<table class="results-table">
-          <thead><tr><th>label</th><th>score</th></tr></thead>
-          <tbody>`;
-        data.matches.forEach(m => {
-          html += `<tr><td>${m.label}</td><td>${m.score}</td></tr>`;
-        });
-        html += `</tbody></table>`;
-      }
-
-      status.className = 'status success';
-      status.innerHTML = html;
-    } catch (err) {
-      status.className = 'status error';
-      status.textContent = err.message;
-    } finally {
-      uploadBtn.disabled = false;
-    }
-  });
+  }catch(err){
+    statusBar.className='status-bar error show';statusBar.textContent=err.message;
+  }finally{uploadBtn.disabled=false}
+});
 </script>
 </body>
 </html>

@@ -143,6 +143,8 @@ These labels are fairly working.
     "A woman in traditional Indian clothing",
     "A group of people in a royal court setting"
 ]
+
+
 drishti-admin/testpassword123
 python -m pip install "pymongo[srv]
 mongodb+srv://drishti-admin:testpassword123@cluster0.0p2owuz.mongodb.net/?appName=Cluster0

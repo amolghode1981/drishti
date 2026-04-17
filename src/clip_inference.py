@@ -38,28 +38,19 @@ def load_model(modelname, modeltype, weightpath):
 
 
 def create_output(filename, similarity, labels):
-    percentages = (similarity[0] * 100).round(decimals=2)
     filename = str(filename)   # Convert PosixPath to string
     rows = []
-    for label, score in zip(labels, percentages):
-        data = {
-            "label": label,
-            "score": score
-        }
-        rows.append(data)
+    for label, score in zip(labels, similarity[0]):
+        label_handler.setScore(label, score)
 
-    dataframe = pd.DataFrame(rows)
+
+    dataframe = label_handler.getAsDataframe()
     dataframe["filename"] = filename
-    dataframe = dataframe.sort_values(by="score", ascending=False).reset_index(drop=True)
-    dataframe["similarity"] = dataframe["score"].apply(lambda x: round(float(x), 2))
-    dataframe["score"] = dataframe["score"].apply(lambda x: f"{x:.2f}%")
-    #print(f"{filename}:\n{dataframe.to_string(index=False)}")
     import json
     result = {
         "filename": filename,
         "matches": dataframe.to_dict(orient="records")
     }
-    print(result)
     return result
 
 def get_embeddings(image_path, labels):
@@ -206,6 +197,7 @@ if __name__ == "__main__":
 
 
 def run_query(model, flavor, weightpath, labels, query_path):
+    global label_handler
     print(f" model = {model} tuned/base = {flavor} labels = {labels} query = {query_path}")
     label_handler = src.web.labels.LabelHandler(labels)
     queriable_labels = label_handler.getQueriableLabels()

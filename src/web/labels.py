@@ -1,5 +1,7 @@
 from enum import Enum
 
+import pandas
+
 class LabelType(Enum):
     MUSICAL = "Musical"
     NON_MUSICAL = "Non-Musical"
@@ -44,3 +46,17 @@ class LabelHandler:
                 break
     def getScores(self):
         return {label.name: label.score for label in self.labels}
+    def getAsDataframe(self):
+        import pandas as pd
+        data = []
+        for label in self.labels:
+            data.append({
+                "label": label.name,
+                "score": label.score,
+                "percentage": f"{label.score*100:.2f}%"
+            })
+
+        dataframe = pandas.DataFrame(data)
+        dataframe = dataframe.sort_values(by="score", ascending=False).reset_index(drop=True)
+        dataframe["score"] = dataframe["score"].apply(lambda x: round(float(x), 2))
+        return dataframe
