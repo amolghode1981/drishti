@@ -14,7 +14,7 @@ class Label:
         self.score = 0.0
 
     def __str__(self):
-        return self.name
+        return f"<Label: {self.name}, score: {self.score:.4f}>"
 
     def __repr__(self):
         return self.name

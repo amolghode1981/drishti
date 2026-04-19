@@ -1,12 +1,13 @@
 from os import read
 
 from networkx import dfs_edges
-from numpy import average
+from numpy import average, var
 from pandas import DataFrame
 from rich import json
 
 from src.web.labels import LabelHandler
 from src.web.db import get_collection
+import numpy as np
 
 
 class Analysis:
@@ -54,14 +55,89 @@ class Analysis:
             self.label_handler.setScore(label, average_score)
 
     def analyzeImage(self):
-        self.__process_readings(self.readings)
-        self.__debug_print({"labels": self.label_handler.getAsDataframe().to_dict(orient="records")})
-        musical_labels = self.label_handler.getMusicalLabels()
-        non_musical_labels = self.label_handler.getNonMusicalLabels()
-        generic_labels = self.label_handler.getGenericLabels()
-        compute_musical_score = average([label.score for label in musical_labels]) if musical_labels else 0
-        compute_non_musical_score = average([label.score for label in non_musical_labels]) if non_musical_labels else 0
-        compute_generic_score = average([label.score for label in generic_labels]) if generic_labels else 0
-        print(f"Musical Score: {compute_musical_score:.4f}")
-        print(f"Non-Musical Score: {compute_non_musical_score:.4f}")
-        print(f"Generic Score: {compute_generic_score:.4f}")
+        try:
+            self.__process_readings(self.readings)
+            # self.__debug_print({"labels": self.label_handler.getAsDataframe().to_dict(orient="records")})
+            musical_labels = self.label_handler.getMusicalLabels()
+            non_musical_labels = self.label_handler.getNonMusicalLabels()
+
+            # musical_score = 0
+            # for label in musical_labels:
+            #     musical_score += label.score
+            # print(f"Musical score average  : {musical_score/len(musical_labels) if musical_labels else 0:.4f}")
+            # compute_non_musical_score = 0
+            # for label in non_musical_labels:
+            #     compute_non_musical_score += label.score
+            # print(f"Non-musical score average  : {compute_non_musical_score/len(non_musical_labels) if non_musical_labels else 0:.4f}")
+
+            compute_musical_score = average([label.score for label in musical_labels]) if musical_labels else 0
+            compute_non_musical_score = average([label.score for label in non_musical_labels]) if non_musical_labels else 0
+            print(f"Non-musical labels: {non_musical_labels}")
+            musical_to_non_musical_ratio = (compute_musical_score / compute_non_musical_score)
+            output = {
+                "musical_score": compute_musical_score,
+                "non_musical_score": compute_non_musical_score,
+                "outcome": "MUSICAL" if musical_to_non_musical_ratio > 1 else "NON-MUSICAL" if musical_to_non_musical_ratio < 1 else "INCONCLUSIVE",
+            }
+            # if musical_to_non_musical_ratio > 1:
+            #     print(f"Image {self.checksum[:12]}... is likely MUSICAL (ratio: {musical_to_non_musical_ratio:.2f})")
+            # elif musical_to_non_musical_ratio < 1:
+            #     print(f"Image {self.checksum[:12]}... is likely NON-MUSICAL (ratio: {musical_to_non_musical_ratio:.2f})")
+            return output
+        except Exception as e:
+            print(f"Error analyzing image {self.checksum[:12]}...: {e}")
+            return {
+                "musical_score": 0,
+                "non_musical_score": 0,
+                "outcome": "ERROR",
+            }
+    '''
+    Doesnt seem to be of any significance to compute the variance of the scores, as it is not a measure of confidence but rather a measure of consistency across readings.
+    A high variance could indicate that the model is uncertain about the label, while a low variance could indicate that the model is confident about the label.
+      However, in practice, the variance may not be a reliable indicator of confidence,
+      as it can be influenced by various factors such as the quality of the image, the diversity of the training data,
+      and the complexity of the model. Therefore, it may be more effective to focus on the average scores and their ratios to
+      determine whether an image is musical or non-musical, rather than relying on variance as a measure of confidence.
+    '''
+    # def analyzeImageCombinedSignal(self):
+    #     try:
+    #         self.__process_readings(self.readings)
+    #         # self.__debug_print({"labels": self.label_handler.getAsDataframe().to_dict(orient="records")})
+    #         musical_labels = self.label_handler.getMusicalLabels()
+    #         non_musical_labels = self.label_handler.getNonMusicalLabels()
+
+    #         musical_score = 0
+    #         # for label in musical_labels:
+    #         #     musical_score += label.score
+    #         # print(f"Musical score average  : {musical_score/len(musical_labels) if musical_labels else 0:.4f}")
+    #         # compute_non_musical_score = 0
+    #         # for label in non_musical_labels:
+    #         #     compute_non_musical_score += label.score
+    #         # print(f"Non-musical score average  : {compute_non_musical_score/len(non_musical_labels) if non_musical_labels else 0:.4f}")
+
+    #         compute_musical_score = average([label.score for label in musical_labels]) if musical_labels else 0
+    #         compute_non_musical_score = average([label.score for label in non_musical_labels]) if non_musical_labels else 0
+    #         variance_musical_score = var([label.score for label in musical_labels]) if musical_labels else 0
+    #         variance_non_musical_score = var([label.score for label in non_musical_labels]) if non_musical_labels else 0
+    #         print(f"variance musical score: {variance_musical_score:.6f}, variance non-musical score: {variance_non_musical_score:.6f} ")
+    #         print(f"Non-musical labels: {non_musical_labels}")
+    #         musical_signal = compute_musical_score / (variance_musical_score + 1e-6)
+    #         non_musical_signal = compute_non_musical_score / (variance_non_musical_score + 1e-6)
+    #         musical_to_non_musical_ratio = (musical_signal / non_musical_signal) if non_musical_signal > 0 else float('inf')
+    #         output = {
+    #             "musical_score": musical_signal,
+    #             "non_musical_score": non_musical_signal,
+    #             "outcome": "MUSICAL" if musical_to_non_musical_ratio > 1 else "NON-MUSICAL" if musical_to_non_musical_ratio < 1 else "INCONCLUSIVE",
+    #         }
+    #         # if musical_to_non_musical_ratio > 1:
+    #         #     print(f"Image {self.checksum[:12]}... is likely MUSICAL (ratio: {musical_to_non_musical_ratio:.2f})")
+    #         # elif musical_to_non_musical_ratio < 1:
+    #         #     print(f"Image {self.checksum[:12]}... is likely NON-MUSICAL (ratio: {musical_to_non_musical_ratio:.2f})")
+    #         return output
+    #     except Exception as e:
+    #         print(f"Error analyzing image {self.checksum[:12]}...: {e}")
+    #         return {
+    #             "musical_score": 0,
+    #             "non_musical_score": 0,
+    #             "outcome": "ERROR",
+    #         }

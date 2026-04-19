@@ -72,7 +72,8 @@ labels = [
     "Musical gathering in a courtyard", "a bird", "bearded man"]
 Working
 [
-    "A woman or a man with Indian Lute, Veena",
+    "A woman or a man holding Indian Lute",
+    "Royal durbar scene with weapons, decorative objects, and no musical instruments",
     "A person holding plough",
     "A woman or a man with musical instrument",
     "musical instruments hold by humans while doing music",
@@ -86,6 +87,7 @@ Working
 Working
 [
     "A woman or a man with Indian Lute, Veena",
+    "Royal durbar scene with weapons and no musical instruments",
     "A person holding plow or agricultural implement",
     "A woman or a man with musical instrument",
     "musical instruments hold by humans while doing music",
@@ -119,7 +121,8 @@ These labels are fairly working.
     "Animals in a natural setting without people",
     "A bearded man in traditional attire",
     "A woman in traditional Indian clothing",
-    "A group of people in a royal court setting"
+    "A group of people in a royal court setting",
+    "Royal durbar scene with weapons and no musical instruments",
 ]
 
 [
@@ -145,6 +148,20 @@ These labels are fairly working.
 ]
 
 
+[
+    "A woman or a man holding Indian Veena without any shields or swords nearby and doing music",
+    "Royal durbar scene with weapons and no musical instruments",
+    "A person holding plough",
+    "A woman or a man with musical instrument",
+    "musical instruments hold by humans while doing music",
+    "A woman or a man with a barrel drum",
+    "a lake with human beings",
+    "a lake with animals",
+    "a forest with many green trees",
+    "A scene of war",
+    "A scene with people holding weapons",
+    "Musical gathering in a courtyard", "a bird", "bearded man"]
+
 drishti-admin/testpassword123
 python -m pip install "pymongo[srv]
 mongodb+srv://drishti-admin:testpassword123@cluster0.0p2owuz.mongodb.net/?appName=Cluster0
@@ -155,3 +172,148 @@ mongodb+srv://drishti-admin:****@cluster0.0p2owuz.mongodb.net/?appName=Cluster0
 Experiment
 1. Prepare 2 sets of labels.
 2. Compute
+
+
+
+Label work.
+
+Draft 1 : Model 32
+[
+    "A person holding Indian Veena without any shields or swords nearby and performing music",
+    "A woman or a man with Indian Lute, Veena",
+    "People playing music in a courtyard",
+    "A person playing musical drums",
+    "A person playing an Indian stringed instrument like Veena or Sitar",
+    "A person holding musical instruments while performing music",
+
+
+    "Royal durbar scene with weapons and no musical instruments",
+    "Soldiers in combat with weapons",
+    "A farmer working in a field",
+    "A forest or natural landscape without any musical instrument",
+    "A gathering with no musical instruments",
+    "A people holding weapons",
+    "A person holding plough",
+    "A person carrying a curved agricultural tool or plow on their back",
+    "Figures in a scene with farming tools"
+]
+
+Test 1:
+Image was : 2013.291_web.jpg, expected musical, observerd musical.
+ This has a fundamental problems.
+1. Royal durbar scene with weapons and no musical instruments is generated with maximum probability.
+2. The next highest one was musical hence overall musical score was lifted and it was categorized as musical.
+3. But it has a fundamental problem while calculating the average, musical labels are less in count hence the average is always going tobe high for musical score.
+4.
+
+Draft 2
+[
+    "A person holding Indian Veena without any shields or swords nearby and performing music",
+    "A woman or a man with Indian Lute, Veena",
+    "People playing music in a courtyard",
+    "A person playing musical drums",
+    "A person playing an Indian stringed instrument like Veena or Sitar",
+    "A person holding musical instruments while performing music",
+    "A court scene with one or many musical instruments",
+    "A court scene with musicians and dancers entertaining people",
+    "A man practicing music alone holding a long necked gaurd lute",
+
+
+    "A court scene without any musical instruments",
+    "Soldiers in combat with weapons",
+    "A farmer working in a field",
+    "A forest or natural landscape without any musical instrument",
+    "A gathering with no musical instruments",
+    "A people holding weapons",
+    "A person holding plough",
+    "A person carrying a curved agricultural tool or plow on their back",
+    "Figures in a scene with farming tools"
+]
+Test 1:
+Image was : 2013.291_web.jpg, expected musical, observed musical.
+This is well balanced now.
+ViT-B/32: Musical : 0.0624 Non Musical : 0.0487 a/b = 1.28
+ViT-B/16: Musical : 0.0327 Non Musical : 0.0229 a/b = 1.42 (Cumulative of 1 and 2)
+ViT-B/14: Musical : 0.0236 Non Musical : 0.0134 a/b = 1.76 (Cumulative of 1, 2, 3)
+
+Test 2:
+Image was DP156171.jpg, expected non-musical, observed musical
+Did not notice individual judgements, but this was more musically inclined for all the 3 models.
+Final outcome was still musical. Though the difference kept reducing, thus pushing down the ratio
+
+
+Draft 3
+[
+    "A person holding Indian Veena without any shields or swords nearby and performing music",
+    "Long neck Indian gourd lute hold in hand for playing",
+    "People playing music in a courtyard",
+    "A person playing musical drums",
+    "A person playing an Indian stringed instrument like Veena or Sitar",
+    "A person holding musical instruments while performing music",
+    "People holding musical instruments",
+    "Humans holding long neck gourd lute, barrel drum or percussion instruments",
+    "A man practicing music alone holding a long necked gourd lute",
+
+
+    "A court scene without any musical instruments and with swords and shields",
+    "Soldiers in combat with weapons",
+    "A farmer working in a field",
+    "A forest or natural landscape without any musical instrument",
+    "A gathering with no musical instruments",
+    "A people holding weapons",
+    "A person holding plough",
+    "A person carrying a curved agricultural tool or plow on their back",
+    "Figures in a scene with farming tools"
+]
+
+Test 1:
+Image was DP156171.jpg, expected non-musical, observed musical
+With atleast 3-4 modifications on the labels, This image could not successfully be pushed as non musica.
+
+Test 2
+2013.291_web.jpg  expected musical, observed non musical in on ViT-B/32
+2013.291_web.jpg  expected musical, observed musical in on ViT-B/16 (Cumulative 1 + 2)
+2013.291_web.jpg  expected musical, observed musical in on ViT-B/14 (Cumulative 1 + 2 + 3). This gave better results.
+
+
+Test 3
+2013.342_web.jpg  expected musical, observed non musical in on ViT-B/32
+2013.342_web.jpg  expected musical, observed musical in on ViT-B/16
+2013.342_web.jpg  expected musical, observed musical in on ViT-B/14
+
+Test 4
+DT4006.jpg expected non musical, observed non musical in all 3
+Test 5
+DP153173.jpg  expected musical, observed musical in all 3
+
+Test 4
+DP156120.jpg expected non musical, observed musical on all 3.
+
+Test 5
+DP153186.jpg expected non musical, observed non musical on all 3.
+
+Test 6
+DP156144.jpg  expected non musical, observed non musical on all 3.
+
+Test 7
+Raj Malkauns.jpeg expected musical, observed musical. First 2 resulted in non musical but 3rd pushed the bias towards
+strong musical. Running
+
+Test 8
+Bangali.jpeg expected musical, observed musical in all 3
+
+Test 9
+Surmanand By Nainsukh.jpg expected non musical, observed non musical on all 3.
+
+Test 10
+DP153195.jpg expected musical, observed musical  First detected wrongly. Second correct, third correct.
+
+
+Generic note
+ViT-B/14 seems to be the deciding run. It's been observed that the result gets pushed towards the correct one after running ViT-B/14
+and the combining the results. When first 2 models have detected incorrectly.
+
+Test Next:
+
+1. Check if we need to run the first two at all to correctly decide things or can 14 give all the results.
+2. Separate objects with the object separation (Grounding Dino) model and then run the tests on individual objects to find out music making.

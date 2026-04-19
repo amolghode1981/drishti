@@ -131,10 +131,10 @@
   <div class="setup-view" id="setupView">
     <div class="col-left">
       <span class="col-title">Configuration</span>
-      <div class="field">
+      <!-- <div class="field">
         <span class="field-label">Target directory</span>
         <input class="dir-input" type="text" id="dirInput" value="data/inference/query_images">
-      </div>
+      </div> -->
       <div class="field">
         <span class="field-label">Model</span>
         <select class="dir-input" id="modelSelect">
@@ -448,7 +448,7 @@ uploadBtn.addEventListener('click',async()=>{
   const formData=new FormData();
   if(uploadedFile!==selectedFile){formData.append('image',selectedFile);uploadedFile=selectedFile}
   else formData.append('server-image-name',selectedFile.name);
-  formData.append('directory',dirInput.value);
+//   formData.append('directory',dirInput.value);
   formData.append('model',modelSelect.value);
   formData.append('tuned',tuned);
   if(tuned==='tuned')formData.append('weights_path',weightsInput.value.trim());
