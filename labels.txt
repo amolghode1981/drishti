@@ -316,4 +316,23 @@ and the combining the results. When first 2 models have detected incorrectly.
 Test Next:
 
 1. Check if we need to run the first two at all to correctly decide things or can 14 give all the results.
+
+
 2. Separate objects with the object separation (Grounding Dino) model and then run the tests on individual objects to find out music making.
+
+
+Check if we need to run the first two at all to correctly decide things or can 14 give all the results.
+
+Only ViT-B/14 Runs:
+DP153195.jpg: expected musical, observed musical
+Surmanand By Nainsukh.jpg: expected non-musical, observed non-musical
+Bangali.jpeg: expected musical, observed musical
+Raj Malkauns.jpeg: expected musical, observed musical
+DP156144.jpg : expected non-musical, observed non-Musical
+DP153186.jpg:  expected non-musical, observed non-Musical
+DP156120.jpg: expected non-musical, observed musical : ERROR
+DP153173.jpg: expected musical, observed musical
+DT4006.jpg: expected non-musical, observed non-musical
+2013.342_web.jpg: expected musical, observed musical
+DP156171.jpg: expected non-musical, observed musical : ERROR
+2013.291_web.jpg: expected musical, observed musical
