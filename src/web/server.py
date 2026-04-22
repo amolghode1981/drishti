@@ -13,13 +13,12 @@ import shutil
 from pathlib import Path
 from urllib.parse import parse_qs
 
-from sympy import im
 
 from src.clip_inference import run_query, init as clip_init
 from src.web.db import db_connection_check, sha256_of_file, upsert_reading, get_image, list_images
 from src.web import analysis
 from src.web.serverutils import write_image_to_storage, read_image_from_storage
-
+import threading
 PORT = 8000
 
 def write_to_persistent_storage(filename, model, flavor,query_path, response, labels):
@@ -54,55 +53,59 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def do_GET(self):
-        if self.path == "/" or self.path == "/index.html":
-            self._serve_page("pages/upload.html")
+    def __run_query(self, model, flavor, weights_path, labels, query_path):
+        try:
+            output = run_query(model, flavor, weights_path, labels, query_path)
+            return output
+        except Exception as e:
+            raise RuntimeError(f"CLIP inference failed: {e}")
 
-        elif self.path == "/view" or self.path == "/view.html":
-            self._serve_page("pages/view_records.html")
-        # elif self.path == "/assess" or self.path == "/assess.html":
-        #     self._serve_page("pages/assessment.html")
-        # ── API: single image by checksum ─────────────────────────────────────
-        elif self.path.startswith("/api/image/"):
-            checksum = self.path.split("/api/image/")[-1].strip("/")
-            doc = get_image(checksum)
-            b64_encoded_image = read_image_from_storage(doc["filename"])
-            result = {
-                "_id": str(doc["_id"]),
-                "checksum": checksum,
-                "filename": doc["filename"],
-                "image_b64": b64_encoded_image,
-            }
-            image_analysis = analysis.Analysis(checksum)
-            result["output"] = image_analysis.analyzeImage()
-            #result["output"] = image_analysis.analyzeImageCombinedSignal()
-            if doc is None:
-                self._json(404, {"error": "image not found"})
-            else:
-                self._json(200, result)
-        # ── API: list all images ──────────────────────────────────────────────
-        elif self.path == "/api/images":
-            docs = list_images()
-            for d in docs:
-                d["_id"] = str(d["_id"])
-            self._json(200, {"images": docs})
-        # ── API: health check ─────────────────────────────────────────────────
-        elif self.path == "/api/ping":
-            self._json(200, {"ok": db_connection_check()})
-        else:
-            self._json(404, {"error": "not found"})
+    def __process_batch(self, directory: str, model:str, count: int):
+        labels = [
+            # Musical
+            {'label': 'A person holding Indian Veena without any shields or swords nearby and performing music', 'category': 'Musical'},
+            {'label': 'A woman or a man with Indian Lute, Veena',                                               'category': 'Musical'},
+            {'label': 'People playing music in a courtyard',                                                    'category': 'Musical'},
+            {'label': 'A person playing musical drums',                                                         'category': 'Musical'},
+            {'label': 'A person playing an Indian stringed instrument like Veena or Sitar',                     'category': 'Musical'},
+            {'label': 'A person holding musical instruments while performing music',                            'category': 'Musical'},
+            {'label': 'A court scene with one or many musical instruments',                                     'category': 'Musical'},
+            {'label': 'A court scene with musicians and dancers entertaining people',                           'category': 'Musical'},
+            {'label': 'A man practicing music alone holding a long necked gaurd lute',                          'category': 'Musical'},
 
-    def do_OPTIONS(self):
-        """Handle CORS preflight so the HTML page can call the API."""
-        self.send_response(200)
-        self._cors_headers()
-        self.end_headers()
+            # Non-Musical
+            {'label': 'A court scene without any musical instruments',                                          'category': 'Non-Musical'},
+            {'label': 'Soldiers in combat with weapons',                                                        'category': 'Non-Musical'},
+            {'label': 'A farmer working in a field',                                                            'category': 'Non-Musical'},
+            {'label': 'A forest or natural landscape without any musical instrument',                           'category': 'Non-Musical'},
+            {'label': 'A gathering with no musical instruments',                                                'category': 'Non-Musical'},
+            {'label': 'A people holding weapons',                                                               'category': 'Non-Musical'},
+            {'label': 'A person holding plough',                                                                'category': 'Non-Musical'},
+            {'label': 'A person carrying a curved agricultural tool or plow on their back',                     'category': 'Non-Musical'},
+            {'label': 'Figures in a scene with farming tools',                                                  'category': 'Non-Musical'},
+        ]
+        def __run_batch():
+            for fname in os.listdir(directory):
+                if not fname.lower().endswith((".jpg", ".jpeg")):
+                    continue
+                filepath = Path(directory) / fname
+                # Run inference multiple times to find out p-value later.
+                for i in range(count):
+                    try:
+                        output = self.__run_query(model, "base", "", labels, str(filepath))
+                        if output is not None:
+                            result = output
+                        checksum = write_to_persistent_storage(fname, model, "base", str(filepath), result, labels)
+                        checksum
+                        print(f"checksum = {checksum} filename = {fname}")
+                    except Exception as e:
+                        print(f"CLIP inference failed for {fname}: {e}")
+            print("Batch processing complete.")
 
-    def do_POST(self):
-        if self.path != "/upload":
-            self._json(404, {"error": "not found"})
-            return
+        threading.Thread(target=__run_batch, daemon=True).start()
+        self._json(200, {"status": "started"})
 
+    def __process_upload(self):
         # Parse multipart/form-data
         content_type = self.headers.get("Content-Type", "")
         if "multipart/form-data" not in content_type:
@@ -163,17 +166,86 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
 
         print(f"query image path = {query_path}")
         weights_path = parts.get("weights_path", "")
+        try:
+            output = self.__run_query(model, flavor, weights_path, labels, query_path)
+            print(f"output = {output}")
+            if output is not None:
+                result = output
+            checksum = write_to_persistent_storage(filename, model, flavor, query_path, result, labels)
+            result["checksum"] = checksum
+            self._json(200, result)
+            print(f"CLIP inference output: {output}")
+        except Exception as e:
+            self._json(500, {"error": f"CLIP inference failed: {e}"})
+            return
+        # # ── Run CLIP inference ────────────────────────────────────────────────
+        # result = {"filename": str(query_path), "matches": []}
+        # output = run_query(model, flavor, weights_path, labels, query_path)
+        # print(f"output = {output}")
+        # if output is not None:
+        #     result = output
+        # checksum = write_to_persistent_storage(filename, model, flavor, query_path, result, labels)
+        # result["checksum"] = checksum
+        # self._json(200, result)
 
 
-        # ── Run CLIP inference ────────────────────────────────────────────────
-        result = {"filename": str(query_path), "matches": []}
-        output = run_query(model, flavor, weights_path, labels, query_path)
-        print(f"output = {output}")
-        if output is not None:
-            result = output
-        checksum = write_to_persistent_storage(filename, model, flavor, query_path, result, labels)
-        result["checksum"] = checksum
-        self._json(200, result)
+    def do_GET(self):
+        if self.path == "/" or self.path == "/index.html":
+            self._serve_page("pages/upload.html")
+        elif self.path == "/view" or self.path == "/view.html":
+            self._serve_page("pages/view_records.html")
+        elif self.path == "/batch" or self.path == "/batch.html":
+            self._serve_page("pages/batch.html")
+        # ── API: single image by checksum ─────────────────────────────────────
+        elif self.path.startswith("/api/image/"):
+            checksum = self.path.split("/api/image/")[-1].strip("/")
+            doc = get_image(checksum)
+            b64_encoded_image = read_image_from_storage(doc["filename"])
+            result = {
+                "_id": str(doc["_id"]),
+                "checksum": checksum,
+                "filename": doc["filename"],
+                "image_b64": b64_encoded_image,
+            }
+            image_analysis = analysis.Analysis(checksum)
+            result["output"] = image_analysis.analyzeImage()
+            #result["output"] = image_analysis.analyzeImageCombinedSignal()
+            if doc is None:
+                self._json(404, {"error": "image not found"})
+            else:
+                self._json(200, result)
+        # ── API: list all images ──────────────────────────────────────────────
+        elif self.path == "/api/images":
+            docs = list_images()
+            for d in docs:
+                d["_id"] = str(d["_id"])
+            self._json(200, {"images": docs})
+        # ── API: health check ─────────────────────────────────────────────────
+        elif self.path == "/api/ping":
+            self._json(200, {"ok": db_connection_check()})
+        else:
+            self._json(404, {"error": "not found"})
+
+    def do_OPTIONS(self):
+        """Handle CORS preflight so the HTML page can call the API."""
+        self.send_response(200)
+        self._cors_headers()
+        self.end_headers()
+
+    def do_POST(self):
+        if self.path == "/api/batch":
+            body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            directory = body.get("directory", "")
+            model = body.get("model", "ViT-B/32")
+            count = int(body.get("count", 1))
+            self.__process_batch(directory, model, count)
+            return
+        elif self.path == "/upload":
+            self.__process_upload()
+            return
+        else:
+            self._json(404, {"error": "not found"})
+            return
 
     # ── Helpers ───────────────────────────────────────────────────────────────
 
