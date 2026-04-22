@@ -206,7 +206,7 @@ Image was : 2013.291_web.jpg, expected musical, observerd musical.
 3. But it has a fundamental problem while calculating the average, musical labels are less in count hence the average is always going tobe high for musical score.
 4.
 
-Draft 2
+Most current Draft 2
 [
     "A person holding Indian Veena without any shields or swords nearby and performing music",
     "A woman or a man with Indian Lute, Veena",
@@ -319,6 +319,7 @@ Test Next:
 
 
 2. Separate objects with the object separation (Grounding Dino) model and then run the tests on individual objects to find out music making.
+3. Check another segmentation model https://gdm-tipsv2.github.io
 
 
 Check if we need to run the first two at all to correctly decide things or can 14 give all the results.
@@ -336,3 +337,20 @@ DT4006.jpg: expected non-musical, observed non-musical
 2013.342_web.jpg: expected musical, observed musical
 DP156171.jpg: expected non-musical, observed musical : ERROR
 2013.291_web.jpg: expected musical, observed musical
+
+22nd April 2026:
+Database has 3 readings for the 13 images. Readings taken for ViT-B/32, ViT-B/16 and ViT-B/14.
+Upon running permutation test, results are not in agreement with ratio based results.
+Following this intuitionally, it means that if the p-value is low, it takes many permutation turns to generate the ratios
+that would falsly treated as musical. In other words:
+If the label grouping were meaningless — just random — you would expect random shuffles to beat you roughly 500 out of 1000 times (50%).
+If x out of 1000 beat you. It would reflect on the whether the grouping is genuinely capturing something real. It is not luck.
+
+If the grouping is capturing some truth about the image, p < 0.05 would mean that less than 5% of random shuffles only result in value
+that is wrongly considered as musical while it is non-musical.
+
+
+The next experiment is to run all the 3 inferences using ViT-B/14. Earlier readings have shown that ViT-B/14 is better in inference.
+Hopefully this would result in better p-value to conclude.
+
+After that, run grounding dino.

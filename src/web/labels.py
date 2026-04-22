@@ -28,14 +28,17 @@ class LabelHandler:
             self.labels.append(label)
 
     def addLabel(self, label: dict):
-        label = Label(label["label"], LabelType(label["category"]))
-        self.labels.append(label)
-        self.raw_labels.append(label)
-    def addLabels(self, labels: list[dict]):
-        for label in labels:
+        if not self.hasLabel(label["label"]):
             label = Label(label["label"], LabelType(label["category"]))
             self.labels.append(label)
             self.raw_labels.append(label)
+
+    def addLabels(self, labels: list[dict]):
+        for label in labels:
+            if not self.hasLabel(label["label"]):
+                label = Label(label["label"], LabelType(label["category"]))
+                self.labels.append(label)
+                self.raw_labels.append(label)
 
     def getQueriableLabels(self):
         labels = []

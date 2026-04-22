@@ -3,10 +3,11 @@ from os import read
 from networkx import dfs_edges
 from numpy import average, var
 from pandas import DataFrame
+from pygments.lexer import combined
 from rich import json
 
 from src.web.labels import LabelHandler
-from src.web.db import get_collection
+from src.web.db import get_collection, list_images
 import numpy as np
 
 
@@ -60,7 +61,7 @@ class Analysis:
             # self.__debug_print({"labels": self.label_handler.getAsDataframe().to_dict(orient="records")})
             musical_labels = self.label_handler.getMusicalLabels()
             non_musical_labels = self.label_handler.getNonMusicalLabels()
-
+            self.__debug_print({"musical_labels": [str(label) for label in musical_labels], "non_musical_labels": [str(label) for label in non_musical_labels]})
             # musical_score = 0
             # for label in musical_labels:
             #     musical_score += label.score
@@ -72,7 +73,7 @@ class Analysis:
 
             compute_musical_score = average([label.score for label in musical_labels]) if musical_labels else 0
             compute_non_musical_score = average([label.score for label in non_musical_labels]) if non_musical_labels else 0
-            print(f"Non-musical labels: {non_musical_labels}")
+            #print(f"Non-musical labels: {non_musical_labels}")
             musical_to_non_musical_ratio = (compute_musical_score / compute_non_musical_score)
             output = {
                 "musical_score": compute_musical_score,
@@ -141,3 +142,86 @@ class Analysis:
     #             "non_musical_score": 0,
     #             "outcome": "ERROR",
     #         }
+
+    def permutation_test(self, num_permutations=1000):
+
+        # This should set the average scores for each label in the LabelHandler
+        self.__process_readings(self.readings)
+        # Perform a permutation test to assess the statistical significance of the musical vs non-musical classification
+        musical_labels = self.label_handler.getMusicalLabels()
+        non_musical_labels = self.label_handler.getNonMusicalLabels()
+        observed_ratio = (average([label.score for label in musical_labels]) / average([label.score for label in non_musical_labels])) if non_musical_labels else float('inf')
+
+        combined_scores = [label.score for label in musical_labels + non_musical_labels]
+        #self.__debug_print({"combined_scores": combined_scores, "observed_ratio": observed_ratio})
+        count_extreme = 0
+
+        for _ in range(num_permutations):
+            shuffled = combined_scores.copy()         # fresh copy each iteration
+            np.random.shuffle(shuffled)
+            permuted_musical_scores = shuffled[:len(musical_labels)]
+            permuted_non_musical_scores = shuffled[len(musical_labels):]
+            permuted_ratio = (average(permuted_musical_scores) / average(permuted_non_musical_scores)) if average(permuted_non_musical_scores) > 0 else float('inf')
+            if permuted_ratio >= observed_ratio:
+                count_extreme += 1
+
+        p_value = count_extreme / num_permutations
+        return p_value, observed_ratio
+
+def interpret_p_value(p_value: float, observed_ratio: float, num_permutations: int = 1000) -> dict:
+    beats_you = round(p_value * num_permutations)
+    confidence = round((1 - p_value) * 100, 1)
+
+    if p_value < 0.05 and observed_ratio > 1:
+        verdict     = "Musical"
+        explanation = (f"{beats_you}/{num_permutations} random shuffles beat your ratio. "
+                    f"Musical labels are dominating. Confident this is a musical image.")
+
+    elif p_value > 0.95 and observed_ratio < 1:
+        verdict     = "Non-Musical"
+        explanation = (f"{beats_you}/{num_permutations} random shuffles beat your ratio. "
+                    f"Non-musical labels are dominating. Confident this is a non-musical image.")
+
+    elif p_value < 0.05 and observed_ratio < 1:
+        verdict     = "Non-Musical (weak)"
+        explanation = (f"{beats_you}/{num_permutations} random shuffles beat your ratio. "
+                    f"Ratio is below 1 — non-musical labels winning but signal is weak.")
+
+    elif p_value > 0.95 and observed_ratio > 1:
+        verdict     = "Suspicious"
+        explanation = (f"{beats_you}/{num_permutations} random shuffles beat your ratio. "
+                    f"Ratio is above 1 but almost all shuffles beat you — check your label set.")
+    else:
+        verdict     = "Ambiguous"
+        explanation = (f"{beats_you}/{num_permutations} random shuffles beat your ratio. "
+                    f"Too many random groupings perform as well — no confident signal.")
+
+    return {
+        "verdict":          verdict,
+        "p_value":          p_value,
+        "observed_ratio":   round(observed_ratio, 4),
+        "beats_you":        beats_you,
+        "confidence_pct":   confidence,
+        "explanation":      explanation,
+    }
+
+if __name__ == "__main__":
+    docs = list_images()
+    p_values = []
+    for d in docs:
+        id = str(d["_id"])
+        analysis = Analysis(id)
+        p_value, observed_ratio = analysis.permutation_test()
+        p_values.append({
+            "id": id,
+            "p_value": p_value,
+            "observed_ratio": observed_ratio,
+            "filename": d["filename"],
+        })
+        #print(f"id: {id}, p-value: {p_value:.4f}")
+
+    for res in p_values:
+        result = interpret_p_value(res["p_value"], res["observed_ratio"])
+        # if result["verdict"] == "Ambiguous":
+        #     print(f"Image {res['id']}...: {result['verdict']} (p-value: {result['p_value']:.4f}, observed ratio: {result['observed_ratio']:.4f}) - {result['explanation']}")
+        print(f"Image {res['filename']} ID: {res['id']}: {result['verdict']} (p-value: {result['p_value']:.4f}, observed ratio: {result['observed_ratio']:.4f})")
