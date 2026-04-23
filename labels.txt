@@ -352,5 +352,22 @@ that is wrongly considered as musical while it is non-musical.
 
 The next experiment is to run all the 3 inferences using ViT-B/14. Earlier readings have shown that ViT-B/14 is better in inference.
 Hopefully this would result in better p-value to conclude.
+Results : Sample set has 7 musical images and 6 non-musical images.
+
+P-value based results:
+With 3 runs of ViT-B/14:
+    1. All musicals are clearly detected as musicals.
+    2. Out of 6 non-musicals 2 non musicals are detected as musicals and 1 is detected as ambiguous. Other 3 are detected correctly as non-musicals
+With 3 mixed runs (32, 16, 14):
+    1. 4 musicals are correctly detected as musicals, 3 are detected as ambiguous.
+    2. Out of 6 non-musicals 3 non musicals are detected correctly as non musicals and 3 as ambiguous.
+
+Purely ratio based results:
+With 3 runs of ViT-B/14:
+    1. All musicals are clearly detected as musicals.
+    2. 2 non musicals are correctly detected as non musicals and 3 wrongly detected as musicals.
+With 3 mixed runs (32, 16, 14):
+    1. All musicals are clearly detected as musicals.
+    2. 4 non-musicals are clrealy detected as non-musicals and 2 are wrongly detected as musicals.
 
 After that, run grounding dino.

@@ -1,10 +1,12 @@
+from fileinput import filename
 from os import read
 
-from networkx import dfs_edges
+from networkx import dfs_edges, draw
 from numpy import average, var
 from pandas import DataFrame
 from pygments.lexer import combined
 from rich import json
+from sympy import plot
 
 from src.web.labels import LabelHandler
 from src.web.db import get_collection, list_images
@@ -147,6 +149,7 @@ class Analysis:
 
         # This should set the average scores for each label in the LabelHandler
         self.__process_readings(self.readings)
+        filename =  self.doc.get("filename", "unknown")
         # Perform a permutation test to assess the statistical significance of the musical vs non-musical classification
         musical_labels = self.label_handler.getMusicalLabels()
         non_musical_labels = self.label_handler.getNonMusicalLabels()
@@ -155,18 +158,57 @@ class Analysis:
         combined_scores = [label.score for label in musical_labels + non_musical_labels]
         #self.__debug_print({"combined_scores": combined_scores, "observed_ratio": observed_ratio})
         count_extreme = 0
-
+        permuted_ratios = []
         for _ in range(num_permutations):
             shuffled = combined_scores.copy()         # fresh copy each iteration
             np.random.shuffle(shuffled)
             permuted_musical_scores = shuffled[:len(musical_labels)]
             permuted_non_musical_scores = shuffled[len(musical_labels):]
             permuted_ratio = (average(permuted_musical_scores) / average(permuted_non_musical_scores)) if average(permuted_non_musical_scores) > 0 else float('inf')
+            permuted_ratios.append(permuted_ratio)
             if permuted_ratio >= observed_ratio:
                 count_extreme += 1
 
         p_value = count_extreme / num_permutations
+        plot_permutation_distribution(permuted_ratios, observed_ratio, p_value, filename)
         return p_value, observed_ratio
+
+import matplotlib.pyplot as plt
+
+def plot_permutation_distribution(permuted_ratios, observed_ratio, p_value, filename):
+    """
+    permuted_ratios : list of floats — all 1000 random ratios
+    observed_ratio  : float — your real ratio
+    p_value         : float — computed p-value
+    filename        : str — name of the file being analyzed
+    """
+    fig, ax = plt.subplots(figsize=(10, 5))
+
+    # All random ratios
+    ax.hist(permuted_ratios, bins=40, color='#888782',
+            edgecolor='#444441', linewidth=0.5,
+            label='random shuffle ratios')
+
+    # Ratios that beat your observed
+    extreme = [r for r in permuted_ratios if r >= observed_ratio]
+    if extreme:
+        ax.hist(extreme, bins=40, color='#E24B4A',
+                edgecolor='#501313', linewidth=0.5,
+                label=f'beats observed ({len(extreme)}/{len(permuted_ratios)})')
+
+    # Your observed ratio
+    ax.axvline(x=observed_ratio, color='#5DCAA5',
+               linewidth=2, linestyle='--',
+               label=f'observed ratio = {observed_ratio:.3f}')
+
+    ax.set_xlabel('ratio (musical mean / non-musical mean)')
+    ax.set_ylabel('count')
+    ax.set_title(f'{filename}  |  p = {p_value:.4f}  |  ratio = {observed_ratio:.3f}')
+    ax.legend()
+
+    plt.tight_layout()
+    plt.savefig('permutation_distribution.png', dpi=150)
+    plt.show()
 
 def interpret_p_value(p_value: float, observed_ratio: float, num_permutations: int = 1000) -> dict:
     beats_you = round(p_value * num_permutations)
