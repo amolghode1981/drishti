@@ -1,8 +1,10 @@
 from cProfile import label
 from pathlib import Path
+import token
 
 
 from huggingface_hub import try_to_load_from_cache
+import asyncio
 from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor
 import torch
 from PIL import Image
@@ -18,7 +20,7 @@ _MODELS = {
 def init():
     global model, device, preprocess
     device = "mps" if torch.backends.mps.is_available() else "cpu"
-#    ffmpeg_init("data/inference/Tests/", "data/inference/Tests/cropped")
+    ffmpeg_init("data/inference/Tests/", "data/inference/Tests/cropped")
 
 
 def load_model(repo_id):
@@ -28,9 +30,9 @@ def load_model(repo_id):
     model.eval()
 
 def create_output(filename, results, labels):
+    print(f"create_output Creating output for {filename} with labels {labels}", flush=True)
     result = results[0]
     filename = str(filename)   # Convert PosixPath to string
-    rows = []
     if len(result["boxes"]) == 0:
         row = {
             'path': filename,
@@ -46,15 +48,22 @@ def create_output(filename, results, labels):
                 'type': 'miniature',
             }
             box = [round(x, 2) for x in box.tolist()]
-            ffmpeg_string = f"crop={int(box[2] - box [0])}:{int(box[3] - box[1])}:{int(box[0])}:{int(box[1])}"
+            padding = 50
+            x1 = max(0, int(box[0]) - padding)
+            y1 = max(0, int(box[1]) - padding)
+            w  = int(box[2] - box[0]) + padding * 2
+            h  = int(box[3] - box[1]) + padding * 2
+            ffmpeg_string = f"crop={w}:{h}:{x1}:{y1}"
+            #ffmpeg_string = f"crop={int(box[2] - box [0])}:{int(box[3] - box[1])}:{int(box[0])}:{int(box[1])}"
             #dims = [int(box[0]), int(box[1]), int(box[2] - box [0]), int(box[3] - box[1])]
             row['labels'] = labels
             row['confidence'] = round(score.item(), 3)
             row['ffmpeg_string'] = ffmpeg_string
-            rows.append(row)
-    return rows
+            print(f"Adding row for {filename} with labels {labels} and confidence {score.item()} and ffmpeg string {ffmpeg_string}", flush=True)
+            add_to_queue([row])
 
-def get_embeddings(image_path, labels, box_threshold=0.3, text_threshold=0.25):
+def get_embeddings(image_path, labels, token_spans, box_threshold=0.3, text_threshold=0.25):
+    print("get_embeddings", flush=True)
     image = Image.open(image_path).convert("RGB")
     inputs = preprocess(text=labels, images=image, return_tensors="pt").to(device)
     with torch.no_grad():
@@ -68,7 +77,15 @@ def get_embeddings(image_path, labels, box_threshold=0.3, text_threshold=0.25):
         )
     return results
 
-def test_images_from_directory(path):
+def get_token_spans(text_prompt, labels):
+    spans = []
+    for label in labels:
+        start = text_prompt.index(label)
+        end = start + len(label)
+        spans.append((start, end))
+    return spans
+
+async def test_images_from_directory(path):
     directory = Path(path)
     # workinglabels = [
     #     "Veena without any shields or swords nearby and performing music",
@@ -81,44 +98,70 @@ def test_images_from_directory(path):
     #     "A court scene with musicians and dancers entertaining people",
     #     "A man practicing music alone holding a long necked gaurd lute"
     # ]
+    # notworkinglabels = [
+    #     "veena",
+    #     "sitar",
+    #     "lute",
+    #     "tabla",
+    #     "drum",
+    #     "musician",
+    #     "a person holding musical instrument",
+    #     "a person holding objects",
+    #     "dancer",
+    #     "stringed instrument",
+    #     "musical instrument",
+    # ]
+    # workinglabels_partial_1 = [
+    #     "drum",
+    #     "musician",
+    #     "person",
+    #     "dancer",
+    #     "musical instrument",
+    # ]
+    # workinglabels = [
+    #     "drum",
+    #     "person",
+    #     "musical instrument",
+    # ]
     workinglabels = [
-        "veena",
-        "sitar",
-        "lute",
-        "tabla",
-        "drum",
-        "musician",
-        "a person holding musical instrument",
-        "a person holding objects",
-        "dancer",
-        "stringed instrument",
-        "musical instrument",
+        "person",
+        "human",
+        "man",
+        "woman"
     ]
     text_prompt = " . ".join(workinglabels) + " ."
+    token_spans = get_token_spans(text_prompt, workinglabels)
     print(text_prompt)
     # Also catch .jpeg extension
-    rows = []
     count = 0
     for filepath in [*directory.glob("*.jpg"), *directory.glob("*.jpeg")]:
-        # if count >= 5:
-        #     break
-        # count += 1
+        if count >= 6:
+            break
+        count += 1
         print(filepath)
-        result = get_embeddings(filepath, text_prompt)
-        subrows = create_output(filepath.name, result, text_prompt)
-        rows.extend(subrows)
+        results = get_embeddings(filepath, text_prompt, token_spans)
+        # result = results[0]
+        # for box, score, label in zip(result["boxes"], result["scores"], result["text_labels"]):
+        #     print(f"[{score:.2f}] {label} box={[round(x,2) for x in box.tolist()]}")
+        create_output(filepath.name, results, text_prompt)
 
+    stop_queue()
+    rows = await wait_for_completion()
     dataframe = pandas.DataFrame(rows)
     dataframe.to_csv("data/inference/Tests/gdino_output.csv", index=False)
 '''
 manage data clearly.
-1. Associate each cropped image with the label.
-2. Use that label with clip inference to see if there is music.
-3. Run ffmpeg from python to crop the original image and save the cropped image with the label as the name.
+1. Associate each cropped image with the label. : Done
+2. Use that label with clip inference to see if there is music. : Done
+3. Run ffmpeg from python to crop the original image and save the cropped image with the label as the name. : Done
+4. create clip_grounding_dino_inference.py that would first separate objects using grounding dino and then run clip inference on the cropped images to classify them as music or non-musiic
 
 '''
 
-if __name__ == "__main__":
+async def run_inference():
     init()
     load_model("swint")
-    test_images_from_directory("data/inference/Tests/")
+    await test_images_from_directory("data/inference/Tests/")
+
+if __name__ == "__main__":
+    asyncio.run(run_inference())
