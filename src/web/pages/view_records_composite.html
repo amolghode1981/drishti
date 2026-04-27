@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drishti — View Image</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #0e0e0f;
+            --surface: #18181a;
+            --surface2: #222224;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.18);
+            --text: #f0ede8;
+            --muted: #888782;
+            --accent: #5DCAA5;
+            --accent-dim: rgba(93, 202, 165, 0.12);
+            --accent-border: rgba(93, 202, 165, 0.35);
+            --danger: #E24B4A;
+            --danger-dim: rgba(226, 75, 74, 0.12);
+            --amber: #EF9F27;
+            --amber-dim: rgba(239, 159, 39, 0.12);
+            --amber-border: rgba(239, 159, 39, 0.35);
+            --mono: 'DM Mono', monospace;
+            --sans: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem
+        }
+
+        .wordmark {
+            font-family: var(--mono);
+            font-size: 13px;
+            letter-spacing: .18em;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 2rem
+        }
+
+        .wordmark span { color: var(--accent) }
+        .wordmark a { color: var(--muted); text-decoration: none }
+        .wordmark a:hover { color: var(--accent) }
+
+        .layout {
+            max-width: 960px;
+            margin: 0 auto
+        }
+
+        .search-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem
+        }
+
+        .mono-input {
+            flex: 1;
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 13px;
+            padding: 10px 14px;
+            outline: none;
+            transition: border-color .15s
+        }
+        .mono-input:focus { border-color: var(--accent-border) }
+
+        .btn {
+            background: var(--accent);
+            color: #04342C;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-family: var(--mono);
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity .15s
+        }
+        .btn:hover { opacity: .85 }
+        .btn-ghost {
+            background: transparent;
+            color: var(--muted);
+            border: 0.5px solid var(--border)
+        }
+        .btn-ghost:hover { border-color: var(--border-hover); color: var(--text) }
+
+        .card {
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem
+        }
+
+        .card-title {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .1em;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 1rem
+        }
+
+        /* browse grid */
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px
+        }
+
+        .image-thumb {
+            background: var(--surface2);
+            border: 0.5px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: border-color .15s
+        }
+        .image-thumb:hover { border-color: var(--accent-border) }
+        .image-thumb .name {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+        .image-thumb .count { font-family: var(--mono); font-size: 11px; color: var(--muted) }
+        .image-thumb .hash {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+            opacity: .6
+        }
+
+        /* detail layout */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 16px;
+            align-items: start
+        }
+
+        /* image panel — fills height naturally, no fixed aspect ratio */
+        .img-panel {
+            background: var(--surface);
+            border: 0.5px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column
+        }
+
+        .img-viewport {
+            background: var(--surface2);
+            height: calc(100vh - 220px);
+            min-height: 480px;
+            max-height: 720px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: zoom-in;
+            position: relative
+        }
+
+        .img-viewport img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transform-origin: center center
+        }
+
+        .img-footer {
+            padding: 8px 14px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            border-top: 0.5px solid var(--border);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0
+        }
+
+        /* outcome panel — unchanged */
+        .outcome-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 14px
+        }
+
+        .outcome-badge {
+            border-radius: 14px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center
+        }
+        .outcome-badge.musical { background: var(--accent-dim); border: 0.5px solid var(--accent-border) }
+        .outcome-badge.non-musical { background: var(--amber-dim); border: 0.5px solid var(--amber-border) }
+        .outcome-badge.inconclusive { background: var(--surface2); border: 0.5px solid var(--border) }
+
+        .outcome-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--muted)
+        }
+
+        .outcome-value {
+            font-family: var(--mono);
+            font-size: 28px;
+            font-weight: 500
+        }
+        .outcome-badge.musical .outcome-value { color: var(--accent) }
+        .outcome-badge.non-musical .outcome-value { color: var(--amber) }
+        .outcome-badge.inconclusive .outcome-value { color: var(--muted) }
+
+        .scores-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .score-card {
+            background: var(--surface2);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .score-card-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--muted)
+        }
+
+        .score-card-value {
+            font-family: var(--mono);
+            font-size: 22px;
+            font-weight: 500
+        }
+        .score-card.musical .score-card-value { color: var(--accent) }
+        .score-card.non-musical .score-card-value { color: var(--amber) }
+
+        .score-bar-track {
+            height: 4px;
+            background: var(--surface);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 2px
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width .5s ease
+        }
+        .score-card.musical .score-bar-fill { background: var(--accent) }
+        .score-card.non-musical .score-bar-fill { background: var(--amber) }
+
+        .meta-row { display: flex; gap: 8px; flex-wrap: wrap }
+        .pill {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--surface2);
+            color: var(--muted);
+            border: 0.5px solid var(--border)
+        }
+
+        .empty {
+            color: var(--muted);
+            font-family: var(--mono);
+            font-size: 13px;
+            text-align: center;
+            padding: 3rem
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 1.5px solid var(--muted);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle
+        }
+
+        @keyframes spin { to { transform: rotate(360deg) } }
+
+        #detail { display: none }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+        <div class="wordmark"><a href="/">drishti</a> / <span>view image</span></div>
+
+        <div class="search-row">
+            <input class="mono-input" type="text" id="checksumInput"
+                placeholder="SHA-256 checksum or leave blank to browse all images…">
+            <button class="btn" onclick="loadByChecksum()">load</button>
+            <button class="btn btn-ghost" onclick="showAll()">browse</button>
+        </div>
+
+        <!-- Browse -->
+        <div id="all-images">
+            <div class="card">
+                <div class="card-title">all images</div>
+                <div id="images-list">
+                    <div class="empty"><span class="spinner"></span>loading…</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail -->
+        <div id="detail">
+            <div class="detail-grid" id="detail-grid"></div>
+            <button class="btn btn-ghost" style="margin-top:1rem" onclick="backToAll()">← back to all images</button>
+        </div>
+    </div>
+
+    <script>
+        const HOST = window.location.origin;
+
+        async function showAll() {
+            document.getElementById('detail').style.display = 'none';
+            document.getElementById('all-images').style.display = 'block';
+            const el = document.getElementById('images-list');
+            el.innerHTML = '<div class="empty"><span class="spinner"></span>loading…</div>';
+            try {
+                const res = await fetch(`${HOST}/api/composite_images`);
+                const data = await res.json();
+                if (!data.images || !data.images.length) {
+                    el.innerHTML = '<div class="empty">no images stored yet — run some inference first.</div>'; return;
+                }
+                el.innerHTML = `<div class="images-grid">${data.images.map(img => `
+                    <div class="image-thumb" onclick="loadImage('${img._id}')">
+                        <div class="name">${img.filename}</div>
+                        <div class="count">${(img.readings || []).length} reading${(img.readings || []).length !== 1 ? 's' : ''}</div>
+                        <div class="hash">${img._id.slice(0, 16)}…</div>
+                    </div>`).join('')}</div>`;
+            } catch (e) { el.innerHTML = `<div class="empty">error: ${e.message}</div>` }
+        }
+
+        async function loadByChecksum() {
+            const c = document.getElementById('checksumInput').value.trim();
+            if (!c) { showAll(); return; }
+            loadImage(c);
+        }
+
+        async function loadImage(checksum) {
+            document.getElementById('all-images').style.display = 'none';
+            const detail = document.getElementById('detail');
+            detail.style.display = 'block';
+            document.getElementById('detail-grid').innerHTML = '<div class="empty"><span class="spinner"></span>loading…</div>';
+            try {
+                const res = await fetch(`${HOST}/api/composite_image/${checksum}`);
+                if (!res.ok) throw new Error('image not found');
+                const doc = await res.json();
+                renderDetail(doc);
+            } catch (e) {
+                document.getElementById('detail-grid').innerHTML = `<div class="empty">error: ${e.message}</div>`;
+            }
+        }
+
+        function outcomeClass(outcome) {
+            if (!outcome) return 'inconclusive';
+            const o = outcome.toUpperCase();
+            if (o === 'MUSICAL') return 'musical';
+            if (o === 'NON-MUSICAL') return 'non-musical';
+            return 'inconclusive';
+        }
+
+        function renderDetail(result) {
+            const musical_score = parseFloat(result.output.musical_score) || 0;
+            const non_musical_score = parseFloat(result.output.non_musical_score) || 0;
+            const ratio = musical_score && non_musical_score ? (musical_score / non_musical_score) : 0;
+            const outcome = `${result.output.outcome || 'INCONCLUSIVE'}\n(${ratio.toFixed(2)})`;
+            const oc = outcomeClass(outcome);
+            const imgSrc = result.image_b64;
+
+            document.getElementById('detail-grid').innerHTML = `
+                <div class="img-panel">
+                    <div class="img-viewport" id="imgViewport">
+                        <img id="detailImg" src="${imgSrc}" alt="${result.filename}"
+                            onerror="this.style.display='none';document.getElementById('imgViewport').innerHTML='<span style=\\'font-family:var(--mono);font-size:11px;color:var(--muted)\\'>image not available</span>'">
+                    </div>
+                    <div class="img-footer">${result.filename} &nbsp;·&nbsp; <span style="opacity:.5">${result._id.slice(0, 12)}…</span></div>
+                </div>
+
+                <div class="outcome-panel">
+                    <div class="outcome-badge ${oc}">
+                        <span class="outcome-label">outcome</span>
+                        <span class="outcome-value">${outcome}</span>
+                    </div>
+                    <div class="scores-row">
+                        <div class="score-card musical">
+                            <span class="score-card-label">musical score</span>
+                            <span class="score-card-value">${musical_score.toFixed(4)}</span>
+                            <div class="score-bar-track"><div class="score-bar-fill" style="width:${(musical_score * 100).toFixed(1)}%"></div></div>
+                        </div>
+                        <div class="score-card non-musical">
+                            <span class="score-card-label">non-musical score</span>
+                            <span class="score-card-value">${non_musical_score.toFixed(4)}</span>
+                            <div class="score-bar-track"><div class="score-bar-fill" style="width:${(non_musical_score * 100).toFixed(1)}%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            setupZoom(document.getElementById('imgViewport'), document.getElementById('detailImg'));
+        }
+
+        function setupZoom(viewport, img) {
+            let zoom = 1, ox = 0, oy = 0, dragging = false, sx = 0, sy = 0, ox0 = 0, oy0 = 0;
+            function apply() { img.style.transform = `translate(${ox}px,${oy}px) scale(${zoom})` }
+            viewport.addEventListener('wheel', e => {
+                e.preventDefault();
+                zoom = Math.min(5, Math.max(1, zoom + (e.deltaY < 0 ? .15 : -.15)));
+                apply();
+                viewport.style.cursor = zoom > 1 ? 'grab' : 'zoom-in';
+            }, { passive: false });
+            viewport.addEventListener('mousedown', e => {
+                if (zoom <= 1) return;
+                dragging = true; sx = e.clientX; sy = e.clientY; ox0 = ox; oy0 = oy;
+                viewport.style.cursor = 'grabbing'; e.preventDefault();
+            });
+            window.addEventListener('mousemove', e => {
+                if (!dragging) return;
+                ox = ox0 + (e.clientX - sx); oy = oy0 + (e.clientY - sy); apply();
+            });
+            window.addEventListener('mouseup', () => {
+                if (!dragging) return; dragging = false;
+                viewport.style.cursor = zoom > 1 ? 'grab' : 'zoom-in';
+            });
+        }
+
+        function backToAll() {
+            document.getElementById('detail').style.display = 'none';
+            document.getElementById('all-images').style.display = 'block';
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('checksum')) {
+            document.getElementById('checksumInput').value = params.get('checksum');
+            loadImage(params.get('checksum'));
+        } else { showAll() }
+    </script>
+</body>
+
+</html>

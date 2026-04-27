@@ -9,14 +9,18 @@ from rich import json
 from sympy import plot
 
 from src.web.labels import LabelHandler
-from src.web.db import get_collection, list_images
+from src.web.db import get_collection, get_two_step_collection, list_images
 import numpy as np
 
 
 class Analysis:
-    def __init__(self, checksum):
+    def __init__(self, checksum, composite=False):
         self.checksum = checksum
-        self.collection = get_collection()
+        self.composite = composite
+        if self.composite:
+            self.collection = get_two_step_collection()
+        else:
+            self.collection = get_collection()
         self.doc = self.collection.find_one({"_id": checksum})
         if self.doc is None:
             raise ValueError(f"Image with checksum {checksum} not found in database.")
