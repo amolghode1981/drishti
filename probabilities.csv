@@ -1,0 +1,49 @@
+id,instrument,museum_index,local_path,untrained_guess,trained_guess
+113203/113203v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113203v_0001.jpg,Has music : 0.4934 No music : 0.5063 ,Has music : 0.4995 No music : 0.5005 
+113037/113037v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113037v_0001.jpg,Has music : 0.4976 No music : 0.5024 ,Has music : 0.4998 No music : 0.5005 
+113052/113052v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113052v_0001.jpg,Has music : 0.4971 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+113105/113105v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113105v_0001.jpg,Has music : 0.4985 No music : 0.5015 ,Has music : 0.4993 No music : 0.5010 
+113108/113108v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113108v_0001.jpg,Has music : 0.4968 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+113110/113110v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113110v_0001.jpg,Has music : 0.4968 No music : 0.5029 ,Has music : 0.4995 No music : 0.5005 
+W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Pakhawaj,wam,data/inference/pakhawaj/PS1_W.890_Fnt_DD_T10.jpg,Has music : 0.4973 No music : 0.5029 ,Has music : 0.4993 No music : 0.5005 
+W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Pakhawaj,wam,data/inference/pakhawaj/PL7_W.858_Fnt_TR_AJ98.jpg,Has music : 0.4978 No music : 0.5024 ,Has music : 0.4995 No music : 0.5005 
+113105/113105v_0001.jpg,Manjira,mlc,data/inference/manjira/113105v_0001.jpg,Has music : 0.4985 No music : 0.5015 ,Has music : 0.4993 No music : 0.5010 
+113108/113108v_0001.jpg,Manjira,mlc,data/inference/manjira/113108v_0001.jpg,Has music : 0.4968 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+113110/113110v_0001.jpg,Manjira,mlc,data/inference/manjira/113110v_0001.jpg,Has music : 0.4968 No music : 0.5029 ,Has music : 0.4995 No music : 0.5005 
+W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Manjira,wam,data/inference/manjira/PL7_W.858_Fnt_TR_AJ98.jpg,Has music : 0.4978 No music : 0.5024 ,Has music : 0.4995 No music : 0.5005 
+113038/113038v_0001.jpg,Been,mlc,data/inference/been/113038v_0001.jpg,Has music : 0.4983 No music : 0.5020 ,Has music : 0.5005 No music : 0.4998 
+113105/113105v_0001.jpg,Been,mlc,data/inference/been/113105v_0001.jpg,Has music : 0.4985 No music : 0.5015 ,Has music : 0.4993 No music : 0.5010 
+113108/113108v_0001.jpg,Been,mlc,data/inference/been/113108v_0001.jpg,Has music : 0.4968 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+W.882/?download=ARG_W.882_Fnt_UK.jpg,Been,wam,data/inference/been/ARG_W.882_Fnt_UK.jpg,Has music : 0.4976 No music : 0.5024 ,Has music : 0.4985 No music : 0.5015 
+113203/113203v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113203v_0001.jpg,Has music : 0.4934 No music : 0.5063 ,Has music : 0.4995 No music : 0.5005 
+113037/113037v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113037v_0001.jpg,Has music : 0.4976 No music : 0.5024 ,Has music : 0.4998 No music : 0.5005 
+113062/113062v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113062v_0001.jpg,Has music : 0.4983 No music : 0.5015 ,Has music : 0.4995 No music : 0.5005 
+113052/113052v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113052v_0001.jpg,Has music : 0.4971 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+113105/113105v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113105v_0001.jpg,Has music : 0.4985 No music : 0.5015 ,Has music : 0.4993 No music : 0.5010 
+113108/113108v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113108v_0001.jpg,Has music : 0.4968 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+113046/113046v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113046v_0001.jpg,Has music : 0.4980 No music : 0.5020 ,Has music : 0.4995 No music : 0.5005 
+W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Tambur/Tambora,wam,data/inference/tambur_or_tambora/PL7_W.858_Fnt_TR_AJ98.jpg,Has music : 0.4978 No music : 0.5024 ,Has music : 0.4995 No music : 0.5005 
+113203/113203v_0001.jpg,Singer,mlc,data/inference/singer/113203v_0001.jpg,Has music : 0.4934 No music : 0.5063 ,Has music : 0.4995 No music : 0.5005 
+113062/113062v_0001.jpg,Singer,mlc,data/inference/singer/113062v_0001.jpg,Has music : 0.4983 No music : 0.5015 ,Has music : 0.4995 No music : 0.5005 
+113046/113046v_0001.jpg,Singer,mlc,data/inference/singer/113046v_0001.jpg,Has music : 0.4980 No music : 0.5020 ,Has music : 0.4995 No music : 0.5005 
+W.882/?download=ARG_W.882_Fnt_UK.jpg,Sitar,wam,data/inference/sitar/ARG_W.882_Fnt_UK.jpg,Has music : 0.4976 No music : 0.5024 ,Has music : 0.4985 No music : 0.5015 
+113052/113052v_0001.jpg,Sarangi,mlc,data/inference/sarangi/113052v_0001.jpg,Has music : 0.4971 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+113203/113203v_0001.jpg,Dholak,mlc,data/inference/dholak/113203v_0001.jpg,Has music : 0.4934 No music : 0.5063 ,Has music : 0.4995 No music : 0.5005 
+113037/113037v_0001.jpg,Dholak,mlc,data/inference/dholak/113037v_0001.jpg,Has music : 0.4976 No music : 0.5024 ,Has music : 0.4998 No music : 0.5005 
+113203/113203v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113203v_0001.jpg,Has music : 0.4934 No music : 0.5063 ,Has music : 0.4995 No music : 0.5005 
+113037/113037v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113037v_0001.jpg,Has music : 0.4976 No music : 0.5024 ,Has music : 0.4998 No music : 0.5005 
+113038/113038v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113038v_0001.jpg,Has music : 0.4983 No music : 0.5020 ,Has music : 0.5005 No music : 0.4998 
+113062/113062v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113062v_0001.jpg,Has music : 0.4983 No music : 0.5015 ,Has music : 0.4995 No music : 0.5005 
+113052/113052v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113052v_0001.jpg,Has music : 0.4971 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+113105/113105v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113105v_0001.jpg,Has music : 0.4985 No music : 0.5015 ,Has music : 0.4993 No music : 0.5010 
+113108/113108v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113108v_0001.jpg,Has music : 0.4968 No music : 0.5029 ,Has music : 0.4990 No music : 0.5010 
+113046/113046v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113046v_0001.jpg,Has music : 0.4980 No music : 0.5020 ,Has music : 0.4995 No music : 0.5005 
+113110/113110v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113110v_0001.jpg,Has music : 0.4968 No music : 0.5029 ,Has music : 0.4995 No music : 0.5005 
+113022/113022v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113022v_0001.jpg,Has music : 0.4985 No music : 0.5015 ,Has music : 0.4998 No music : 0.5005 
+W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Additional instruments,wam,data/inference/additional_instruments/PS1_W.890_Fnt_DD_T10.jpg,Has music : 0.4973 No music : 0.5029 ,Has music : 0.4993 No music : 0.5005 
+W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Additional instruments,wam,data/inference/additional_instruments/PL7_W.858_Fnt_TR_AJ98.jpg,Has music : 0.4978 No music : 0.5024 ,Has music : 0.4995 No music : 0.5005 
+W.882/?download=ARG_W.882_Fnt_UK.jpg,Additional instruments,wam,data/inference/additional_instruments/ARG_W.882_Fnt_UK.jpg,Has music : 0.4976 No music : 0.5024 ,Has music : 0.4985 No music : 0.5015 
+113203/113203v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113203v_0001.jpg,Has music : 0.4934 No music : 0.5063 ,Has music : 0.4995 No music : 0.5005 
+113037/113037v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113037v_0001.jpg,Has music : 0.4976 No music : 0.5024 ,Has music : 0.4998 No music : 0.5005 
+113062/113062v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113062v_0001.jpg,Has music : 0.4983 No music : 0.5015 ,Has music : 0.4995 No music : 0.5005 
+W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Taal indicating person,wam,data/inference/taal_indicating_person/PS1_W.890_Fnt_DD_T10.jpg,Has music : 0.4973 No music : 0.5029 ,Has music : 0.4993 No music : 0.5005 

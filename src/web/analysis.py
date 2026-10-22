@@ -251,6 +251,10 @@ def interpret_p_value(p_value: float, observed_ratio: float, num_permutations: i
         "explanation":      explanation,
     }
 
+def composite_analysis(checksum):
+    analysis = Analysis(checksum, composite=True)
+    return analysis.analyzeImage()
+
 if __name__ == "__main__":
     docs = list_images()
     p_values = []

@@ -56,6 +56,7 @@ def sha256_of_bytes(data: bytes) -> str:
 def upsert_reading(
     checksum: str,
     filename: str,
+    parent_image_path: str,
     model: str,
     flavor: str,
     labels: list[str],
@@ -86,6 +87,7 @@ def upsert_reading(
             "$setOnInsert": {
                 "_id":        checksum,
                 "filename":   filename,
+                "parent_image_path": parent_image_path,
                 "first_seen": datetime.now(timezone.utc).isoformat(),
             },
             "$push": {"readings": reading},
@@ -97,6 +99,7 @@ def upsert_reading(
 def upsert_reading_to_two_step_collection(
     checksum: str,
     filename: str,
+    parent_image_path: str,
     image_object_path: str,
     model: str,
     flavor: str,
@@ -121,6 +124,7 @@ def upsert_reading_to_two_step_collection(
             "$setOnInsert": {
                 "_id":        checksum,
                 "filename":   filename,
+                "parent_image_path": parent_image_path,
                 "image_object_path": image_object_path,
                 "first_seen": datetime.now(timezone.utc).isoformat(),
             },
@@ -138,10 +142,10 @@ def get_image(checksum: str) -> dict | None:
     col = get_collection()
     return col.find_one({"_id": checksum})
 
-def get_image_from_two_step_collection(checksum: str) -> dict | None:
+def get_image_from_two_step_collection(filename: str) -> dict | None:
     """Return full image document by checksum, or None if not found."""
     col = get_two_step_collection()
-    return col.find_one({"_id": checksum})
+    return col.find_one({"filename": filename})
 
 
 def list_images(limit: int = 50) -> list[dict]:
@@ -155,12 +159,13 @@ def list_images(limit: int = 50) -> list[dict]:
 
 def list_images_from_two_step_collection(limit: int = 50) -> list[dict]:
     """Return most recently seen images (summary only, no readings array)."""
-    col = get_two_step_collection()
-    cursor = col.find(
-        {},
-        {"filename": 1, "first_seen": 1, "readings": 1}
-    ).sort("first_seen", DESCENDING).limit(limit)
-    return list(cursor)
+    # col = get_two_step_collection()
+    # cursor = col.find(
+    #     {},
+    #     {"filename": 1, "first_seen": 1, "readings": 1}
+    # ).sort("first_seen", DESCENDING).limit(limit)
+    data = get_composite_files()
+    return data
 
 
 # ── Health ────────────────────────────────────────────────────────────────────
@@ -179,13 +184,15 @@ def db_connection_close():
         _client = None
 
 
-def write_to_persistent_storage(collection_name, filename, model, flavor,query_path, response, labels):
+def write_to_persistent_storage(collection_name, filepath, model, flavor,query_path, response, labels):
     try:
+        path = Path(filepath)
         checksum = sha256_of_file(query_path)
         if collection_name == "two_step_images":
             upsert_reading_to_two_step_collection(
                 checksum = checksum,
-                filename = filename,
+                filename = path.name,
+                parent_image_path = str(path),
                 image_object_path = query_path,
                 model    = model,
                 flavor   = flavor,
@@ -195,7 +202,8 @@ def write_to_persistent_storage(collection_name, filename, model, flavor,query_p
         elif collection_name == "images"    :
             upsert_reading(
                 checksum = checksum,
-                filename = filename,
+                filename = path.name,
+                parent_image_path = str(path),
                 model    = model,
                 flavor   = flavor,
                 labels   = labels,
@@ -206,3 +214,60 @@ def write_to_persistent_storage(collection_name, filename, model, flavor,query_p
     except Exception as e:
         print(f"MongoDB write failed: {e}")
         return "Error: MongoWrite failed"
+
+
+def get_composite_files():
+    pipeline = [
+        {"$group": {
+            "_id": "$filename",
+            "first_seen": {"$first": "$first_seen"},
+            "readings": {"$push": "$readings"},
+            "objects": {"$push": "$image_object_path"},
+            "count": {"$sum": 1}
+        }},
+        {"$project": {
+            "_id": "$_id",
+            "filename": "$_id",
+            "first_seen": 1,
+            "readings": 1,
+        }},
+        {"$sort": {"first_seen": -1}}
+    ]
+    col = get_two_step_collection()
+    cursor = col.aggregate(pipeline)
+    return list(cursor)
+
+
+def get_composite_file(filename):
+    col = get_two_step_collection()
+    '''
+    we want reading as a list of all readings for the sub-images. So we need to unwind the readings array
+    and then group by filename again to get a list of readings for each filename.
+    '''
+    pipeline = [
+        {"$match": {"filename": filename}},
+        {"$unwind": "$readings"},
+        {"$group": {
+            "_id": "$filename",
+            "first_seen": {"$first": "$first_seen"},
+            "readings": {"$push": "$readings"},
+            "objects": {"$push": "$image_object_path"},
+            "count": {"$sum": 1}
+        }},
+        {"$project": {
+            "_id": "$_id",
+            "filename": "$_id",
+            "first_seen": 1,
+            "readings": 1,
+        }},
+        {"$sort": {"first_seen": -1}}
+    ]
+    #cursor = col.find({"filename": filename})
+    cursor = col.aggregate(pipeline)
+    return list(cursor)
+
+
+if __name__ == "__main__":
+    print("MongoDB connection check:", db_connection_check())
+    cursor = get_composite_files()
+    print("Composite files:", cursor)

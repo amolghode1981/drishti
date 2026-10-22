@@ -19,27 +19,11 @@ from numpy import object_
 from src.clip_inference import run_query, init as clip_init
 from src.web.db import db_connection_check, list_images_from_two_step_collection, write_to_persistent_storage, get_image, list_images, get_image_from_two_step_collection
 from src.web import analysis
+from src.web import composite_analysis
 from src.web.serverutils import read_image_object_from_storage, write_image_to_storage, read_image_from_storage
 from src.clip_grdino_inference import run_composite_query, delete_intermediate_files
 import threading
 PORT = 8000
-
-# def write_to_persistent_storage(filename, model, flavor,query_path, response, labels):
-#     try:
-#         checksum = sha256_of_file(query_path)
-#         upsert_reading(
-#             checksum = checksum,
-#             filename = filename,
-#             model    = model,
-#             flavor   = flavor,
-#             labels   = labels,
-#             matches  = response.get("matches", []),
-#         )
-#         print(f"Saved reading to MongoDB: {checksum[:12]}...")
-#         return checksum
-#     except Exception as e:
-#         print(f"MongoDB write failed: {e}")
-#         return "Error: MongoWrite failed"
 
 class UploadHandler(http.server.BaseHTTPRequestHandler):
     def _serve_page(self, relative_path: str):
@@ -105,7 +89,7 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
                         output = self.__run_query(model, "base", "", labels, str(filepath))
                         if output is not None:
                             result = output
-                        checksum = write_to_persistent_storage("images", fname, model, "base", str(filepath), result, labels)
+                        checksum = write_to_persistent_storage("images", filepath, model, "base", str(filepath), result, labels)
                         print(f"checksum = {checksum} filename = {fname}")
                     except Exception as e:
                         print(f"CLIP inference failed for {fname}: {e}")
@@ -153,7 +137,7 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
             for fname in os.listdir(directory):
                 if not fname.lower().endswith((".jpg", ".jpeg")):
                     continue
-                # if loop_counter >= 6:
+                # if loop_counter >= 1:
                 #     break
                 # loop_counter += 1
                 filepath = Path(directory) / fname
@@ -165,10 +149,10 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
                             result = output
                         for r in result:
                             object_path = r.get("image_object_path", "")
-                            write_to_persistent_storage("two_step_images", fname, model, "base", object_path, r, labels)
-                            #delete_intermediate_files()
+                            write_to_persistent_storage("two_step_images", filepath, model, "base", object_path, r, labels)
                     except Exception as e:
                         print(f"CLIP inference failed for {fname}: {e}")
+                    delete_intermediate_files()
             print("Batch processing complete.")
 
         threading.Thread(target=__run_batch, daemon=True).start()
@@ -233,7 +217,7 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
             print(f"output = {output}")
             if output is not None:
                 result = output
-            checksum = write_to_persistent_storage("images", filename, model, flavor, query_path, result, labels)
+            checksum = write_to_persistent_storage("images", query_path, model, flavor, query_path, result, labels)
             result["checksum"] = checksum
             self._json(200, result)
             print(f"CLIP inference output: {output}")
@@ -264,16 +248,17 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
             self._serve_page("pages/composite_batch.html")
         # ── API: single image by checksum ─────────────────────────────────────
         elif self.path.startswith("/api/image/"):
-            checksum = self.path.split("/api/image/")[-1].strip("/")
-            doc = get_image(checksum)
-            b64_encoded_image = read_image_from_storage(doc["filename"])
+            filename = self.path.split("/api/image/")[-1].strip("/")
+            doc = get_image(filename)
+            #b64_encoded_image = read_image_from_storage(doc["filename"])
+            b64_encoded_image = read_image_object_from_storage(doc["parent_image_path"])
             result = {
                 "_id": str(doc["_id"]),
-                "checksum": checksum,
+                "checksum": filename,
                 "filename": doc["filename"],
                 "image_b64": b64_encoded_image,
             }
-            image_analysis = analysis.Analysis(checksum)
+            image_analysis = analysis.Analysis(filename)
             result["output"] = image_analysis.analyzeImage()
             #result["output"] = image_analysis.analyzeImageCombinedSignal()
             if doc is None:
@@ -281,23 +266,23 @@ class UploadHandler(http.server.BaseHTTPRequestHandler):
             else:
                 self._json(200, result)
         elif self.path.startswith("/api/composite_image/"):
-            checksum = self.path.split("/api/composite_image/")[-1].strip("/")
-            doc = get_image_from_two_step_collection(checksum)
-            b64_encoded_image = read_image_object_from_storage(doc["image_object_path"])
+            filename = self.path.split("/api/composite_image/")[-1].strip("/")
+            doc = get_image_from_two_step_collection(filename)
+            if doc is None:
+                self._json(404, {"error": "image not found"})
+            print(f"filename = {filename}")
+            b64_encoded_image = read_image_object_from_storage(doc["parent_image_path"])
             result = {
                 "_id": str(doc["_id"]),
-                "checksum": checksum,
+                "checksum": filename,
                 "filename": doc["filename"],
                 "object_path": doc["image_object_path"],
                 "image_b64": b64_encoded_image,
             }
-            image_analysis = analysis.Analysis(checksum, composite=True)
+            image_analysis = composite_analysis.Analysis(filename, composite=True)
             result["output"] = image_analysis.analyzeImage()
-            #result["output"] = image_analysis.analyzeImageCombinedSignal()
-            if doc is None:
-                self._json(404, {"error": "image not found"})
-            else:
-                self._json(200, result)
+            # #result["output"] = image_analysis.analyzeImageCombinedSignal()
+            self._json(200, result)
 
         # ── API: list all images ──────────────────────────────────────────────
         elif self.path == "/api/images":

@@ -93,6 +93,72 @@ def get_embeddings(image_path, labels):
         similarity = (logits / temperature).softmax(dim=-1)
     return similarity
 
+def cleanup():
+    global model, preprocess
+    del model
+    del preprocess
+    gc.collect()  # force Python garbage collection
+
+    if torch.backends.mps.is_available():
+        torch.mps.empty_cache()
+    elif torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+def execute_deno_seperator(path):
+    workinglabels = [
+        "person",
+        "human",
+        "man",
+        "woman"
+    ]
+    result = asyncio.run(run_inference_for_file(path, workinglabels))
+    return result
+
+def execute_CLIP_on_dino_objects(results, labels):
+    global label_handler
+    label_handler = src.web.labels.LabelHandler(labels)
+    queriable_labels = label_handler.getQueriableLabels()
+    processed_rows = []
+    for result in results:
+        path = result["path"]
+        image_object_path = Path(result["image_object_path"])
+        #print(f"Processing object {object_path} from original image {path}")
+        similarity = get_embeddings(image_object_path, queriable_labels)
+        result = create_output(path,image_object_path, similarity, queriable_labels)
+        processed_rows.append(result)
+    return processed_rows
+
+def run_composite_query(model, flavor, weightpath, labels, query_path):
+    init()
+    load_model(model, flavor, weightpath)
+    '''
+    What we are trying to verify here is that if we separate the image objects
+    using groundng DINO and then run CLIP on each of those objects, do we see
+    a better results in guessing the musical vs non-musical labels.
+    '''
+    print(f" model = {model} tuned/base = {flavor} labels = {labels} query = {query_path}")
+    result = execute_deno_seperator(query_path)
+    #print(f"Grounding DINO output = {result}")
+    clip_result = execute_CLIP_on_dino_objects(result, labels)
+    #print(f"CLIP on DINO output = {clip_result}")
+    return clip_result
+
+def delete_intermediate_files():
+    cleanup_output()
+    # global model, preprocess
+    # del model
+    # del preprocess
+    # gc.collect()  # force Python garbage collection
+
+    # if torch.backends.mps.is_available():
+    #     torch.mps.empty_cache()
+    # elif torch.cuda.is_available():
+    #     torch.cuda.empty_cache()
+
+
+if __name__ == "__main__":
+    run_composite_query("ViT-B/32", "base", "", [
+        "a human playing musical instrument"], "data/inference/Tests/DP156144.jpg")
 
 # def test_images_from_directory(path):
 #     directory = Path(path)
@@ -164,70 +230,3 @@ def get_embeddings(image_path, labels):
 #     load_model(model, flavor, weightpath)
 #     output = execute_query(query_path, queriable_labels)
 #     return output
-
-def cleanup():
-    global model, preprocess
-    del model
-    del preprocess
-    gc.collect()  # force Python garbage collection
-
-    if torch.backends.mps.is_available():
-        torch.mps.empty_cache()
-    elif torch.cuda.is_available():
-        torch.cuda.empty_cache()
-
-def execute_deno_seperator(path):
-    workinglabels = [
-        "person",
-        "human",
-        "man",
-        "woman"
-    ]
-    result = asyncio.run(run_inference_for_file(path, workinglabels))
-    return result
-
-def execute_CLIP_on_dino_objects(results, labels):
-    global label_handler
-    label_handler = src.web.labels.LabelHandler(labels)
-    queriable_labels = label_handler.getQueriableLabels()
-    processed_rows = []
-    for result in results:
-        path = result["path"]
-        object_path = Path(result["output_path"])
-        #print(f"Processing object {object_path} from original image {path}")
-        similarity = get_embeddings(object_path, queriable_labels)
-        result = create_output(path,object_path, similarity, queriable_labels)
-        processed_rows.append(result)
-    return processed_rows
-
-def run_composite_query(model, flavor, weightpath, labels, query_path):
-    init()
-    load_model(model, flavor, weightpath)
-    '''
-    What we are trying to verify here is that if we separate the image objects
-    using groundng DINO and then run CLIP on each of those objects, do we see
-    a better results in guessing the musical vs non-musical labels.
-    '''
-    print(f" model = {model} tuned/base = {flavor} labels = {labels} query = {query_path}")
-    result = execute_deno_seperator(query_path)
-    print(f"Grounding DINO output = {result}")
-    clip_result = execute_CLIP_on_dino_objects(result, labels)
-    #print(f"CLIP on DINO output = {clip_result}")
-    return clip_result
-
-def delete_intermediate_files():
-    cleanup_output()
-    # global model, preprocess
-    # del model
-    # del preprocess
-    # gc.collect()  # force Python garbage collection
-
-    # if torch.backends.mps.is_available():
-    #     torch.mps.empty_cache()
-    # elif torch.cuda.is_available():
-    #     torch.cuda.empty_cache()
-
-
-if __name__ == "__main__":
-    run_composite_query("ViT-B/32", "base", "", [
-        "a human playing musical instrument"], "data/inference/Tests/DP156144.jpg")

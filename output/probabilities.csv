@@ -1,49 +1,1249 @@
-id,instrument,museum_index,local_path,untrained_guess,trained_guess
-113203/113203v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113203v_0001.jpg,0.08551025390625,0.08599853515625
-113037/113037v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113037v_0001.jpg,0.08551025390625,0.08349609375
-113052/113052v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113052v_0001.jpg,0.0845947265625,0.08465576171875
-113105/113105v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113105v_0001.jpg,0.08392333984375,0.08612060546875
-113108/113108v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113108v_0001.jpg,0.0843505859375,0.0858154296875
-113110/113110v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113110v_0001.jpg,0.08544921875,0.083984375
-W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Pakhawaj,wam,data/inference/pakhawaj/PS1_W.890_Fnt_DD_T10.jpg,0.08502197265625,0.0828857421875
-W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Pakhawaj,wam,data/inference/pakhawaj/PL7_W.858_Fnt_TR_AJ98.jpg,0.0850830078125,0.083740234375
-113105/113105v_0001.jpg,Manjira,mlc,data/inference/manjira/113105v_0001.jpg,0.0850830078125,0.085693359375
-113108/113108v_0001.jpg,Manjira,mlc,data/inference/manjira/113108v_0001.jpg,0.08587646484375,0.085205078125
-113110/113110v_0001.jpg,Manjira,mlc,data/inference/manjira/113110v_0001.jpg,0.08447265625,0.08477783203125
-W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Manjira,wam,data/inference/manjira/PL7_W.858_Fnt_TR_AJ98.jpg,0.086181640625,0.084228515625
-113038/113038v_0001.jpg,Been,mlc,data/inference/been/113038v_0001.jpg,0.08001708984375,0.08428955078125
-113105/113105v_0001.jpg,Been,mlc,data/inference/been/113105v_0001.jpg,0.08001708984375,0.0841064453125
-113108/113108v_0001.jpg,Been,mlc,data/inference/been/113108v_0001.jpg,0.079833984375,0.08453369140625
-W.882/?download=ARG_W.882_Fnt_UK.jpg,Been,wam,data/inference/been/ARG_W.882_Fnt_UK.jpg,0.07879638671875,0.08599853515625
-113203/113203v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113203v_0001.jpg,0.08245849609375,0.08331298828125
-113037/113037v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113037v_0001.jpg,0.0816650390625,0.08349609375
-113062/113062v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113062v_0001.jpg,0.0810546875,0.08331298828125
-113052/113052v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113052v_0001.jpg,0.08172607421875,0.08270263671875
-113105/113105v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113105v_0001.jpg,0.08251953125,0.08367919921875
-113108/113108v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113108v_0001.jpg,0.0823974609375,0.083984375
-113046/113046v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113046v_0001.jpg,0.08074951171875,0.08349609375
-W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Tambur/Tambora,wam,data/inference/tambur_or_tambora/PL7_W.858_Fnt_TR_AJ98.jpg,0.0816650390625,0.08428955078125
-113203/113203v_0001.jpg,Singer,mlc,data/inference/singer/113203v_0001.jpg,0.0821533203125,0.0843505859375
-113062/113062v_0001.jpg,Singer,mlc,data/inference/singer/113062v_0001.jpg,0.08172607421875,0.08447265625
-113046/113046v_0001.jpg,Singer,mlc,data/inference/singer/113046v_0001.jpg,0.08233642578125,0.08453369140625
-W.882/?download=ARG_W.882_Fnt_UK.jpg,Sitar,wam,data/inference/sitar/ARG_W.882_Fnt_UK.jpg,0.08563232421875,0.0775146484375
-113052/113052v_0001.jpg,Sarangi,mlc,data/inference/sarangi/113052v_0001.jpg,0.0845947265625,0.08294677734375
-113203/113203v_0001.jpg,Dholak,mlc,data/inference/dholak/113203v_0001.jpg,0.08367919921875,0.0830078125
-113037/113037v_0001.jpg,Dholak,mlc,data/inference/dholak/113037v_0001.jpg,0.084228515625,0.083251953125
-113203/113203v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113203v_0001.jpg,0.08148193359375,0.0849609375
-113037/113037v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113037v_0001.jpg,0.081298828125,0.08380126953125
-113038/113038v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113038v_0001.jpg,0.08148193359375,0.08367919921875
-113062/113062v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113062v_0001.jpg,0.0816650390625,0.08636474609375
-113052/113052v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113052v_0001.jpg,0.0819091796875,0.0853271484375
-113105/113105v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113105v_0001.jpg,0.08184814453125,0.08502197265625
-113108/113108v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113108v_0001.jpg,0.0814208984375,0.08514404296875
-113046/113046v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113046v_0001.jpg,0.0811767578125,0.085693359375
-113110/113110v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113110v_0001.jpg,0.0816650390625,0.0845947265625
-113022/113022v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113022v_0001.jpg,0.0819091796875,0.0872802734375
-W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Additional instruments,wam,data/inference/additional_instruments/PS1_W.890_Fnt_DD_T10.jpg,0.081298828125,0.08319091796875
-W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Additional instruments,wam,data/inference/additional_instruments/PL7_W.858_Fnt_TR_AJ98.jpg,0.0816650390625,0.08294677734375
-W.882/?download=ARG_W.882_Fnt_UK.jpg,Additional instruments,wam,data/inference/additional_instruments/ARG_W.882_Fnt_UK.jpg,0.08154296875,0.085693359375
-113203/113203v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113203v_0001.jpg,0.08465576171875,0.08209228515625
-113037/113037v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113037v_0001.jpg,0.0841064453125,0.0845947265625
-113062/113062v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113062v_0001.jpg,0.08349609375,0.0828857421875
-W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Taal indicating person,wam,data/inference/taal_indicating_person/PS1_W.890_Fnt_DD_T10.jpg,0.0826416015625,0.0838623046875
+id,instrument,museum_index,local_path,untrained_guess
+113203/113203v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113203v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.25%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""13.83%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""18.00%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""12.26%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.80%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.85%""
+  }
+]"
+113037/113037v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113037v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""18.78%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""9.30%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""16.77%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.06%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""23.84%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113052/113052v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113052v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""20.58%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""8.78%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.27%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.64%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.50%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113105/113105v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113105v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.53%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""12.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.17%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.05%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""21.16%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""15.97%""
+  }
+]"
+113108/113108v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113108v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.11%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.50%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""14.91%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""17.48%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""22.97%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""17.00%""
+  }
+]"
+113110/113110v_0001.jpg,Pakhawaj,mlc,data/inference/pakhawaj/113110v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.36%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.39%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""17.56%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""14.71%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.70%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.28%""
+  }
+]"
+W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Pakhawaj,wam,data/inference/pakhawaj/PS1_W.890_Fnt_DD_T10.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.06%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.73%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.78%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""16.56%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.34%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.52%""
+  }
+]"
+W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Pakhawaj,wam,data/inference/pakhawaj/PL7_W.858_Fnt_TR_AJ98.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.28%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""19.22%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.45%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.88%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.04%""
+  }
+]"
+113105/113105v_0001.jpg,Manjira,mlc,data/inference/manjira/113105v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.53%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""12.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.17%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.05%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""21.16%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""15.97%""
+  }
+]"
+113108/113108v_0001.jpg,Manjira,mlc,data/inference/manjira/113108v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.11%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.50%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""14.91%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""17.48%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""22.97%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""17.00%""
+  }
+]"
+113110/113110v_0001.jpg,Manjira,mlc,data/inference/manjira/113110v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.36%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.39%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""17.56%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""14.71%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.70%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.28%""
+  }
+]"
+W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Manjira,wam,data/inference/manjira/PL7_W.858_Fnt_TR_AJ98.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.28%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""19.22%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.45%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.88%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.04%""
+  }
+]"
+113038/113038v_0001.jpg,Been,mlc,data/inference/been/113038v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""20.77%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""12.59%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.10%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""13.15%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""24.14%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.27%""
+  }
+]"
+113105/113105v_0001.jpg,Been,mlc,data/inference/been/113105v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.53%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""12.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.17%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.05%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""21.16%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""15.97%""
+  }
+]"
+113108/113108v_0001.jpg,Been,mlc,data/inference/been/113108v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.11%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.50%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""14.91%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""17.48%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""22.97%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""17.00%""
+  }
+]"
+W.882/?download=ARG_W.882_Fnt_UK.jpg,Been,wam,data/inference/been/ARG_W.882_Fnt_UK.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""26.88%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""14.20%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""26.73%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""10.98%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""10.71%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""10.51%""
+  }
+]"
+113203/113203v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113203v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.25%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""13.83%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""18.00%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""12.26%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.80%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.85%""
+  }
+]"
+113037/113037v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113037v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""18.78%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""9.30%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""16.77%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.06%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""23.84%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113062/113062v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113062v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.09%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.60%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""19.12%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""14.33%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""19.12%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.72%""
+  }
+]"
+113052/113052v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113052v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""20.58%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""8.78%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.27%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.64%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.50%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113105/113105v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113105v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.53%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""12.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.17%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.05%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""21.16%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""15.97%""
+  }
+]"
+113108/113108v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113108v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.11%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.50%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""14.91%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""17.48%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""22.97%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""17.00%""
+  }
+]"
+113046/113046v_0001.jpg,Tambur/Tambora,mlc,data/inference/tambur_or_tambora/113046v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""23.02%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.54%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""21.17%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""16.27%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""16.45%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""12.56%""
+  }
+]"
+W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Tambur/Tambora,wam,data/inference/tambur_or_tambora/PL7_W.858_Fnt_TR_AJ98.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.28%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""19.22%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.45%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.88%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.04%""
+  }
+]"
+113203/113203v_0001.jpg,Singer,mlc,data/inference/singer/113203v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.25%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""13.83%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""18.00%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""12.26%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.80%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.85%""
+  }
+]"
+113062/113062v_0001.jpg,Singer,mlc,data/inference/singer/113062v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.09%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.60%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""19.12%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""14.33%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""19.12%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.72%""
+  }
+]"
+113046/113046v_0001.jpg,Singer,mlc,data/inference/singer/113046v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""23.02%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.54%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""21.17%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""16.27%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""16.45%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""12.56%""
+  }
+]"
+W.882/?download=ARG_W.882_Fnt_UK.jpg,Sitar,wam,data/inference/sitar/ARG_W.882_Fnt_UK.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""26.88%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""14.20%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""26.73%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""10.98%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""10.71%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""10.51%""
+  }
+]"
+113052/113052v_0001.jpg,Sarangi,mlc,data/inference/sarangi/113052v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""20.58%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""8.78%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.27%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.64%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.50%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113203/113203v_0001.jpg,Dholak,mlc,data/inference/dholak/113203v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.25%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""13.83%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""18.00%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""12.26%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.80%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.85%""
+  }
+]"
+113037/113037v_0001.jpg,Dholak,mlc,data/inference/dholak/113037v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""18.78%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""9.30%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""16.77%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.06%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""23.84%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113203/113203v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113203v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.25%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""13.83%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""18.00%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""12.26%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.80%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.85%""
+  }
+]"
+113037/113037v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113037v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""18.78%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""9.30%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""16.77%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.06%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""23.84%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113038/113038v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113038v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""20.77%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""12.59%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.10%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""13.15%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""24.14%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.27%""
+  }
+]"
+113062/113062v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113062v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.09%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.60%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""19.12%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""14.33%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""19.12%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.72%""
+  }
+]"
+113052/113052v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113052v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""20.58%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""8.78%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.27%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.64%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.50%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113105/113105v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113105v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.53%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""12.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.17%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""18.05%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""21.16%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""15.97%""
+  }
+]"
+113108/113108v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113108v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""17.11%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.50%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""14.91%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""17.48%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""22.97%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""17.00%""
+  }
+]"
+113046/113046v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113046v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""23.02%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.54%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""21.17%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""16.27%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""16.45%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""12.56%""
+  }
+]"
+113110/113110v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113110v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.36%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.39%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""17.56%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""14.71%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.70%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.28%""
+  }
+]"
+113022/113022v_0001.jpg,Additional instruments,mlc,data/inference/additional_instruments/113022v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""19.11%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""12.94%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.45%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""13.99%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""22.31%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.20%""
+  }
+]"
+W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Additional instruments,wam,data/inference/additional_instruments/PS1_W.890_Fnt_DD_T10.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.06%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.73%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.78%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""16.56%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.34%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.52%""
+  }
+]"
+W.858/?download=PL7_W.858_Fnt_TR_AJ98.jpg,Additional instruments,wam,data/inference/additional_instruments/PL7_W.858_Fnt_TR_AJ98.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.28%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""10.13%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""19.22%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.45%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.88%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.04%""
+  }
+]"
+W.882/?download=ARG_W.882_Fnt_UK.jpg,Additional instruments,wam,data/inference/additional_instruments/ARG_W.882_Fnt_UK.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""26.88%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""14.20%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""26.73%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""10.98%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""10.71%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""10.51%""
+  }
+]"
+113203/113203v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113203v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.25%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""13.83%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""18.00%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""12.26%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.80%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""13.85%""
+  }
+]"
+113037/113037v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113037v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""18.78%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""9.30%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""16.77%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""15.06%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""23.84%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""16.22%""
+  }
+]"
+113062/113062v_0001.jpg,Taal indicating person,mlc,data/inference/taal_indicating_person/113062v_0001.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.09%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.60%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""19.12%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""14.33%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""19.12%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.72%""
+  }
+]"
+W.890/?download=PS1_W.890_Fnt_DD_T10.jpg,Taal indicating person,wam,data/inference/taal_indicating_person/PS1_W.890_Fnt_DD_T10.jpg,"[
+  {
+    ""label"": ""a person playing a musical instrument"",
+    ""score"": ""21.06%""
+  },
+  {
+    ""label"": ""a person playing a barrel drum"",
+    ""score"": ""11.73%""
+  },
+  {
+    ""label"": ""a person playing a gourd instrument"",
+    ""score"": ""15.78%""
+  },
+  {
+    ""label"": ""an empty room with no people"",
+    ""score"": ""16.56%""
+  },
+  {
+    ""label"": ""an aerial view of a landscape"",
+    ""score"": ""20.34%""
+  },
+  {
+    ""label"": ""a close up of food on a plate"",
+    ""score"": ""14.52%""
+  }
+]"

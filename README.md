@@ -1,4 +1,22 @@
 # drishti
+## What is this?
+A spaghetti workspace that deals with different hugging face models. It was started to execute supervised fine tuning of CLIP model of different sizes. But after few iterations I realized that these models are not trained on a large amount of non western visual input.
+I tried to train them but this resulted in overfitting.
+
+So then I wrote a code that would use a model pipeline. First it would separate objects using grounding-dino, then these objects were separated using ffmpeg. :) and the CLIP was run. Still there was no significant success.
+
+A permissible inference would
+1. Not reject any image that has musical instruments and hence music making.
+2. If it cant determine whether image has music making, it will pass the image as music making.
+
+The rationale is that it is ok to wrongly categorize something as music making but the model should not skip any image that has a slight indication (In any manner) of music making.
+
+Next things to try would be
+1. Run clip and then openAI
+2. Run grounding-dino, clip and openAI.
+
+
+These are yet tobe done as of on 22nd Oct 2026.
 ## A note on how the files are downloaded and how data is organized.
 1. Data for different museums will be organized into different csvs. Currently we are processing 2.
     a. Cleveland museum of art (museumid=cma)

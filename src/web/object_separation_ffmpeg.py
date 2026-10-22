@@ -58,7 +58,7 @@ def run_command(row, index):
     #print(f"Running command: {' '.join(cmd)}", flush=True)
     result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if result.returncode == 0:
-        row["output_path"] = output_path
+        row["image_object_path"] = output_path
         #print(f"✅ Done: {' '.join(cmd)}", flush=True)
     else:
         print(f"❌ Failed: {' '.join(cmd)}", flush=True)
